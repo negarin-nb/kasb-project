@@ -18,7 +18,6 @@ import BottomSheetButtons from "../../components/bottomSheetButtons";
 import HomeBtn from "../../components/homeBtn";
 import pickImage from "../../util/myImagePicker";
 import HeaderScreen from "./headerScreen";
-import CashExpand from "../../components/cashExpand";
 
 export default function HomeScreen({ navigation }) {
   const authCtx = React.useContext(AuthContext);
