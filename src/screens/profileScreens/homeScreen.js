@@ -93,6 +93,8 @@ export default function HomeScreen({ navigation }) {
             text="مدیریت کسب"
             imgSource={require("../../../assets/icons/greenshop.png")}
             width={width}
+            onPressComponent="BusinessScreen"
+            navigation={navigation}
           />
         </View>
         <View style={{ flexDirection: "row", marginTop: 8 }}>
@@ -100,6 +102,7 @@ export default function HomeScreen({ navigation }) {
             text="ارتباطات"
             imgSource={require("../../../assets/icons/megaphone.png")}
             width={width}
+
           />
           <HomeBtn
             text="مدیریت مالی"
