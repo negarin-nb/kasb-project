@@ -1,42 +1,21 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  TouchableOpacity,
-  StyleSheet,
-  useWindowDimensions,
-  Image,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
-import { LinearGradient } from "expo-linear-gradient";
 import BusinessBtn from "../../components/businessBtn";
 import { ScrollView } from "react-native-gesture-handler";
+import TopBar from "../../components/topBar";
 
 export default function BusinessScreen(navigation) {
-  const { width } = useWindowDimensions();
-
   return (
     <View style={styles.container}>
       <HeaderScreen />
+
+      {/*Top Bar*/}
       <View style={{ flex: 1 }}>
-        {/*Top Bar*/}
-        <LinearGradient
-          colors={["#63D98A", "#24438E"]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 1 }}
-          style={[styles.TopBar, { width: width - 40 }]}
-        >
-          <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
-            <View style={{ flex: 1 }}>
-              <Image
-                style={{ width: 24, height: 24, marginStart: 20, marginTop: 2 }}
-                source={require("../../../assets/icons/shop.png")}
-              />
-            </View>
-            <Text style={styles.TopBarTitle}>مدیریت کسب</Text>
-          </TouchableOpacity>
-        </LinearGradient>
+        <TopBar
+          iconSourc={require("../../../assets/icons/shop.png")}
+          title="مدیریت کسب"
+        />
 
         {/*storage button*/}
         <ScrollView>
@@ -49,8 +28,8 @@ export default function BusinessScreen(navigation) {
           <BusinessBtn
             imageSource={require("../../../assets/images/Rectangle3.jpeg")}
             btnTitle={"مدیریت ارتباط با مشتری"}
-            onPressComponent="BusinessScreen"
             navigation={navigation}
+            onPressComponent="CustomerContactScreen"
           />
           <BusinessBtn
             imageSource={require("../../../assets/images/Rectangle4.jpeg")}
