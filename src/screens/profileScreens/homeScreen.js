@@ -87,12 +87,10 @@ export default function HomeScreen({ navigation }) {
           <HomeBtn
             text="آکادمی"
             imgSource={require("../../../assets/icons/openbook.png")}
-            width={width}
           />
           <HomeBtn
             text="مدیریت کسب"
             imgSource={require("../../../assets/icons/greenshop.png")}
-            width={width}
             onPressComponent="BusinessScreen"
             navigation={navigation}
           />
@@ -101,13 +99,13 @@ export default function HomeScreen({ navigation }) {
           <HomeBtn
             text="ارتباطات"
             imgSource={require("../../../assets/icons/megaphone.png")}
-            width={width}
+            onPressComponent="CustomerContactScreen"
+            navigation={navigation}
 
           />
           <HomeBtn
             text="مدیریت مالی"
             imgSource={require("../../../assets/icons/calculation.png")}
-            width={width}
             onPressComponent="FinancialScreen"
             navigation={navigation}
           />
