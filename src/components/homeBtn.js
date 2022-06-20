@@ -1,7 +1,9 @@
 import React from "react";
-import { Image, Text, TouchableOpacity,StyleSheet } from "react-native";
+import { Image, Text, TouchableOpacity,StyleSheet,useWindowDimensions } from "react-native";
 
-export default function HomeBtn({ text, imgSource, width,onPressComponent, navigation }) {
+
+export default function HomeBtn({ text, imgSource,onPressComponent, navigation }) {
+  const { width } = useWindowDimensions();
   return (
     <TouchableOpacity
       style={[styles.button, { width: width / 2, marginEnd: 5 }]}
