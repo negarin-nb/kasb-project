@@ -22,7 +22,9 @@ export default function StorageScreen({ navigation }) {
     setIsExpand(!isExpand);
   };
 
-
+ function handleComponent (){
+   return <AddProductForm/>;
+ }
   
 
   
@@ -70,7 +72,7 @@ export default function StorageScreen({ navigation }) {
           title="انبار"
         />
 
-         <Card children={}  />
+         <Card children={handleComponent}  />
          <Card  />
            
 
