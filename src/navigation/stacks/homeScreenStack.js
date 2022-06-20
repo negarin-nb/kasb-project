@@ -5,6 +5,8 @@ import FinancialScreen from "../../screens/managementScreens/financialScreen";
 import FinancialScreen2 from '../../screens/managementScreens/financialScreen2';
 import BusinessScreen from '../../screens/managementScreens/businessScreen';
 import CustomerContactScreen from '../../screens/managementScreens/customerContactScreen';
+import StorageScreen from '../../screens/managementScreens/storageScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +19,8 @@ export default function HomeScreenStack () {
       <Stack.Screen name="FinancialScreen2" component={FinancialScreen2} />
       <Stack.Screen name="BusinessScreen" component={BusinessScreen} />
       <Stack.Screen name="CustomerContactScreen" component={CustomerContactScreen} />
+      <Stack.Screen name="StorageScreen" component={StorageScreen} />
+
       
   </Stack.Navigator>
   );

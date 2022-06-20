@@ -22,7 +22,7 @@ export default function BusinessScreen(navigation) {
           <BusinessBtn
             imageSource={require("../../../assets/images/Rectangle2.jpeg")}
             btnTitle={"انبارداری"}
-            onPressComponent="BusinessScreen"
+            onPressComponent="StorageScreen"
             navigation={navigation}
           />
           <BusinessBtn
