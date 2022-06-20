@@ -5,10 +5,11 @@ import {
   ImageBackground,
   TouchableOpacity,
   StyleSheet,
-  useWindowDimensions,
   Image,
 } from "react-native";
-export default function BusinessBtn({ imageSource, btnTitle, navigation , onPressComponent}) {
+import { useNavigation } from '@react-navigation/native';
+export default function BusinessBtn({ imageSource, btnTitle , onPressComponent}) {
+const navigation = useNavigation();
   return (
     <ImageBackground
       style={{
@@ -21,6 +22,7 @@ export default function BusinessBtn({ imageSource, btnTitle, navigation , onPres
     >
       <TouchableOpacity
         style={{ flexDirection: "row", paddingEnd: 20, height: 92 }}
+        onPress={() => navigation.navigate(onPressComponent)}
       >
         <View style={{ flex: 1, justifyContent: "center" }}>
           <Text style={styles.btnTitle}>{btnTitle}</Text>
