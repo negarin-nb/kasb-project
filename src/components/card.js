@@ -7,17 +7,12 @@ import {
   StyleSheet,
   Image,
   useWindowDimensions,
-  LayoutAnimation
+  LayoutAnimation,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Card() {
+export default function Card({children, title, imageSource}) {
   const [isExpand, setIsExpand] = useState(false);
-  const [imageSource, setImageSource] = useState(
-    require("../../assets/images/Rectangle2.jpeg")
-  );
-  // const [height, setHeight] = useEffect();
-
   const { width } = useWindowDimensions();
 
   const handleExpand = () => {
@@ -27,6 +22,7 @@ export default function Card() {
 
   return (
     <View style={styles.container}>
+     
       <LinearGradient
         colors={["#63D98A", "#24438E"]}
         start={{ x: 0, y: 0.5 }}
@@ -36,19 +32,22 @@ export default function Card() {
         <TouchableOpacity style={{ height: "auto" }} onPress={handleExpand}>
           <ImageBackground
             style={{
+              //flex:1,
               flexDirection: "row",
              // minHeight: 70,
               justifyContent: "flex-end",
-              padding: 20,
+              //padding: 20,
+              paddingHorizontal:20,
+              paddingVertical:30
             }}
             resizeMode="cover"
             imageStyle={{ borderRadius: 20 }}
             source={isExpand
                     ? require("../../assets/images/transparentImage.png") 
-                    :require("../../assets/images/Rectangle2.jpeg")}
+                    :imageSource}
           >
             <View style={{ alignItems: "right", justifyContent: "top" }}>
-              <Text style={styles.btnTitle}>ورود</Text>
+              <Text style={styles.btnTitle}>{title}</Text>
             </View>
             <View
               style={{
@@ -70,23 +69,25 @@ export default function Card() {
         </TouchableOpacity>
         <View>
           {isExpand ? (
-            <Text style={{  padding: 20 }}>helo</Text>
+            children()
           ) : null}
         </View>
       </LinearGradient>
+   
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    //flex: 1,
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#fff",
   },
 
   btn: {
-    marginTop: 10,
+    //flex: 1,
+    marginBottom: 10,
     borderRadius: 20,
     // minHeight: 70,
     //justifyContent: "center",

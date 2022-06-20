@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  ScrollView,
   ImageBackground,
   TouchableOpacity,
   StyleSheet,
@@ -22,45 +23,9 @@ export default function StorageScreen({ navigation }) {
     setIsExpand(!isExpand);
   };
 
- function handleComponent (){
-   return <AddProductForm/>;
- }
-  
-
-  
-
-  function ExpandedCard() {
-    return (
-      <LinearGradient
-        colors={["#63D98A", "#24438E"]}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 1 }}
-        style={[styles.btn, { width: width - 40 }]}
-      >
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            height: 92,
-            paddingEnd: 20,
-            paddingRight: 20,
-          }}
-          onPress={handleExpand}
-        >
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={styles.btnTitle}>ورود</Text>
-          </View>
-          <View style={{ alignItems: "right", justifyContent: "center" }}>
-            <Image
-              style={{ width: 15.5, height: 11 }}
-              source={require("../../../assets/icons/chevronright.png")}
-            />
-          </View>
-        </TouchableOpacity>
-      </LinearGradient>
-    );
+  function handleComponent() {
+    return <AddProductForm />;
   }
-
-  
 
   return (
     <View style={styles.container}>
@@ -68,14 +33,37 @@ export default function StorageScreen({ navigation }) {
       <View style={{ flex: 1 }}>
         {/*Top Bar*/}
         <TopBar
-          iconSourc={require("../../../assets/icons/shop.png")}
+          iconSourc={require("../../../assets/icons/box.png")}
           title="انبار"
         />
+        <ScrollView>
+          <Card
+            title={"ورود"}
+            imageSource={require("../../../assets/images/storageRect1.jpeg")}
+            children={() => <AddProductForm />}
+          />
+          <Card
+            title={"خروج"}
+            imageSource={require("../../../assets/images/storageRect2.jpeg")}
+            children={() => <AddProductForm />}
+          />
+          <Card
+            title={"مرجوعی"}
+            imageSource={require("../../../assets/images/storageRect3.jpeg")}
+            children={() => <AddProductForm />}
+          />
 
-         <Card children={handleComponent}  />
-         <Card  />
-           
-
+          <Card
+            title={"ضایعات"}
+            imageSource={require("../../../assets/images/storageRect4.jpeg")}
+            children={() => <AddProductForm />}
+          />
+          <Card
+            title={"موجودی"}
+            imageSource={require("../../../assets/images/Rectangle2.jpeg")}
+            children={() => <AddProductForm />}
+          />
+        </ScrollView>
         {/*isExpand ? <ExpandedCard /> : <Card />*/}
       </View>
     </View>

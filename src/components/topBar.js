@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 43,
     paddingEnd: 20,
-    marginTop: 10,
+    marginVertical: 10,
   },
   TopBarTitle: {
     fontFamily: "YekanBakhMedium",
