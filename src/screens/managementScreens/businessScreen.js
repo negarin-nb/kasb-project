@@ -101,5 +101,6 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 24,
     fontFamily: "YekanBakhBold",
+    
   },
 });

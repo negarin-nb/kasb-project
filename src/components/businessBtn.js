@@ -27,7 +27,7 @@ const navigation = useNavigation();
         <View style={{ flex: 1, justifyContent: "center" }}>
           <Text style={styles.btnTitle}>{btnTitle}</Text>
         </View>
-        <View style={{ alignItems: "right", justifyContent: "center" }}>
+        <View style={{ justifyContent: "center" }}>
           <Image
             style={{ width: 11, height: 15.5 }}
             source={require("../../assets/icons/chevronright.png")}

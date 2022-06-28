@@ -38,7 +38,7 @@ export default function FinancialScreen({ navigation }) {
         >
           <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
             <View
-              style={{ flex: 1, alignItems: "left", justifyContent: "center" }}
+              style={{ flex: 1, justifyContent: "center" }}
             >
               <Image
                 style={{ width: 27, height: 27, marginTop: -10 }}
@@ -61,7 +61,7 @@ export default function FinancialScreen({ navigation }) {
         >
           <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
             <View
-              style={{ flex: 1, alignItems: "left", justifyContent: "center" }}
+              style={{ flex: 1, justifyContent: "center" }}
             >
               <Image
                 style={{ width: 27, height: 27, marginTop: -10 }}

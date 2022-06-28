@@ -68,15 +68,15 @@ export default StyleSheet.create({
 
   button: {
     marginBottom: 30,
-    paddingVertical: 10,
+    paddingVertical: 7,
     borderRadius: 20,
     height: 50,
     width: 250,
     shadowColor: "#000",
-    shadowOpacity: 0.5,
-    shadowRadius: 15,
-    shadowOffset: { width: 0, height: 10 },
-    alignItems: "center",
+    //shadowOpacity: 0.5,
+    //shadowRadius: 15,
+    //shadowOffset: { width: 0, height: 10 },
+    //alignItems: "center",
   },
 
   buttonText: {

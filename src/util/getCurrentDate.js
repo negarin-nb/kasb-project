@@ -1,4 +1,5 @@
 import moment from 'jalali-moment';
+
 export default function getCurrentDate(){
     var days = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
     

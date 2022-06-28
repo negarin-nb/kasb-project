@@ -43,9 +43,9 @@ export default function LogInScreen({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView style={styles.container}>
+      <View style={styles.container}>
         <StatusBar animated={true} barStyle={"dark-content"} />
-        <View style={{ flex: 3, justifyContent: "flex-top" }}>
+        <View style={{ flex: 3 }}>
           <Image
             style={styles.authImage}
             source={require("../../../assets/images/profile.png")}
@@ -87,7 +87,7 @@ export default function LogInScreen({ navigation }) {
             password={password}
           />
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </TouchableWithoutFeedback>
   );
 }

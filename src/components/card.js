@@ -46,13 +46,11 @@ export default function Card({children, title, imageSource}) {
                     ? require("../../assets/images/transparentImage.png") 
                     :imageSource}
           >
-            <View style={{ alignItems: "right", justifyContent: "top" }}>
+            <View>
               <Text style={styles.btnTitle}>{title}</Text>
             </View>
             <View
               style={{
-                alignItems: "right",
-                justifyContent: "top",
                 paddingTop: 10,
               }}
             >
