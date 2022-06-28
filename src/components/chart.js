@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { processFontFamily } from "expo-font";
 import ToolTip from "./toolTip";
 
 export default function Chart({ tooltipPos, setTooltipPos }) {
+  const [monthlyIncome, setMonthlyIncome] = useState([25000, 30000, 16000, 10000, 32000, 10000])
   const { width } = useWindowDimensions();
 
   const handelOnDataPointClick = (data) => {
@@ -33,7 +34,7 @@ export default function Chart({ tooltipPos, setTooltipPos }) {
           labels: ["شهریور", "مرداد", "تیر", "خرداد", "اردیبهشت", "فروردین"],
           datasets: [
             {
-              data: [25000, 30000, 16000, 10000, 32000, 10000],
+              data: monthlyIncome,
             },
           ],
         }}
