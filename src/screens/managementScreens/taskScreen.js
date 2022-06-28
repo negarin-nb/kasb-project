@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
-import BusinessBtn from "../../components/businessBtn";
+import TaskBtn from "../../components/taskBtn";
 import { ScrollView } from "react-native-gesture-handler";
 import TopBar from "../../components/topBar";
 
-export default function BusinessScreen(navigation) {
+export default function TaskScreen(navigation) {
   return (
     <View style={styles.container}>
       <HeaderScreen />
@@ -14,39 +14,37 @@ export default function BusinessScreen(navigation) {
       <View style={{ flex: 1 }}>
         <TopBar
           iconSourc={require("../../../assets/icons/shop.png")}
-          title="مدیریت کسب"
+          title="مدیریت کار"
         />
 
         {/*storage button*/}
         <ScrollView>
-          <BusinessBtn
-            imageSource={require("../../../assets/images/Rectangle2.jpeg")}
-            btnTitle={"انبارداری"}
-            onPressComponent="StorageScreen"
-            navigation={navigation}
-          />
-          <BusinessBtn
-            imageSource={require("../../../assets/images/Rectangle3.jpeg")}
+          
+          <TaskBtn
+           
             btnTitle={"مدیریت ارتباط با مشتری"}
             navigation={navigation}
             onPressComponent="CustomerContactScreen"
           />
-          <BusinessBtn
-            imageSource={require("../../../assets/images/Rectangle4.jpeg")}
-            btnTitle={"تأمین کنندگان"}
-            onPressComponent="BusinessScreen"
+          <TaskBtn
+            btnTitle={"ثبت سفارش"}
+            onPressComponent="TaskScreen"
             navigation={navigation}
           />
-          <BusinessBtn
-            imageSource={require("../../../assets/images/Rectangle5.jpeg")}
-            btnTitle={"سفارشات"}
-            onPressComponent="BusinessScreen"
+          <TaskBtn
+            btnTitle={"صدور فاکتور"}
+            onPressComponent="TaskScreen"
             navigation={navigation}
           />
-          <BusinessBtn
-            imageSource={require("../../../assets/images/Rectangle6.jpeg")}
-            btnTitle={"یادآوری‌ها"}
-            onPressComponent="BusinessScreen"
+          <TaskBtn
+            btnTitle={"لیست سفارش‌ها"}
+            onPressComponent="TaskScreen"
+            navigation={navigation}
+          />
+
+          <TaskBtn
+            btnTitle={"انبار"}
+            onPressComponent="StorageScreen"
             navigation={navigation}
           />
         </ScrollView>
@@ -78,7 +76,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btn: {
-    marginTop: 10,
+    //marginTop: 10,
     borderRadius: 20,
     height: 104,
     justifyContent: "center",

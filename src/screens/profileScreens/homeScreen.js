@@ -89,9 +89,9 @@ export default function HomeScreen({ navigation }) {
             imgSource={require("../../../assets/icons/openbook.png")}
           />
           <HomeBtn
-            text="مدیریت کسب"
+            text="مدیریت کار"
             imgSource={require("../../../assets/icons/greenshop.png")}
-            onPressComponent="BusinessScreen"
+            onPressComponent="TaskScreen"
             navigation={navigation}
           />
         </View>

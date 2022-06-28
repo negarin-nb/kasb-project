@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     marginTop: -20,
   },
   cashWrapper: {
-    marginTop: 10,
+    
     borderRadius: 20,
     height: "auto",
     //justifyContent: "center",
