@@ -4,7 +4,7 @@ import {
   StyleSheet,
 } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
-import CashExpand from "../../components/cashExpand";
+import CashList from "../../components/cashList";
 import TopBar from "../../components/topBar";
 
 export default function FinancialScreen2({ navigation }) {
@@ -19,7 +19,7 @@ export default function FinancialScreen2({ navigation }) {
         />
       </View>
       {/*cash list detail*/}
-      <CashExpand />
+      <CashList />
     </View>
   );
 }
