@@ -7,7 +7,7 @@ import HeaderScreen from "../profileScreens/headerScreen";
 import CashList from "../../components/cashList";
 import TopBar from "../../components/topBar";
 
-export default function FinancialScreen2({ navigation }) {
+export default function CashListScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <HeaderScreen />
@@ -15,7 +15,7 @@ export default function FinancialScreen2({ navigation }) {
         {/*Top Bar*/}
         <TopBar
           iconSourc={require("../../../assets/icons/mathcalculation.png")}
-          title="مدیریت مالی"
+          title="مدیریت کسب"
         />
       </View>
       {/*cash list detail*/}

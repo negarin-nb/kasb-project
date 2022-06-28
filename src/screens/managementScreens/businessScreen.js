@@ -11,7 +11,7 @@ import HeaderScreen from "../profileScreens/headerScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import TopBar from "../../components/topBar";
 
-export default function FinancialScreen({ navigation }) {
+export default function BusinessScreen({ navigation }) {
   [income, setIncome] = useState(2780000);
   [cost, setCost] = useState(650000);
   [cash, setCash] = useState(4750000);
@@ -26,7 +26,7 @@ export default function FinancialScreen({ navigation }) {
         {/*Top Bar*/}
         <TopBar
           iconSourc={require("../../../assets/icons/mathcalculation.png")}
-          title="مدیریت مالی"
+          title="مدیریت کسب"
         />
 
         {/*income button */}
@@ -38,8 +38,14 @@ export default function FinancialScreen({ navigation }) {
         >
           <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
             <View
-              style={{ flex: 1, justifyContent: "center" }}
+              style={{ justifyContent: "center", marginEnd: 20, marginTop: -5 }}
             >
+              <Image
+                style={{ width: 11, height: 15.5 }}
+                source={require("../../../assets/icons/leftchevron.png")}
+              />
+            </View>
+            <View style={{ flex: 1, justifyContent: "center" }}>
               <Image
                 style={{ width: 27, height: 27, marginTop: -10 }}
                 source={require("../../../assets/icons/withdrawal.png")}
@@ -61,8 +67,14 @@ export default function FinancialScreen({ navigation }) {
         >
           <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
             <View
-              style={{ flex: 1, justifyContent: "center" }}
+              style={{ justifyContent: "center", marginEnd: 20, marginTop: -5 }}
             >
+              <Image
+                style={{ width: 11, height: 15.5 }}
+                source={require("../../../assets/icons/leftchevron.png")}
+              />
+            </View>
+            <View style={{ flex: 1, justifyContent: "center" }}>
               <Image
                 style={{ width: 27, height: 27, marginTop: -10 }}
                 source={require("../../../assets/icons/deposite.png")}
@@ -84,8 +96,16 @@ export default function FinancialScreen({ navigation }) {
         >
           <TouchableOpacity
             style={{ flexDirection: "row", marginTop: 10 }}
-            onPress={() => navigation.navigate("FinancialScreen2")}
+            onPress={() => navigation.navigate("CashListScreen")}
           >
+            <View
+              style={{ justifyContent: "center", marginEnd: 20, marginTop: -5 }}
+            >
+              <Image
+                style={{ width: 11, height: 15.5 }}
+                source={require("../../../assets/icons/leftchevron.png")}
+              />
+            </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.btnTitle}>صندوق</Text>
               <Text style={styles.btnText}>{cash.toString()} تومان</Text>
@@ -124,7 +144,7 @@ const styles = StyleSheet.create({
     paddingStart: 20,
   },
   btn: {
-    marginTop: 10,
+    marginBottom: 10,
     borderRadius: 20,
     height: 104,
     justifyContent: "center",

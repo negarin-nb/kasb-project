@@ -74,7 +74,7 @@ export default function HomeScreen({ navigation }) {
           style={[styles.cashButton, { width: width - 40 }]}
         >
           <Text style={styles.cashTitle}>صندوق</Text>
-          <TouchableOpacity onPress={()=> navigation.navigate('FinancialScreen2')}>
+          <TouchableOpacity onPress={()=> navigation.navigate('CashListScreen')}>
             <Text style={styles.cashText}>{currentCash.toString()} تومان </Text>
           </TouchableOpacity>
         </LinearGradient>
@@ -104,9 +104,9 @@ export default function HomeScreen({ navigation }) {
 
           />
           <HomeBtn
-            text="مدیریت مالی"
+            text="مدیریت کسب"
             imgSource={require("../../../assets/icons/calculation.png")}
-            onPressComponent="FinancialScreen"
+            onPressComponent="BusinessScreen"
             navigation={navigation}
           />
         </View>
