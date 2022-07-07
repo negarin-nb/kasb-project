@@ -11,6 +11,7 @@ export default function BottomTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
+        unmountOnBlur: true,
         headerShown: false,
         tabBarActiveTintColor:"#63D98A",
         tabBarInactiveTintColor:'#fff',
