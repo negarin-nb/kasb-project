@@ -36,7 +36,10 @@ export default function BusinessScreen({ navigation }) {
           end={{ x: 1, y: 1 }}
           style={[styles.btn, { width: width - 40 }]}
         >
-          <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
+          <TouchableOpacity
+            style={{ flexDirection: "row", marginTop: 10 }}
+            onPress={() => navigation.navigate("IncomeScreen")}
+          >
             <View
               style={{ justifyContent: "center", marginEnd: 20, marginTop: -5 }}
             >
@@ -65,7 +68,10 @@ export default function BusinessScreen({ navigation }) {
           end={{ x: 1, y: 1 }}
           style={[styles.btn, { width: width - 40 }]}
         >
-          <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
+          <TouchableOpacity
+            style={{ flexDirection: "row", marginTop: 10 }}
+            onPress={() => navigation.navigate("CostScreen")}
+          >
             <View
               style={{ justifyContent: "center", marginEnd: 20, marginTop: -5 }}
             >
@@ -96,7 +102,7 @@ export default function BusinessScreen({ navigation }) {
         >
           <TouchableOpacity
             style={{ flexDirection: "row", marginTop: 10 }}
-            onPress={() => navigation.navigate("CashListScreen")}
+            onPress={() => navigation.navigate("CashScreen")}
           >
             <View
               style={{ justifyContent: "center", marginEnd: 20, marginTop: -5 }}
