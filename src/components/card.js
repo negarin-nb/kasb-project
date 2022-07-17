@@ -22,56 +22,44 @@ export default function Card({children, title, imageSource}) {
 
   return (
     <View style={styles.container}>
-     
       <LinearGradient
         colors={["#63D98A", "#24438E"]}
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 1 }}
         style={[styles.btn, { width: width - 40 }]}
       >
-        <TouchableOpacity style={{ height: "auto" }} onPress={handleExpand}>
-          <ImageBackground
+        <TouchableOpacity
+          style={{
+            height: "auto",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            paddingHorizontal: 20,
+            paddingVertical: 15,
+          }}
+          onPress={handleExpand}
+        >
+          <View
             style={{
-              //flex:1,
-              flexDirection: "row",
-             // minHeight: 70,
-              justifyContent: "flex-end",
-              //padding: 20,
-              paddingHorizontal:20,
-              paddingVertical:30
+              paddingTop: 10,
+              flex: 1,
             }}
-            resizeMode="cover"
-            imageStyle={{ borderRadius: 20 }}
-            source={isExpand
-                    ? require("../../assets/images/transparentImage.png") 
-                    :imageSource}
           >
-            <View>
-              <Text style={styles.btnTitle}>{title}</Text>
-            </View>
-            <View
-              style={{
-                paddingTop: 10,
-              }}
-            >
-              <Image
-                style={{ width: 15, height: 11 }}
-                source={
-                  isExpand
-                    ? require("../../assets/icons/chevrontop.png")
-                    : require("../../assets/icons/chevronbottom.png")
-                }
-              />
-            </View>
-          </ImageBackground>
+            <Image
+              style={{ width: 12, height: 8 }}
+              source={
+                isExpand
+                  ? require("../../assets/icons/chevrontop.png")
+                  : require("../../assets/icons/chevronbottom.png")
+              }
+            />
+          </View>
+
+          <View>
+            <Text style={styles.btnTitle}>{title}</Text>
+          </View>
         </TouchableOpacity>
-        <View>
-          {isExpand ? (
-            children()
-          ) : null}
-        </View>
+        <View>{isExpand ? children() : null}</View>
       </LinearGradient>
-   
     </View>
   );
 }

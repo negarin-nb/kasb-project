@@ -11,13 +11,13 @@ import { FlatList } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import CashListItem from "./cashListItem";
 import Incomes from "../model/incomes";
-import Payments from "../model/payments";
+import Costs from "../model/costs";
 
 
 export default function CashList() {
   const { width } = useWindowDimensions();
-  const [incomesDetail,setIncomesDetail] = useState(Incomes);
-  const [paymentsDetail,setPaymentsDetail] = useState(Payments);
+  const [incomeDetail,setIncomesDetail] = useState(Incomes);
+  const [costDetail, setCostDetail] = useState(Costs);
   return (
     <View>
       <LinearGradient
@@ -42,20 +42,20 @@ export default function CashList() {
             }}
           >
             <Image
-              style={{ width: 24, height: 24, marginStart:5 }}
+              style={{ width: 24, height: 24, marginStart: 5 }}
               source={require("../../assets/icons/withdrawal.png")}
             />
             <Text style={styles.whiteAreaTitle}>دریافت</Text>
           </View>
 
           <FlatList
-            data={incomesDetail}
+            data={incomeDetail}
             renderItem={({ item }) => <CashListItem item={item} />}
             style={{ width: width - 90 }}
           />
         </View>
         {/*second white area */}
-        <View style={[styles.whiteArea, { width: width - 70, marginTop:10 }]}>
+        <View style={[styles.whiteArea, { width: width - 70, marginTop: 10 }]}>
           <View
             style={{
               flexDirection: "row",
@@ -64,20 +64,19 @@ export default function CashList() {
             }}
           >
             <Image
-              style={{ width: 24, height: 24, marginStart:5 }}
+              style={{ width: 24, height: 24, marginStart: 5 }}
               source={require("../../assets/icons/deposite.png")}
             />
             <Text style={styles.whiteAreaTitle}>پرداخت</Text>
           </View>
 
           <FlatList
-            data={paymentsDetail}
+            data={costDetail}
             renderItem={({ item }) => <CashListItem item={item} />}
             style={{ width: width - 90 }}
           />
         </View>
       </LinearGradient>
-      
     </View>
   );
 }

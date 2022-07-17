@@ -61,6 +61,8 @@ export default function HomeScreen({ navigation }) {
     authCtx.logout();
   };
 
+
+  
   return (
     <View style={styles.container}>
       <HeaderScreen />
