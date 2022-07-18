@@ -31,13 +31,14 @@ export default OnboardingScreen = ({navigation}) => {
   const handleLogin = () => navigation.navigate('Login');
   
   return (
-
     <View style={styles.container}>
-      
-      <StatusBar animated={true} barStyle={"light-content"} />
-      
-      <View style={{ flex: 3 }}>
-        
+      <StatusBar
+        animated={true}
+        backgroundColor={"#000"}
+        barStyle={"light-content"}
+      />
+
+      <View style={{ flex: 1 }}>
         <FlatList
           data={slides}
           renderItem={({ item }) => <OnboardingItem item={item} />}
@@ -56,12 +57,21 @@ export default OnboardingScreen = ({navigation}) => {
           ref={slideRef}
         />
       </View>
-      
-      <Paginator data={slides} scrollX={scrollX} currentIndex={currentIndex} />
-      
-      <AppButton handleButton={handleLogin} textButton="شروع"/>
-      
+      <View
+        style={{ flex: 0.2, justifyContent: "center", alignItems: "center", marginTop:-20 }}
+      >
+        <Paginator
+          data={slides}
+          scrollX={scrollX}
+          currentIndex={currentIndex}
+        />
 
+        <AppButton
+          style={{ marginBottom: 20 }}
+          handleButton={handleLogin}
+          textButton="شروع"
+        />
+      </View>
     </View>
   );
 };
@@ -72,14 +82,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    
   },
   button: {
-    marginBottom: 30,
+    marginBottom: 10,
     paddingVertical: 10,
     paddingHorizontal: 100,
     borderRadius: 20,
     height: 50,
-    width:250,
+   // width:250,
     shadowColor: "#000",
     shadowOpacity: 0.5,
     shadowRadius: 15,

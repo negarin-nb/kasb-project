@@ -34,7 +34,7 @@ export default function LogInScreen({ navigation }) {
       //const token = await login(userName,password );
       const user = fakeLogin(phone, password);
       authCtx.authenticate(user[0].token);
-      authCtx.setUserData(user);
+     // authCtx.setUserData(user);
     } catch (error) {
       Alert.alert("authentication failed!", "could not log you in!");
       setIsAuthenticating(false);
@@ -44,7 +44,7 @@ export default function LogInScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        <StatusBar animated={true} barStyle={"dark-content"} />
+        <StatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
         <View style={{ flex: 3 }}>
           <Image
             style={styles.authImage}
@@ -77,15 +77,15 @@ export default function LogInScreen({ navigation }) {
               رمز عبور خود را فراموش کرده‌ام
             </Text>
           </TouchableOpacity>
-        </View>
 
-        <View style={{ flex: 1, justifyContent: "flex-end" }}>
-          <AppButton
-            handleButton={handleLogin}
-            textButton="ورود به حساب کاربری"
-            phone={phone}
-            password={password}
-          />
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <AppButton
+              handleButton={handleLogin}
+              textButton="ورود به حساب کاربری"
+              phone={phone}
+              password={password}
+            />
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>

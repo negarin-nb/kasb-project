@@ -10,6 +10,7 @@ import {
   ScrollView,
   TextInput,
   TouchableWithoutFeedback,
+  StatusBar,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "../../store/auth-context";
@@ -65,6 +66,7 @@ export default function HomeScreen({ navigation }) {
   
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
       <HeaderScreen />
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -76,7 +78,9 @@ export default function HomeScreen({ navigation }) {
           style={[styles.cashButton, { width: width - 40 }]}
         >
           <Text style={styles.cashTitle}>صندوق</Text>
-          <TouchableOpacity onPress={()=> navigation.navigate('CashListScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("CashListScreen")}
+          >
             <Text style={styles.cashText}>{currentCash.toString()} تومان </Text>
           </TouchableOpacity>
         </LinearGradient>
@@ -103,7 +107,6 @@ export default function HomeScreen({ navigation }) {
             imgSource={require("../../../assets/icons/megaphone.png")}
             onPressComponent="CustomerContactScreen"
             navigation={navigation}
-
           />
           <HomeBtn
             text="مدیریت کسب"

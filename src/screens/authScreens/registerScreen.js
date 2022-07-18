@@ -44,7 +44,7 @@ export default function RegisterScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView style={styles.container}>
-        <View style={{ flex: 4, justifyContent: "flex-top" }}>
+        <View style={{ flex: 4, alignItems: "center" }}>
           <Image
             style={styles.authImage}
             source={require("../../../assets/images/profile.png")}
@@ -84,24 +84,34 @@ export default function RegisterScreen({ navigation }) {
             secureTextEntry
             required
         />*/}
-        </View>
 
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={[styles.title, { marginTop: 5 }]}>
-            قوانین و مقررات را مطالعه کردم و با آن موافقم
-          </Text>
-          <Switch
-            style={styles.switchButton}
-            trackColor={{ false: "#E4F1ED", true: "#9CF8D7" }}
-            thumbColor={isEnabled ? "#00EE98" : "#BBE7C9"}
-            ios_backgroundColor="#E4F1ED"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={[styles.title, { marginTop: 20 }]}>
+              قوانین و مقررات را مطالعه کردم و با آن موافقم
+            </Text>
+            <Switch
+              style={styles.switchButton}
+              trackColor={{ false: "#E4F1ED", true: "#9CF8D7" }}
+              thumbColor={isEnabled ? "#00EE98" : "#BBE7C9"}
+              ios_backgroundColor="#E4F1ED"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
 
-        <View style={{ flex: 1, justifyContent: "flex-end" }}>
-          <AppButton handleButton={handleRegister} textButton="ثبت" />
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+            }}
+          >
+            <AppButton handleButton={handleRegister} textButton="ثبت" />
+          </View>
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>

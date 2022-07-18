@@ -28,7 +28,7 @@ export default function PassRecoverScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <View style={{ flex: 1, justifyContent: "flex-top" }}>
+      <View style={{ flex: 1 }}>
         <Image
           style={styles.authImage}
           source={require("../../../assets/images/unlockKey.png")}

@@ -16,6 +16,7 @@ export default function PassSubmitScreen({ navigation }) {
 
   const handlePassSubmit = () => {
     {
+      navigation.navigate("Login");
       /*auth
       .signInWithEmailAndPassword(email, password)
       .then(userCredentials => {
@@ -28,7 +29,7 @@ export default function PassSubmitScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <View style={{ flex: 1, justifyContent: "flex-top" }}>
+      <View style={{ flex: 1 }}>
         <Image
           style={styles.authImage}
           source={require("../../../assets/images/unlockKey.png")}
