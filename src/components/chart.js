@@ -3,11 +3,10 @@ import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { processFontFamily } from "expo-font";
 import ToolTip from "./toolTip";
-
+import arabicPersianReshaper from "arabic-persian-reshaper";
 export default function Chart({ tooltipPos, setTooltipPos }) {
   const [monthlyIncome, setMonthlyIncome] = useState([25000, 30000, 16000, 10000, 32000, 10000])
   const { width } = useWindowDimensions();
-
   const handelOnDataPointClick = (data) => {
     let isSamePoint = tooltipPos.x === data.x && tooltipPos.y === data.y;
     isSamePoint
@@ -31,7 +30,14 @@ export default function Chart({ tooltipPos, setTooltipPos }) {
       <Text style={styles.buttonText}>گزارش وضعیت</Text>
       <LineChart
         data={{
-          labels: ["شهریور", "مرداد", "تیر", "خرداد", "اردیبهشت", "فروردین"],
+          labels: [
+            arabicPersianReshaper.PersianShaper.convertArabic("ﺷﻬﺮﯾﻮر"),
+            arabicPersianReshaper.PersianShaper.convertArabic("مرداد"),
+            arabicPersianReshaper.PersianShaper.convertArabic("تیر"),
+            arabicPersianReshaper.PersianShaper.convertArabic("خرداد"),
+            arabicPersianReshaper.PersianShaper.convertArabic("اردیبهشت"),
+            arabicPersianReshaper.PersianShaper.convertArabic("فروردین"),
+          ],
           datasets: [
             {
               data: monthlyIncome,
@@ -60,8 +66,8 @@ export default function Chart({ tooltipPos, setTooltipPos }) {
             fontSize: 14,
           },
           propsForHorizontalLabels: {
-            fontFamily: processFontFamily("YekanBakhBold"),
-            fontSize: 14,
+            fontFamily: processFontFamily("IranYekanRegular"),
+            fontSize: 12,
           },
           propsForBackgroundLines: {},
         }}
