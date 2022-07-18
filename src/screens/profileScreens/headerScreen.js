@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
   },
   topBarText: {
     flex: 1,
-    fontFamily: "YekanBakhMedium",
+    fontFamily: "IranYekanBold",
     textAlign: "right",
     color: "#8E8E93",
-    fontSize: 16,
+    fontSize: 12,
   },
   avatar: {
     resizeMode: "cover",

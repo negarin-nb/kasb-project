@@ -6,8 +6,8 @@ export default function CashListItem({ item }) {
     <View>
       <View style={styles.container}>
         <Text style={[styles.item, { flex: 1 }]}>{item.price}</Text>
-        <Text style={[styles.item, { flex: 2 }]}>{item.method}</Text>
-        <Text style={[styles.item, { flex: 2}]}>
+        <Text style={[styles.item, { flex: 1.7 }]}>{item.method}</Text>
+        <Text style={[styles.item, { flex: 1.7}]}>
           {item.date}
         </Text>
         <Text style={[styles.item, { flex: 2.5, paddingEnd: 5 }]}>
@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
    // marginBottom: 10,
   },
   item: {
-    fontFamily: "YekanBakhMedium",
+    fontFamily: "IranYekan",
+    fontSize:10,
     color: "#24408E",
     marginBottom: 6,
     marginTop: 6,

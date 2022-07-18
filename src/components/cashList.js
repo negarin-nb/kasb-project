@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     //marginTop:5
   },
   cashWrapperTitle: {
-//flex: 1,
+    //flex: 1,
     color: "#fff",
     textAlign: "right",
     fontSize: 20,
@@ -101,13 +101,12 @@ const styles = StyleSheet.create({
   cashWrapperText: {
     color: "#fff",
     textAlign: "left",
-    fontSize: 34,
-    fontFamily: "YekanBakhBold",
+    fontSize: 30,
+    fontFamily: "IranYekanBold",
     marginLeft: 5,
     marginTop: -20,
   },
   cashWrapper: {
-    
     borderRadius: 20,
     height: "auto",
     //justifyContent: "center",

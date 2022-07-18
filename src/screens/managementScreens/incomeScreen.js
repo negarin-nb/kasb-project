@@ -5,6 +5,8 @@ import TopBar from "../../components/topBar";
 import Card from "../../components/card";
 import IncomeEntry from "../../components/incomeEntry";
 import IncomeList from "../../components/incomeList";
+import AppPieChart from "../../components/appPieChart";
+
 export default function IncomeScreen() {
   return (
     <View style={styles.container}>
@@ -17,7 +19,7 @@ export default function IncomeScreen() {
         />
         <Card title={"ثبت درآمد"} children={() => <IncomeEntry />} />
         <Card title={"لیست درآمد"} children={() => <IncomeList />} />
-        <Card title={"گزارش درآمدها"} children={() => <AddProductForm />} />
+        <Card title={"گزارش درآمدها"} children={() => <AppPieChart />} />
       </View>
     </View>
   );

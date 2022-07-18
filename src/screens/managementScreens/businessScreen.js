@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
     //flex: 1,
     color: "#fff",
     textAlign: "right",
-    fontSize: 24,
-    fontFamily: "YekanBakhBold",
+    fontSize: 20,
+    fontFamily: "IranYekanBold",
   },
   profit: {
     // alignItems: "flex-end",
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   profitText: {
     color: "#fff",
     textAlign: "right",
-    fontSize: 24,
-    fontFamily: "YekanBakhBold",
+    fontSize: 18,
+    fontFamily: "IranYekanBold",
   },
 });

@@ -12,7 +12,7 @@ import Incomes from "../model/incomes";
 import ListItem from "./listItem";
 import Modal from "react-native-modal";
 
-export default function CostList() {
+export default function IncomeList() {
   const { width } = useWindowDimensions();
   const [incomesDetail, setIncomesDetail] = useState(Incomes);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);

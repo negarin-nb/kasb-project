@@ -301,8 +301,8 @@ const styles = StyleSheet.create({
   cashText: {
     color: "#fff",
     textAlign: "left",
-    fontSize: 34,
-    fontFamily: "YekanBakhBold",
+    fontSize: 30,
+    fontFamily: "IranYekanBold",
     marginLeft: 20,
     marginTop: -12,
   },
