@@ -2,21 +2,20 @@ import React,{useState} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image,Button } from "react-native";
 
 
-export default function IncomeListItem({ item, toggleModal }) {
-  const handleDelete = () => {};
-  const handleUpdate = () => {};
-
+export default function ListItem({ item, toggleDeleteModal, toggleUpdateModal }) {
   return (
     <View>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.bottom} onPress={toggleModal}>
+        {/*Delete button*/}
+        <TouchableOpacity style={styles.bottom} onPress={toggleDeleteModal}>
           <Image
             style={{ width: 15, height: 15 }}
             source={require("../../assets/icons/delete.png")}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.bottom} onPress={handleUpdate}>
+        {/*Update button*/}
+        <TouchableOpacity style={styles.bottom} onPress={toggleUpdateModal}>
           <Image
             style={{ width: 15, height: 15 }}
             source={require("../../assets/icons/update.png")}
