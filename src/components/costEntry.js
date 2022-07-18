@@ -20,7 +20,7 @@ export default function IncomeEntry() {
     <View style={styles.container}>
       <View style={{ flexDirection: "row" }}>
         <TextInput
-          placeholder="نوع درآمد"
+          placeholder="نوع هزینه"
           placeholderTextColor="#24408E"
           value={incomeType}
           onChangeText={(text) => setIncomeType(text)}
@@ -29,19 +29,10 @@ export default function IncomeEntry() {
         />
 
         <TextInput
-          placeholder="تاریخ ثبت"
+          placeholder="عنوان هزینه"
           placeholderTextColor="#24408E"
           value={entryDate}
           onChangeText={(text) => setEntryDate(text)}
-          autoCapitalize="none"
-          style={[styles.input, { flex: 1 }]}
-        />
-
-        <TextInput
-          placeholder="عنوان درآمد"
-          placeholderTextColor="#24408E"
-          value={incomeTitle}
-          onChangeText={(text) => setIncomeTitle(text)}
           autoCapitalize="none"
           style={[styles.input, { flex: 3 }]}
         />
@@ -49,25 +40,33 @@ export default function IncomeEntry() {
 
       <View style={{ flexDirection: "row" }}>
         <TextInput
-          placeholder="مقدار درآمد"
-          placeholderTextColor="#24408E"
-          value={incomeAmount}
-          onChangeText={(text) => setIncomeAmount(text)}
-          autoCapitalize="none"
-          style={[styles.input, { flex: 1.5 }]}
-        />
-        <TextInput
-          placeholder="برچسب"
+          placeholder="بازه یادآوری"
           placeholderTextColor="#24408E"
           value={incomeTag}
           onChangeText={(text) => setIncomeTag(text)}
           autoCapitalize="none"
           style={[styles.input, { flex: 1 }]}
         />
+        <TextInput
+          placeholder="تاریخ ثبت"
+          placeholderTextColor="#24408E"
+          value={incomeAmount}
+          onChangeText={(text) => setIncomeAmount(text)}
+          autoCapitalize="none"
+          style={[styles.input, { flex: 1 }]}
+        />
+        <TextInput
+          placeholder="مقدار هزینه"
+          placeholderTextColor="#24408E"
+          value={incomeTitle}
+          onChangeText={(text) => setIncomeTitle(text)}
+          autoCapitalize="none"
+          style={[styles.input, { flex: 1.5 }]}
+        />
       </View>
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={[styles.button, {}]}>
           <Text style={styles.buttonText}>ثبت نهایی</Text>
         </TouchableOpacity>
 

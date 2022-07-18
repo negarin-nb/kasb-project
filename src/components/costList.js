@@ -8,13 +8,13 @@ import {
   Button,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import Incomes from "../model/incomes";
+import Costs from "../model/costs";
 import ListItem from "./listItem";
 import Modal from "react-native-modal";
 
 export default function CostList() {
   const { width } = useWindowDimensions();
-  const [incomesDetail, setIncomesDetail] = useState(Incomes);
+  const [costsDetail, setCostsDetail] = useState(Costs);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isUpdateModalVisible, setIsUdateModalVisible] = useState(false);
 
@@ -25,17 +25,17 @@ export default function CostList() {
     setIsUdateModalVisible(!isUpdateModalVisible);
   };
 
-  const handleDelete = () => {
+  const handleDelete = () =>{
     toggleDeleteModal();
-  };
+  }
   const handleUpdate = () => {
     toggleUpdateModal();
   };
   return (
     <View style={styles.container}>
-      {/* Income List */}
+      {/* Cost List */}
       <FlatList
-        data={incomesDetail}
+        data={costsDetail}
         renderItem={({ item }) => (
           <ListItem
             toggleDeleteModal={toggleDeleteModal}
