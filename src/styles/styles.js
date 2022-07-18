@@ -12,10 +12,11 @@ export default StyleSheet.create({
 
   authImage: {
     resizeMode: "contain",
-    height: 132,
-    width: 132,
+    height: 100,
+    width: 100,
     alignSelf: "center",
-    marginTop: 100,
+    marginTop: 80,
+    marginBottom:20
 
   },
 
