@@ -8,12 +8,46 @@ import arabicPersianReshaper from "arabic-persian-reshaper";
 
 export default function AppPieChart() {
 
+  const [types, setTypes] = useState([]);
   const { width } = useWindowDimensions();
   const fontColor = "#fff";
   const fontSize=12;
-  const fontFamily = processFontFamily("IranYekan");
+  const fontFamily = processFontFamily("IranYekanRegular");
+  const typesModel = [
+    { type: "خرده", amount: 21500000, color: "rgba(131, 167, 234, 1)" },
+    { type: "عمده", amount: 2800000, color: "rgba(131, 200, 234, 1)" },
+    { type: "آنلاین", amount: 527612, color: "#fff" },
+    { type: "همکار", amount: 8538000, color: "red" },
+    { type: "بازارچه", amount: 11920000, color: "rgb(0, 0, 255)" },
+  ];
 
-  const data = [
+  const colors = [
+    "rgba(131, 167, 234, 1)",
+    "rgba(131, 200, 234, 1)",
+    "#fff",
+    "red",
+    "rgb(0, 0, 255)"
+  ];
+  
+  
+  const datacolor = colors.map((color) => ({
+    color: color,
+    legendFontColor: fontColor,
+    legendFontSize: fontSize,
+    legendFontFamily: fontFamily,
+  }));
+
+  const data = typesModel.map((item) => ({
+    name: arabicPersianReshaper.PersianShaper.convertArabic(item.type),
+    population: item.amount,
+    color: item.color,
+    legendFontColor: fontColor,
+    legendFontSize: fontSize,
+    legendFontFamily: fontFamily,
+  }));
+
+
+  const data1 = [
     {
       name: arabicPersianReshaper.PersianShaper.convertArabic(" خرده"),
       population: 21500000,
@@ -26,33 +60,33 @@ export default function AppPieChart() {
       name: arabicPersianReshaper.PersianShaper.convertArabic(" عمده"),
       population: 2800000,
       color: "#F00",
-      legendFontColor: "#fff",
-      legendFontSize: 12,
-      legendFontFamily: processFontFamily("IranYekan"),
+      legendFontColor: fontColor,
+      legendFontSize: fontSize,
+      legendFontFamily: fontFamily,
     },
     {
       name: arabicPersianReshaper.PersianShaper.convertArabic(" آنلاین"),
       population: 527612,
       color: "red",
-      legendFontColor: "#fff",
-      legendFontSize: 12,
-      legendFontFamily: processFontFamily("IranYekan"),
+      legendFontColor: fontColor,
+      legendFontSize: fontSize,
+      legendFontFamily: fontFamily,
     },
     {
-      name: arabicPersianReshaper.PersianShaper.convertArabic (" همکار"),
+      name: arabicPersianReshaper.PersianShaper.convertArabic(" همکار"),
       population: 8538000,
       color: "#ffffff",
-      legendFontColor: "#fff",
-      legendFontSize: 12,
-      legendFontFamily: processFontFamily("IranYekan"),
+      legendFontColor: fontColor,
+      legendFontSize: fontSize,
+      legendFontFamily: fontFamily,
     },
     {
       name: arabicPersianReshaper.PersianShaper.convertArabic(" بازارچه"),
       population: 11920000,
       color: "rgb(0, 0, 255)",
-      legendFontColor: "#fff",
-      legendFontSize: 12,
-      legendFontFamily: processFontFamily("IranYekan"),
+      legendFontColor: fontColor,
+      legendFontSize: fontSize,
+      legendFontFamily: fontFamily,
     },
   ];  
   return (

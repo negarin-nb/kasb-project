@@ -78,9 +78,7 @@ export default function HomeScreen({ navigation }) {
           style={[styles.cashButton, { width: width - 40 }]}
         >
           <Text style={styles.cashTitle}>صندوق</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("CashListScreen")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("CashScreen")}>
             <Text style={styles.cashText}>{currentCash.toString()} تومان </Text>
           </TouchableOpacity>
         </LinearGradient>
