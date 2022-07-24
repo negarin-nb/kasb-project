@@ -6,31 +6,50 @@ import {
   StyleSheet,
   TouchableOpacity,
   Button,
+  Modal,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Incomes from "../model/incomes";
+import IncomeUpdate from "./incomeUpdate";
 import ListItem from "./listItem";
-import Modal from "react-native-modal";
+//import Modal from "react-native-modal";
 
 export default function IncomeList() {
   const { width } = useWindowDimensions();
   const [incomesDetail, setIncomesDetail] = useState(Incomes);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const [isUpdateModalVisible, setIsUdateModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [updateItem, setUpdateItem] = useState([]);
 
-  const toggleDeleteModal = () => {
-    setIsDeleteModalVisible(!isDeleteModalVisible);
+  const changeModalVisibiblity = (bool, setModalVisible) => {
+    setModalVisible(bool);
   };
-  const toggleUpdateModal = () => {
-    setIsUdateModalVisible(!isUpdateModalVisible);
+  const handleDeleteModal = (item) => {
+    changeModalVisibiblity(true, setDeleteModalVisible);
   };
+  const handleUpdateModal = (item) => {
+    changeModalVisibiblity(true, setUpdateModalVisible);
+    setUpdateItem(item);
+  };
+ 
 
-  const handleDelete = () => {
-    toggleDeleteModal();
-  };
-  const handleUpdate = () => {
-    toggleUpdateModal();
-  };
+  function UpdateModal({ updateItem }) {
+    return (
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={updateModalVisible}
+      >
+        <TouchableOpacity
+          style={styles.modalContainer}
+          onPress={() => changeModalVisibiblity(false, setUpdateModalVisible)}
+        >
+          <IncomeUpdate item={updateItem} />
+        </TouchableOpacity>
+      </Modal>
+    );
+  }
+    
   return (
     <View style={styles.container}>
       {/* Income List */}
@@ -38,27 +57,43 @@ export default function IncomeList() {
         data={incomesDetail}
         renderItem={({ item }) => (
           <ListItem
-            toggleDeleteModal={toggleDeleteModal}
-            toggleUpdateModal={toggleUpdateModal}
+            handleDeleteModal={handleDeleteModal}
+            handleUpdateModal={handleUpdateModal}
             item={item}
           />
         )}
         style={{ width: width - 90 }}
       />
-      {/*Delete Modal */}
-      <Modal isVisible={isDeleteModalVisible}>
-        <View style={{ flex: 1 }}>
-          <Text>Delete item?</Text>
-          <Button title="Hide modal" onPress={handleDelete} />
+      {/* Delete Modal */}
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={deleteModalVisible}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <Text style={styles.text}>از حذف این درآمد مطمئن هستید؟</Text>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() =>
+                  changeModalVisibiblity(false, setDeleteModalVisible)
+                }
+              >
+                <Text style={styles.text}>خیر</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleDeleteModal}>
+                <Text style={styles.text}>بله</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </Modal>
-      {/*Update Modal */}
-      <Modal isVisible={isUpdateModalVisible}>
-        <View style={{ flex: 1 }}>
-          <Text>Update item?</Text>
-          <Button title="Hide modal" onPress={handleUpdate} />
-        </View>
-      </Modal>
+      {/* Update Modal */}
+      <UpdateModal
+        setUpdateModalVisible={setUpdateModalVisible}
+        updateItem={updateItem}
+      />
     </View>
   );
 }
@@ -107,5 +142,32 @@ const styles = StyleSheet.create({
     fontFamily: "YekanBakhMedium",
     color: "#24408E",
     fontSize: 18,
+  },
+
+  modalContainer: {
+    backgroundColor: "#00000087",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modal: {
+    padding: 20,
+    width: 300,
+    height: "auto",
+    borderRadius: 40,
+    borderWidth: 2,
+    borderColor: "#24438E40",
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  text: {
+    margin: 8,
+    color: "#24408E",
+    fontSize: 15,
+    fontFamily: "YekanBakhThin",
+    textAlign: "center",
   },
 });

@@ -12,25 +12,38 @@ import {
 } from "react-native";
 import ModalPicker from "./modalPicker";
 
-export default function IncomeEntry() {
-  const [incomeTitle, setIncomeTitle] = useState();
-  const [entryDate, setEntryDate] = useState();
-  const [incomeType, setIncomeType] = useState("نوع درآمد");
-  const [incomeTypeList, setIncomeTypeList] = useState(["امانی","عمده" , "نقد","خرده فروشی", "آنلاین", "آفلاین"]);
+export default function IncomeUpdate({setUpdateModalVisible, item}) {
+  const [incomeTitle, setIncomeTitle] = useState(item.product+' '+item.id);
+  const [entryDate, setEntryDate] = useState(item.date);
+  const [incomeType, setIncomeType] = useState(item.method);
+  const [incomeTypeList, setIncomeTypeList] = useState([
+    "امانی",
+    "عمده",
+    "نقد",
+    "خرده فروشی",
+    "آنلاین",
+    "آفلاین",
+  ]);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
   const [incomeTag, setIncomeTag] = useState("برچسب");
-  const [incomeTagList, setIncomeTagList] = useState(["اینستاگرام", "دیجیکالا", "باسلام", "بازارچه", "کارگاه"]);
+  const [incomeTagList, setIncomeTagList] = useState([
+    "اینستاگرام",
+    "دیجیکالا",
+    "باسلام",
+    "بازارچه",
+    "کارگاه",
+  ]);
   const [tagModalVisible, setTagModalVisible] = useState(false);
-  const [incomeAmount, setIncomeAmount] = useState();
+  const [incomeAmount, setIncomeAmount] = useState(item.price.toString());
   const { width } = useWindowDimensions();
-  
-  
 
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
 
-  
+  const handleFinalUpdate=()=>{
+    changeModalVisibiblity(false, setUpdateModalVisible);
+  };
 
   return (
     <View style={styles.container}>
@@ -70,7 +83,7 @@ export default function IncomeEntry() {
         />
 
         <TextInput
-          placeholder="عنوان درآمد"
+          placeholder={incomeTitle}
           placeholderTextColor="#24408E"
           value={incomeTitle}
           onChangeText={(text) => setIncomeTitle(text)}
@@ -81,7 +94,7 @@ export default function IncomeEntry() {
 
       <View style={{ flexDirection: "row" }}>
         <TextInput
-          placeholder="مقدار درآمد"
+          placeholder={incomeAmount}
           placeholderTextColor="#24408E"
           value={incomeAmount}
           onChangeText={(text) => setIncomeAmount(text)}
@@ -116,7 +129,7 @@ export default function IncomeEntry() {
       </View>
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity  style={styles.button} onPress={() => handleFinalUpdate}>
           <Text style={styles.buttonText}>ثبت نهایی</Text>
         </TouchableOpacity>
 
@@ -139,9 +152,10 @@ const styles = StyleSheet.create({
     marginTop: 0,
     borderWidth: 2,
     borderColor: "#24438E15",
-    backgroundColor: "#FFFFFF80",
+    backgroundColor: "#FFFFFF",
     borderRadius: 20,
     margin: 10,
+    width:350,
   },
   input: {
     paddingHorizontal: 10,
@@ -151,9 +165,9 @@ const styles = StyleSheet.create({
     height: 35,
     alignItems: "center",
     textAlign: "center",
-    fontSize: 14,
-    fontFamily: "YekanBakhThin",
-    color:"#24408E",
+    fontSize: 10,
+    fontFamily: "IranYekanRegular",
+    color: "#24408E",
     borderWidth: 2,
     borderColor: "#24438E10",
     backgroundColor: "#FFFFFF80",
@@ -184,5 +198,4 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
   },
-
-  });
+});

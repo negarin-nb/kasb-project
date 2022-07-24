@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import Card from "../../components/card";
@@ -17,9 +17,10 @@ export default function IncomeScreen() {
           iconSourc={require("../../../assets/icons/withdrawal.png")}
           title="مدیریت درآمدها"
         />
-        <Card title={"ثبت درآمد"} children={() => <IncomeEntry />} />
-        <Card title={"لیست درآمد"} children={() => <IncomeList />} />
-        <Card title={"گزارش درآمدها"} children={() => <AppPieChart />} />
+          <Card title={"ثبت درآمد"} children={() => <IncomeEntry />} />
+          <Card title={"لیست درآمد"} children={() => <IncomeList />} />
+          <Card title={"گزارش درآمدها"} children={() => <AppPieChart />} />
+        
       </View>
     </View>
   );
@@ -33,5 +34,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingEnd: 20,
     paddingStart: 20,
+    paddingBottom:70,
   },
-})
+});

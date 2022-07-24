@@ -7,34 +7,59 @@ import {
   TextInput,
   useWindowDimensions,
   TouchableOpacity,
+  Modal
 } from "react-native";
-export default function IncomeEntry() {
-  const [incomeTitle, setIncomeTitle] = useState();
+import ModalPicker from "./modalPicker";
+
+export default function CostEntry() {
+  const [costTitle, setCostTitle] = useState();
   const [entryDate, setEntryDate] = useState();
-  const [incomeType, setIncomeType] = useState();
-  const [incomeTag, setIncomeTag] = useState();
-  const [incomeAmount, setIncomeAmount] = useState();
+  const [costType, setCostType] = useState("نوع هزینه");
+  const [costTypeList, setCostTypeList] = useState(["ثابت","عملیاتی"]);
+  const [typeModalVisible, setTypeModalVisible] = useState("false");
+  const [costTag, setCostTag] = useState();
+  const [costAmount, setCostAmount] = useState();
+
+  const changeModalVisibiblity = (bool, setModalVisible) => {
+    setModalVisible(bool);
+  };
 
   const { width } = useWindowDimensions();
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row" }}>
-        <TextInput
-          placeholder="نوع هزینه"
-          placeholderTextColor="#24408E"
-          value={incomeType}
-          onChangeText={(text) => setIncomeType(text)}
-          autoCapitalize="none"
-          style={[styles.input, { flex: 1 }]}
-        />
+        
+
+        {/*cost Type*/}
+        <TouchableOpacity
+          onPress={() => changeModalVisibiblity(true, setTypeModalVisible)}
+          style={{flex:1.4}}
+        >
+          <Text style={styles.input}>{costType}</Text>
+        </TouchableOpacity>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={typeModalVisible}
+          onRequestClose={() =>
+            changeModalVisibiblity(false, setTypeModalVisible)
+          }
+        >
+          <ModalPicker
+            dataList={costTypeList}
+            setData={setCostType}
+            setModalVisible={setTypeModalVisible}
+            changeModalVisibiblity={changeModalVisibiblity}
+          />
+        </Modal>
 
         <TextInput
           placeholder="عنوان هزینه"
           placeholderTextColor="#24408E"
-          value={entryDate}
-          onChangeText={(text) => setEntryDate(text)}
+          value={costTitle}
+          onChangeText={(text) => setCostTitle(text)}
           autoCapitalize="none"
-          style={[styles.input, { flex: 3 }]}
+          style={[styles.input, { flex: 2 }]}
         />
       </View>
 
@@ -42,7 +67,7 @@ export default function IncomeEntry() {
         <TextInput
           placeholder="بازه یادآوری"
           placeholderTextColor="#24408E"
-          value={incomeTag}
+          value={costTag}
           onChangeText={(text) => setIncomeTag(text)}
           autoCapitalize="none"
           style={[styles.input, { flex: 1 }]}
@@ -50,16 +75,16 @@ export default function IncomeEntry() {
         <TextInput
           placeholder="تاریخ ثبت"
           placeholderTextColor="#24408E"
-          value={incomeAmount}
-          onChangeText={(text) => setIncomeAmount(text)}
+          value={entryDate}
+          onChangeText={(text) => setEntryDate(text)}
           autoCapitalize="none"
           style={[styles.input, { flex: 1 }]}
         />
         <TextInput
           placeholder="مقدار هزینه"
           placeholderTextColor="#24408E"
-          value={incomeTitle}
-          onChangeText={(text) => setIncomeTitle(text)}
+          value={costAmount}
+          onChangeText={(text) => setCostAmount(text)}
           autoCapitalize="none"
           style={[styles.input, { flex: 1.5 }]}
         />
@@ -84,7 +109,6 @@ export default function IncomeEntry() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    // alignItems: "center",
     padding: 10,
     paddingTop: 5,
     marginTop: 0,
@@ -96,17 +120,17 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 8,
     marginHorizontal: 1,
     marginTop: 5,
     height: 35,
     alignItems: "center",
     textAlign: "center",
-    fontSize: 16,
-
+    fontSize: 14,
+    color: "#24408E",
     fontFamily: "YekanBakhThin",
     borderWidth: 2,
-    borderColor: "#24438E30",
+    borderColor: "#24438E10",
     backgroundColor: "#FFFFFF80",
     borderRadius: 20,
   },
@@ -115,7 +139,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderWidth: 2,
-    borderColor: "#24438E30",
+    borderColor: "#24438E10",
     backgroundColor: "#FFFFFF80",
     borderRadius: 20,
     alignItems: "flex-end",
