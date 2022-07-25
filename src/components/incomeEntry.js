@@ -24,13 +24,9 @@ export default function IncomeEntry() {
   const [incomeAmount, setIncomeAmount] = useState();
   const { width } = useWindowDimensions();
   
-  
-
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
-
-  
 
   return (
     <View style={styles.container}>

@@ -20,20 +20,56 @@ export default function IncomeList() {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [updateItem, setUpdateItem] = useState([]);
+  const [deleteItem, setDeleteItem] = useState([]);
 
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
   const handleDeleteModal = (item) => {
     changeModalVisibiblity(true, setDeleteModalVisible);
+    setDeleteItem(item);
   };
   const handleUpdateModal = (item) => {
     changeModalVisibiblity(true, setUpdateModalVisible);
     setUpdateItem(item);
   };
- 
 
-  function UpdateModal({ updateItem }) {
+  function DeleteItemModal({
+    deleteItem,
+    setModalVisible,
+    changeModalVisibiblity,
+  }) {
+    return (
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={deleteModalVisible}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <Text style={styles.text}>از حذف این درآمد مطمئن هستید؟</Text>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => changeModalVisibiblity(false, setModalVisible)}
+              >
+                <Text style={styles.text}>خیر</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => handleDeleteModal(deleteItem)}>
+                <Text style={styles.text}>بله</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  function UpdateItemModal({
+    updateItem,
+    setModalVisible,
+    changeModalVisibiblity,
+  }) {
     return (
       <Modal
         transparent={true}
@@ -42,7 +78,7 @@ export default function IncomeList() {
       >
         <TouchableOpacity
           style={styles.modalContainer}
-          onPress={() => changeModalVisibiblity(false, setUpdateModalVisible)}
+          onPress={() => changeModalVisibiblity(false, setModalVisible)}
         >
           <IncomeUpdate item={updateItem} />
         </TouchableOpacity>
@@ -65,34 +101,17 @@ export default function IncomeList() {
         style={{ width: width - 90 }}
       />
       {/* Delete Modal */}
-      <Modal
-        transparent={true}
-        animationType="fade"
-        visible={deleteModalVisible}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modal}>
-            <Text style={styles.text}>از حذف این درآمد مطمئن هستید؟</Text>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() =>
-                  changeModalVisibiblity(false, setDeleteModalVisible)
-                }
-              >
-                <Text style={styles.text}>خیر</Text>
-              </TouchableOpacity>
+      <DeleteItemModal
+        deleteItem={deleteItem}
+        setModalVisible={setDeleteModalVisible}
+        changeModalVisibiblity={changeModalVisibiblity}
+      />
 
-              <TouchableOpacity onPress={handleDeleteModal}>
-                <Text style={styles.text}>بله</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
       {/* Update Modal */}
-      <UpdateModal
-        setUpdateModalVisible={setUpdateModalVisible}
+      <UpdateItemModal
         updateItem={updateItem}
+        setModalVisible={setUpdateModalVisible}
+        changeModalVisibiblity={changeModalVisibiblity}
       />
     </View>
   );
