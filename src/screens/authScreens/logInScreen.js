@@ -16,10 +16,12 @@ import AppButton from "../../components/appButton.js";
 import { login, fakeLogin } from "../../util/auth.js";
 import LoadingOverlay from "../../components/loadingOverlay.js";
 import { AuthContext } from "../../store/auth-context.js";
+import authApi from "../../api/auth.js";
 
 export default function LogInScreen({ navigation }) {
   const authCtx = React.useContext(AuthContext);
-
+  const [loginFailed, setLoginFailed] = useState(false);
+  
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -28,19 +30,17 @@ export default function LogInScreen({ navigation }) {
     navigation.navigate("Register");
   };
 
-  const handleLogin = (phone, password) => {
-    setIsAuthenticating(true);
-    try {
-      //const token = await login(userName,password );
-      const user = fakeLogin(phone, password);
-      authCtx.authenticate(user[0].token);
-     // authCtx.setUserData(user);
-    } catch (error) {
-      Alert.alert("authentication failed!", "could not log you in!");
-      setIsAuthenticating(false);
-    }
-  };
-
+  const handleLogin = async ({phone, password}) => {
+    //setIsAuthenticating(true);
+    const result = await authApi.login(phone, password);
+    // const user = fakeLogin(phone, password);
+    if (!result.ok) return setLoginFailed(true);
+    setLoginFailed(false);
+    authCtx.authenticate({
+      authAccessToken: result.data.access,
+      authRefreshToken: result.data.refresh,
+    });
+  }
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -51,6 +51,8 @@ export default function LogInScreen({ navigation }) {
             source={require("../../../assets/images/profile.png")}
           />
           <Text style={styles.title}>ورود به حساب کاربری</Text>
+          {loginFailed ? <Text>Invalid username and/or password!</Text> : null}
+          
 
           <TextInput
             placeholder="شماره تلفن خود را وارد نمایید"
@@ -81,9 +83,8 @@ export default function LogInScreen({ navigation }) {
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <AppButton
               handleButton={handleLogin}
+              data={{ phone, password }}
               textButton="ورود به حساب کاربری"
-              phone={phone}
-              password={password}
             />
           </View>
         </View>

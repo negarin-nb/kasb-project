@@ -1,6 +1,7 @@
 import { useState, useEffect,useMemo, useReducer,useContext } from "react";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+//import { AppLoading } from "expo";
 //import { AuthContext } from './src/services/context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Navigation from './src/navigation/navigation';
@@ -26,17 +27,24 @@ export default function App() {
 
   const authCtx = useContext(AuthContext);
 
-  useEffect(() => {
-    async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem('token');
+  useEffect( () => {
+    loadToken();
+  }, []);
+
+  async function loadToken() {
+      const storedToken = await AsyncStorage.getItem("Token");
+      console.log(storedToken);
       if (storedToken) {
-        authCtx.authenticate(storedToken);
+        const data = JSON.parse(storedToken);
+          authCtx.authenticate({
+            authAccessToken: data.authAccessToken,
+            authRefreshToken: data.authRefreshToken,
+          });
       }
       setIsTryingLogin(false);
     }
-    fetchToken();
-  }, []);
-
+  
+  
   if (isTryingLogin) {
     return <AppLoading />;
   }

@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
 import getCurrentDate from "../../util/getCurrentDate";
+import authApi from "../../api/auth.js";
+import { AuthContext } from "../../store/auth-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+
 
 export default function HeaderScreen() {
-  
+  const [userLoadFaild, setUserLoadFailed] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
-  const [shopName, setShopName] = useState("فروشگاه سفال‌های مریم");
-  const [userName, setUserName] = useState("مریم");
+  const [userName, setUserName] = useState(" ");
+  const [shopName, setShopName] = useState("فروشگاه ");
+  const authCtx = React.useContext(AuthContext);
+
 
   const onImageNotFound = () => {
     setImageError(true);
@@ -15,7 +23,30 @@ export default function HeaderScreen() {
 
   useEffect(() => {
     setCurrentDate(getCurrentDate());
-  }, []);
+    loadUserInfo();
+  }, [userName, shopName]);
+
+  async function fetchUser() {
+    console.log("api get user called");
+    const user = await authApi.getProfile(authCtx.accessToken);
+    if (!user.ok) console.log("fetchUser faild");
+    console.log("fetchUser succeed");
+    authCtx.setUserData(user.data.Item);
+    setUserName(user.data.Item.first_name);
+    setShopName(user.data.Item.shop_name);
+  }
+  const loadUserInfo = async () => {
+      
+      let user =  await authCtx.getUser();
+      console.log("loadUserInfo " + JSON.stringify(user));
+      if (!user){
+        fetchUser();
+      }
+      else{
+      setUserName(user.first_name);
+      setShopName(user.shop_name);
+      }
+  }
 
 
   return (

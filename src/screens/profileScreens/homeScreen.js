@@ -19,9 +19,12 @@ import BottomSheetButtons from "../../components/bottomSheetButtons";
 import HomeBtn from "../../components/homeBtn";
 import pickImage from "../../util/myImagePicker";
 import HeaderScreen from "./headerScreen";
+import authApi from "../../api/auth.js";
+
 
 export default function HomeScreen({ navigation }) {
   const authCtx = React.useContext(AuthContext);
+  
   const [currentCash, setCurrentCash] = useState(0);
   const [cashArray, setCashArray] = useState([]);
   const [question, setQuestion] = useState("");
@@ -41,6 +44,11 @@ export default function HomeScreen({ navigation }) {
       setImage(resultImage.uri);
     }
   };
+
+  
+
+
+
 
   //const authCtv=React.useContext(AuthContext2);
   //setCash(authCtx.user[0].cash);

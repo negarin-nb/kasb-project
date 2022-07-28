@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "../styles/styles";
 
-const AppButton = ({ handleButton, textButton, phone, password }) => {
+const AppButton = ({ handleButton, textButton, data }) => {
   return (
     <View>
       <LinearGradient
@@ -15,7 +15,7 @@ const AppButton = ({ handleButton, textButton, phone, password }) => {
         <TouchableOpacity>
           <Text
             style={styles.buttonText}
-            onPress={() => handleButton(phone, password)}
+            onPress={() => handleButton(data)}
           >
             {textButton}
           </Text>

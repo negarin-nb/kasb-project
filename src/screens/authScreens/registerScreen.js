@@ -14,18 +14,37 @@ import AppButton from "../../components/appButton.js";
 import { createUser, createFakeUser } from "../../util/auth.js";
 import LoadingOverlay from "../../components/loadingOverlay.js";
 import { AuthContext } from "../../store/auth-context.js";
+import authApi from "../../api/auth.js";
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState("");
-  const [job, setJob] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [shopName, setShopName] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   //const [password, setPassword] = useState("");
   const authCtx = useContext(AuthContext);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-  async function handleRegister(name, job, phone) {
+  
+  async function handleRegister ({firstName, lastName, shopName, phone}){
+    const result = await authApi.phoneSubmit(phone);
+    const resultCode = result.data.Item.verification_code;
+    console.log(resultCode);
+    if(resultCode)
+      navigation.navigate("RegiCodeSubmit", {
+        phone_number: phone,
+        verification_code: resultCode,
+        password: password,
+        first_name: firstName,
+        last_name: lastName,
+        shop_name: shopName,
+      });
+  }
+
+  /*async function handleRegister(name, job, phone) {
     setIsAuthenticating(true);
     try {
       //const token = await createUser(name,job,phone );
@@ -39,7 +58,7 @@ export default function RegisterScreen({ navigation }) {
   }
   if (isAuthenticating) {
     return <LoadingOverlay message="Creating User..." />;
-  }
+  }*/
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -52,16 +71,23 @@ export default function RegisterScreen({ navigation }) {
           <Text style={styles.title}>حساب خود را بسازید</Text>
 
           <TextInput
-            placeholder="نام و نام‌خانوادگی خود را وارد نمایید"
-            value={name}
-            onChangeText={(text) => setName(text)}
+            placeholder="نام خود را وارد نمایید"
+            value={firstName}
+            onChangeText={(text) => setFirstName(text)}
+            autoCapitalize="none"
+            style={styles.input}
+          />
+          <TextInput
+            placeholder=" نام‌خانوادگی خود را وارد نمایید"
+            value={lastName}
+            onChangeText={(text) => setLastName(text)}
             autoCapitalize="none"
             style={styles.input}
           />
           <TextInput
             placeholder="نام کار و کسب خود را وارد نمایید"
-            value={job}
-            onChangeText={(text) => setJob(text)}
+            value={shopName}
+            onChangeText={(text) => setShopName(text)}
             autoCapitalize="none"
             style={styles.input}
           />
@@ -72,9 +98,13 @@ export default function RegisterScreen({ navigation }) {
             autoCapitalize="none"
             style={styles.input}
           />
-          <Text style={[styles.title, { marginTop: 20 }]}>
-            شماره تلفن خود را وارد نمایید
-          </Text>
+          <TextInput
+            placeholder="رمز عبور خود را وارد نمایید"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            autoCapitalize="none"
+            style={styles.input}
+          />
 
           {/*<TextInput
             placeholder="رمز عبور خود را وارد نمایید"
@@ -110,7 +140,11 @@ export default function RegisterScreen({ navigation }) {
               justifyContent: "flex-end",
             }}
           >
-            <AppButton handleButton={handleRegister} textButton="ثبت" />
+            <AppButton
+              handleButton={handleRegister}
+              data={{ firstName, lastName, shopName, phone }}
+              textButton="ثبت"
+            />
           </View>
         </View>
       </KeyboardAvoidingView>

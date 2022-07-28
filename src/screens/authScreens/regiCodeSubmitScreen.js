@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRoute, useContext } from "react";
 import {
   KeyboardAvoidingView,
   Text,
@@ -8,12 +8,52 @@ import {
 } from "react-native";
 import styles from "../../styles/styles.js";
 import AppButton from "../../components/appButton.js";
+import authApi from "../../api/auth.js";
+import { AuthContext } from "../../store/auth-context.js";
 
-export default function RegiCodeSubmitScreen({ navigation }) {
-  const [code, setCode] = useState("");
+export default function RegiCodeSubmitScreen({ route , navigation }) {
+  const authCtx = useContext(AuthContext);
+ const [code, setCode] = useState("");
 
-  const handleCodeSubmit = () => navigation.navigate("PassSubmit");
+  const {
+    phone_number,
+    verification_code,
+    password,
+    first_name,
+    last_name,
+    shop_name,
+  } = route.params;
 
+  //const userInfo = useRoute();
+  //userInfo.params.verification_code;
+  
+ 
+  console.log(phone_number);
+
+  const handleCodeSubmit = async () => {
+    if (code !== verification_code) {
+      alert("کد وارد شده اشتباه است.");
+    } else {
+      const userInfo = {
+        phone_number,
+        verification_code : code,
+        password,
+        first_name,
+        last_name,
+        shop_name,
+      };
+      const result = await authApi.register(userInfo);
+      if (result.ok) {
+        authCtx.authenticate({
+          authAccessToken: result.data.Item.access,
+          authRefreshToken: result.data.Item.refresh,
+        });
+       // const result = await authApi.login(phone_number, password);
+      }
+    }
+
+    //navigation.navigate("PassSubmit");
+  }
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -21,7 +61,7 @@ export default function RegiCodeSubmitScreen({ navigation }) {
           style={styles.authImage}
           source={require("../../../assets/images/unlockKey.png")}
         />
-
+        <Text tyle={styles.title}>{route.params.verification_code}</Text>
         <TextInput
           value={code}
           onChangeText={(text) => setCode(text)}
