@@ -9,11 +9,10 @@ export default function Navigation() {
   const authCtx = useContext(AuthContext);
 
   return (
-
-  <NavigationContainer>
+    <NavigationContainer>
       {/*!authCtx.isAuthenticated && <AuthStack />}
       {authCtx.isAuthenticated && <AppDrawer />*/}
-      {authCtx.isAuthenticated ? <AppDrawer /> : <AuthStack />}
-  </NavigationContainer>
+      {authCtx.isAuthenticated ? <BottomTabNavigator /> : <AuthStack />}
+    </NavigationContainer>
   );
 }
