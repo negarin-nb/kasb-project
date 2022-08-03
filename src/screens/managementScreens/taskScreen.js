@@ -19,16 +19,14 @@ export default function TaskScreen(navigation) {
 
         {/*storage button*/}
         <ScrollView>
-          
           <TaskBtn
-           
             btnTitle={"مدیریت ارتباط با مشتری"}
             navigation={navigation}
             onPressComponent="CustomerContactScreen"
           />
           <TaskBtn
             btnTitle={"ثبت سفارش"}
-            onPressComponent="TaskScreen"
+            onPressComponent="OrderSubmitScreen"
             navigation={navigation}
           />
           <TaskBtn

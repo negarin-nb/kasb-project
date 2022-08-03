@@ -12,6 +12,7 @@ import CashScreen from '../../screens/managementScreens/cashScreen';
 import TaskScreen from '../../screens/managementScreens/taskScreen';
 import CustomerContactScreen from '../../screens/managementScreens/customerContactScreen';
 import StorageScreen from '../../screens/managementScreens/storageScreen';
+import OrderSubmitScreen from '../../screens/managementScreens/orderSubmitScreen';
 
 
 
@@ -32,6 +33,7 @@ export default function HomeScreenStack () {
         name="CustomerContactScreen"
         component={CustomerContactScreen}
       />
+      <Stack.Screen name="OrderSubmitScreen" component={OrderSubmitScreen} />
       <Stack.Screen name="StorageScreen" component={StorageScreen} />
     </Stack.Navigator>
   );
