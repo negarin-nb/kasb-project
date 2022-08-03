@@ -10,10 +10,12 @@ import {
   Modal
 } from "react-native";
 import ModalPicker from "./modalPicker";
+import CustomDatePicker from "../util/customDatePicker";
 
 export default function CostEntry() {
   const [costTitle, setCostTitle] = useState();
-  const [entryDate, setEntryDate] = useState();
+  const [entryDate, setEntryDate] = useState("تاریخ ثبت");
+  const [dateModalVisible, setDateModalVisible] = useState(false);
   const [costType, setCostType] = useState("نوع هزینه");
   const [costTypeList, setCostTypeList] = useState(["ثابت","عملیاتی"]);
   const [typeModalVisible, setTypeModalVisible] = useState("false");
@@ -28,14 +30,12 @@ export default function CostEntry() {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row" }}>
-        
-
         {/*cost Type*/}
         <TouchableOpacity
           onPress={() => changeModalVisibiblity(true, setTypeModalVisible)}
-          style={{flex:1.4}}
+          style={[styles.input, { flex: 1.4 }]}
         >
-          <Text style={styles.input}>{costType}</Text>
+          <Text style={styles.inputText}>{costType}</Text>
         </TouchableOpacity>
         <Modal
           transparent={true}
@@ -72,14 +72,34 @@ export default function CostEntry() {
           autoCapitalize="none"
           style={[styles.input, { flex: 1 }]}
         />
-        <TextInput
-          placeholder="تاریخ ثبت"
-          placeholderTextColor="#24408E"
-          value={entryDate}
-          onChangeText={(text) => setEntryDate(text)}
-          autoCapitalize="none"
+        {/* Date entry */}
+        <TouchableOpacity
+          onPress={() => changeModalVisibiblity(true, setDateModalVisible)}
           style={[styles.input, { flex: 1 }]}
-        />
+        >
+          <Text
+            style={[
+              styles.inputText,
+              { fontFamily: "IranYekanRegular", fontSize: 12 },
+            ]}
+          >
+            {entryDate}
+          </Text>
+        </TouchableOpacity>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={dateModalVisible}
+          onRequestClose={() =>
+            changeModalVisibiblity(false, setDateModalVisible)
+          }
+        >
+          <CustomDatePicker
+            setDate={setEntryDate}
+            changeModalVisibiblity={changeModalVisibiblity}
+            setDateModalVisible={setDateModalVisible}
+          />
+        </Modal>
         <TextInput
           placeholder="مقدار هزینه"
           placeholderTextColor="#24408E"
@@ -119,9 +139,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   input: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    marginHorizontal: 1,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    marginHorizontal: 2,
     marginTop: 5,
     height: 35,
     alignItems: "center",
@@ -134,8 +154,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF80",
     borderRadius: 20,
   },
+  inputText: {
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 14,
+    fontFamily: "YekanBakhThin",
+    color: "#24408E",
+  },
   addButton: {
     marginTop: 5,
+    marginHorizontal: 2,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderWidth: 2,
@@ -146,6 +174,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 5,
+    marginHorizontal: 2,
     paddingVertical: 5,
     paddingHorizontal: 8,
     backgroundColor: "#63D98A",
