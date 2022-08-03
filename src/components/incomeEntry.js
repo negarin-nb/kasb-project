@@ -8,13 +8,14 @@ import {
   useWindowDimensions,
   TouchableOpacity,
   Modal,
-  ScrollView,
 } from "react-native";
 import ModalPicker from "./modalPicker";
+import CustomDatePicker from "../util/customDatePicker";
 
 export default function IncomeEntry() {
   const [incomeTitle, setIncomeTitle] = useState();
-  const [entryDate, setEntryDate] = useState();
+  const [entryDate, setEntryDate] = useState("تاریخ ثبت");
+  const [dateModalVisible, setDateModalVisible] = useState(false);
   const [incomeType, setIncomeType] = useState("نوع درآمد");
   const [incomeTypeList, setIncomeTypeList] = useState(["امانی","عمده" , "نقد","خرده فروشی", "آنلاین", "آفلاین"]);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
@@ -27,6 +28,8 @@ export default function IncomeEntry() {
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
+  console.log("here:" + entryDate);
+  
 
   return (
     <View style={styles.container}>
@@ -34,9 +37,9 @@ export default function IncomeEntry() {
         {/*Income Type*/}
         <TouchableOpacity
           onPress={() => changeModalVisibiblity(true, setTypeModalVisible)}
-          style={{ flex: 1 }}
+          style={[styles.input, { flex: 1 }]}
         >
-          <Text style={[styles.input]}>{incomeType}</Text>
+          <Text style={[styles.inputText]}>{incomeType}</Text>
         </TouchableOpacity>
 
         <Modal
@@ -56,14 +59,29 @@ export default function IncomeEntry() {
           />
         </Modal>
 
-        <TextInput
-          placeholder="تاریخ ثبت"
-          placeholderTextColor="#24408E"
-          value={entryDate}
-          onChangeText={(text) => setEntryDate(text)}
-          autoCapitalize="none"
+        {/* Date entry */}
+        <TouchableOpacity
+          onPress={() => changeModalVisibiblity(true, setDateModalVisible)}
           style={[styles.input, { flex: 0.8 }]}
-        />
+        >
+          <Text style={[styles.inputText, { fontFamily: "IranYekanRegular", fontSize:12 }]}>
+            {entryDate}
+          </Text>
+        </TouchableOpacity>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={dateModalVisible}
+          onRequestClose={() =>
+            changeModalVisibiblity(false, setDateModalVisible)
+          }
+        >
+          <CustomDatePicker
+            setDate={setEntryDate}
+            changeModalVisibiblity={changeModalVisibiblity}
+            setDateModalVisible={setDateModalVisible}
+          />
+        </Modal>
 
         <TextInput
           placeholder="عنوان درآمد"
@@ -88,9 +106,9 @@ export default function IncomeEntry() {
         {/*Tag */}
         <TouchableOpacity
           onPress={() => changeModalVisibiblity(true, setTagModalVisible)}
-          style={{ flex: 1.2 }}
+          style={[styles.input, { flex: 1.2 }]}
         >
-          <Text style={styles.input}>{incomeTag}</Text>
+          <Text style={styles.inputText}>{incomeTag}</Text>
         </TouchableOpacity>
 
         <Modal
@@ -140,9 +158,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   input: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    marginHorizontal: 1,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    marginHorizontal: 2,
     marginTop: 5,
     height: 35,
     alignItems: "center",
@@ -154,6 +172,13 @@ const styles = StyleSheet.create({
     borderColor: "#24438E10",
     backgroundColor: "#FFFFFF80",
     borderRadius: 20,
+  },
+  inputText:{
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 14,
+    fontFamily: "YekanBakhThin",
+    color:"#24408E",
   },
   addButton: {
     marginTop: 5,

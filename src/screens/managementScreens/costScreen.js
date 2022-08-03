@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import HeaderScreen from '../profileScreens/headerScreen';
 import TopBar from '../../components/topBar';
 import Card from "../../components/card";
