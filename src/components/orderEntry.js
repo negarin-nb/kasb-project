@@ -24,25 +24,18 @@ export default function OrderEntry() {
   const [deliveryMethodList, setDeliveryMethodList] = useState(["پیک"]); //list
   const [methodModalVisible, setMethodModalVisible] = useState(false); //visibility
 
-  /*const [id, setId] = useState();
-  const [orderName, setOrderName] = useState(''); //modal
-  const [number, setNumber] = useState();
-  const [unitPrice, setUnitPrice] = useState();
-  const [totalPrice, setTotalPrice] = useState();*/
-
   const [orderStatus, setOrderStatus] = useState([
     "پیش‌پرداخت",
     "نقد",
     "تسویه",
   ]);
 //array of order items
-  /*const [orderItems, setOrderItems] = useState([{
-    id: id,
-    orderName: orderName,
-    number: number,
-    unitPrice: unitPrice,
-    totalPrice: totalPrice,
-  }]);*/
+  const [orderItems, setOrderItems] = useState([{
+    orderName: '',
+    number: '',
+    unitPrice: '',
+    totalPrice: '',
+  }]);
 
   const [order, setOrder] = useState({
     customer: customer,
@@ -53,63 +46,40 @@ export default function OrderEntry() {
     orderStatus: orderStatus,
   });
 
-  initialItemOrder = 
-    {
-      id: 0,
-      orderName: null,
-      number: null,
-      unitPrice: null,
-      totalPrice: null,
-    }
-  ;
 
-  orderItemReducer = (orderItem, action) => {
-    console.log(orderItem);
-    switch (action.type) {
-      case "setOrderName":
-        return {
-          ...orderItem,
-          id: action.id,
-          orderName: action.orderName,
-        };
-      case "setNumber":
-        return {
-          ...orderItem,
-          id: action.id,
-          number: action.number,
-        };
-      case "setUnitPrice":
-        return {
-          ...orderItem,
-          id: action.id,
-          unitPrice: action.unitPrice,
-        };
-      case "setTotalPrice":
-        return {
-          ...orderItem,
-          id: action.id,
-          totalPrice: action.totalPrice,
-        };
-    }
+  const handleOrderName = (text, index) => {
+    const _orderItems = [...orderItems];
+    _orderItems[index] = { ..._orderItems[index], orderName: text };
+    console.log("handleOrderName" )
+    console.log(_orderItems);
+    setOrderItems(_orderItems);
   };
-
-  
-  const [orderItem, dispatch] = useReducer(orderItemReducer, [initialItemOrder]);
-  const [orderItems, setOrderItems] = useState([orderItem]);
-
-  const changeModalVisibiblity = (bool, setModalVisible) => {
-    setModalVisible(bool);
+  const handleNumber = (text, index) => {
+    const _orderItems = [...orderItems];
+    _orderItems[index] = { ..._orderItems[index], number: text };
+    console.log("handleNumber: ");
+    console.log(_orderItems);
+    setOrderItems(_orderItems);
+  };
+  const handleUnitPrice = (text, index) => {
+    const _orderItems = [...orderItems];
+    _orderItems[index] = { ..._orderItems[index], unitPrice: text };
+    console.log("handleUnitPrice");
+    console.log(_orderItems);
+    setOrderItems(_orderItems);
+  };
+  const handleTotalPrice = (text, index) => {
+    const _orderItems = [...orderItems];
+    _orderItems[index] = { ..._orderItems[index], totalPrice: text };
+    console.log("handleTotalPrice");
+    console.log(_orderItems);
+    setOrderItems(_orderItems);
   };
 
   const addFormField = () => {
-    
     console.log(orderItems);
-    //orderItems.push(orderItem);
-  //  setOrderItems(orderItems);
-    
     const _orderItems = [...orderItems];
     _orderItems.push({
-      id: null,
       orderName: null,
       number: null,
       unitPrice: null,
@@ -117,8 +87,12 @@ export default function OrderEntry() {
     });
     setOrderItems(_orderItems);
     console.log(orderItems);
-    //setOrderItems([...orderItems, {key, orderName, number, unitPrice, totalPrice }]);
   };
+
+  const changeModalVisibiblity = (bool, setModalVisible) => {
+    setModalVisible(bool);
+  };
+
 
   
   return (
@@ -157,7 +131,7 @@ export default function OrderEntry() {
           <Text
             style={[
               styles.inputText,
-              { fontFamily: "IranYekanRegular", fontSize: 10 },
+              { fontFamily: "IranYekanLight", fontSize: 11 },
             ]}
           >
             {deliveryDate}
@@ -186,7 +160,7 @@ export default function OrderEntry() {
           <Text
             style={[
               styles.inputText,
-              { fontFamily: "IranYekanRegular", fontSize: 10 },
+              { fontFamily: "IranYekanLight", fontSize: 11 },
             ]}
           >
             {entryDate}
@@ -221,14 +195,13 @@ export default function OrderEntry() {
       {/*Repeater ***************/}
       {orderItems.map((orderItem, index) => (
         <View style={{ flexDirection: "row" }} key={index}>
-          <Text>{index}</Text>
           {/*TotalPrice */}
           <TextInput
             placeholder="بهای کل"
             placeholderTextColor="#24408E"
             value={orderItem.totalPrice}
             onChangeText={(text) => {
-              dispatch({ type: "setTotalPrice", id: index, totalPrice: text });
+              handleTotalPrice(text, index);
             }}
             autoCapitalize="none"
             style={[styles.input, { flex: 1 }]}
@@ -239,7 +212,7 @@ export default function OrderEntry() {
             placeholderTextColor="#24408E"
             value={orderItem.unitPrice}
             onChangeText={(text) => {
-              dispatch({ type: "setUnitPrice", id: index, unitPrice: text });
+              handleUnitPrice(text, index);
             }}
             autoCapitalize="none"
             style={[styles.input, { flex: 1 }]}
@@ -250,18 +223,18 @@ export default function OrderEntry() {
             placeholderTextColor="#24408E"
             value={orderItem.number}
             onChangeText={(text) => {
-              dispatch({ type: "setNumber", id: index, number: text });
+              handleNumber(text, index);
             }}
             autoCapitalize="none"
             style={[styles.input, { flex: 0.6 }]}
           />
           {/*OrderName */}
           <TextInput
-            placeholder="سفارش دهنده"
+            placeholder="سفارش"
             placeholderTextColor="#24408E"
             value={orderItem.orderName}
             onChangeText={(text) => {
-              dispatch({ type: "setOrderName", id: index, orderName: text });
+              handleOrderName(text, index);
             }}
             autoCapitalize="none"
             style={[styles.input, { flex: 1.7 }]}
@@ -274,10 +247,7 @@ export default function OrderEntry() {
           <Text style={styles.buttonText}>ثبت سفارش</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.addButton]}
-          onPress={addFormField}
-        >
+        <TouchableOpacity style={[styles.addButton]} onPress={addFormField}>
           <Image
             style={{ width: 10, height: 10 }}
             source={require("../../assets/icons/plus.png")}
@@ -311,7 +281,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     fontSize: 12,
-    fontFamily: "YekanBakhThin",
+    fontFamily: "IranYekanLight",
     color: "#24408E",
     borderWidth: 2,
     borderColor: "#24438E10",
@@ -324,7 +294,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     fontSize: 12,
-    fontFamily: "YekanBakhThin",
+    fontFamily: "IranYekanLight",
     color: "#24408E",
   },
   addButton: {
