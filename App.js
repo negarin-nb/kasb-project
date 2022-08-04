@@ -15,8 +15,10 @@ export default function App() {
     YekanBakhBold: require("./assets/fonts/YekanBakhBold.ttf"),
     YekanBakhMedium: require("./assets/fonts/YekanBakhMedium.ttf"),
     YekanBakhThin: require("./assets/fonts/YekanBakhThin.ttf"),
-    IranYekanRegular: require("./assets/fonts/IRANYekanRegular.ttf"),
     IranYekanBold: require("./assets/fonts/IRANYekanBold.ttf"),
+    IranYekanRegular: require("./assets/fonts/IRANYekanRegular.ttf"),
+    IranYekanThin: require("./assets/fonts/IRANYekanThin.ttf"),
+    IranYekanLight: require("./assets/fonts/IRANYekanLight.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;

@@ -80,7 +80,7 @@ export default function CostEntry() {
           <Text
             style={[
               styles.inputText,
-              { fontFamily: "IranYekanRegular", fontSize: 12 },
+              { fontFamily: "IranYekanLight", fontSize: 12 },
             ]}
           >
             {entryDate}

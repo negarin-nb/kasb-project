@@ -64,7 +64,12 @@ export default function IncomeEntry() {
           onPress={() => changeModalVisibiblity(true, setDateModalVisible)}
           style={[styles.input, { flex: 0.8 }]}
         >
-          <Text style={[styles.inputText, { fontFamily: "IranYekanRegular", fontSize:12 }]}>
+          <Text
+            style={[
+              styles.inputText,
+              { fontFamily: "IranYekanLight", fontSize: 12 },
+            ]}
+          >
             {entryDate}
           </Text>
         </TouchableOpacity>
