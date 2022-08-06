@@ -31,7 +31,7 @@ export default function TaskScreen(navigation) {
           />
           <TaskBtn
             btnTitle={"صدور فاکتور"}
-            onPressComponent="TaskScreen"
+            onPressComponent="InvoiceScreen"
             navigation={navigation}
           />
           <TaskBtn

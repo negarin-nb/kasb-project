@@ -8,13 +8,20 @@ import CostScreen from '../../screens/managementScreens/costScreen';
 import CashScreen from '../../screens/managementScreens/cashScreen';
 
 
-
 import TaskScreen from '../../screens/managementScreens/taskScreen';
 import CustomerContactScreen from '../../screens/managementScreens/customerContactScreen';
 import StorageScreen from '../../screens/managementScreens/storageScreen';
+
 import OrderSubmitScreen from '../../screens/managementScreens/orderSubmitScreen';
+
 import OrderListScreen from '../../screens/managementScreens/orderListScreen';
 import OrderDetailScreen from '../../screens/managementScreens/orderDetailScreen';
+
+import InvoiceScreen from '../../screens/managementScreens/invoiceScreen';
+import InvoiceCreatScreen from '../../screens/managementScreens/invoiceCreatScreen';
+import InvoiceListScreen from "../../screens/managementScreens/invoiceListScreen";
+import InvoiceDetailScreen from "../../screens/managementScreens/invoiceDetailScreen";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +43,13 @@ export default function HomeScreenStack () {
       <Stack.Screen name="OrderSubmitScreen" component={OrderSubmitScreen} />
       <Stack.Screen name="OrderListScreen" component={OrderListScreen} />
       <Stack.Screen name="OrderDetailScreen" component={OrderDetailScreen} />
+
+      <Stack.Screen name="InvoiceScreen" component={InvoiceScreen} />
+      <Stack.Screen name="InvoiceCreatScreen" component={InvoiceCreatScreen} />
+      <Stack.Screen name="InvoiceListScreen" component={InvoiceListScreen} />
+      <Stack.Screen name="InvoiceDetailScreen" component={InvoiceDetailScreen} />
+
+
       <Stack.Screen name="StorageScreen" component={StorageScreen} />
     </Stack.Navigator>
   );
