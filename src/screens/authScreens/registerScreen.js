@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import styles from "../../styles/styles.js";
 import AppButton from "../../components/appButton.js";
-import { createUser, createFakeUser } from "../../util/auth.js";
-import LoadingOverlay from "../../components/loadingOverlay.js";
 import { AuthContext } from "../../store/auth-context.js";
 import authApi from "../../api/auth.js";
 
@@ -24,12 +22,12 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  //const [password, setPassword] = useState("");
   const authCtx = useContext(AuthContext);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   
   async function handleRegister ({firstName, lastName, shopName, phone}){
+    
     const result = await authApi.phoneSubmit(phone);
     const resultCode = result.data.Item.verification_code;
     console.log(resultCode);
@@ -105,16 +103,6 @@ export default function RegisterScreen({ navigation }) {
             autoCapitalize="none"
             style={styles.input}
           />
-
-          {/*<TextInput
-            placeholder="رمز عبور خود را وارد نمایید"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            style={styles.input}
-            secureTextEntry
-            required
-        />*/}
-
           <View
             style={{
               flexDirection: "row",

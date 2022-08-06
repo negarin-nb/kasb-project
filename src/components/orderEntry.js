@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -11,33 +11,37 @@ import {
 import ModalPicker from "./modalPicker";
 import CustomDatePicker from "../util/customDatePicker";
 
-export default function OrderEntry() {
+export default function OrderEntry({prevOrder}) {
   
-  const [customer, setCustomer] = useState();
-  const [entryDate, setEntryDate] = useState("تاریخ ثبت"); //modal
+  const [customer, setCustomer] = useState(prevOrder.customer);
+  const [entryDate, setEntryDate] = useState(prevOrder.entryDate || "تاریخ ثبت"); //modal
   const [enDateModalVisible, setEnDateModalVisible] = useState(false);
 
-  const [deliveryDate, setDeliveryDate] = useState("تاریخ تحویل"); //modal
+  const [deliveryDate, setDeliveryDate] = useState(prevOrder.deliveryDate || "تاریخ تحویل"); //modal
   const [delDateModalVisible, setDelDateModalVisible] = useState(false);
 
-  const [deliveryMethod, setDeliveryMethod] = useState("روش تحویل"); //modal
-  const [deliveryMethodList, setDeliveryMethodList] = useState(["پیک"]); //list
+  const [deliveryMethod, setDeliveryMethod] = useState( prevOrder.deliveryMethod || "روش"); //modal
+  const [deliveryMethodList, setDeliveryMethodList] = useState(["پیک" , 'پست']); //list
   const [methodModalVisible, setMethodModalVisible] = useState(false); //visibility
 
-  const [orderStatus, setOrderStatus] = useState([
+  const [orderStatus, setOrderStatus] = useState( prevOrder.orderStatus || [
     "پیش‌پرداخت",
     "نقد",
     "تسویه",
   ]);
 //array of order items
-  const [orderItems, setOrderItems] = useState([{
-    orderName: '',
-    number: '',
-    unitPrice: '',
-    totalPrice: '',
-  }]);
+  const [orderItems, setOrderItems] = useState(
+    prevOrder.orderItems || [
+      {
+        orderName:  "",
+        number: "",
+        unitPrice: "",
+        totalPrice: "",
+      },
+    ]
+  );
 
-  const [order, setOrder] = useState({
+  const [order, setOrder] = useState( prevOrder || {
     customer: customer,
     entryDate: entryDate,
     deliveryDate: deliveryDate,
@@ -59,6 +63,7 @@ export default function OrderEntry() {
     _orderItems[index] = { ..._orderItems[index], number: text };
     console.log("handleNumber: ");
     console.log(_orderItems);
+    console.log( parseInt(prevOrder.orderItems.number));
     setOrderItems(_orderItems);
   };
   const handleUnitPrice = (text, index) => {
@@ -93,8 +98,13 @@ export default function OrderEntry() {
     setModalVisible(bool);
   };
 
-
-  
+  useEffect(() => {
+    if (prevOrder) {
+      order == prevOrder;
+      orderItems == prevOrder.orderItems;
+    }
+  }, [prevOrder]);
+    
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row" }}>
@@ -126,12 +136,12 @@ export default function OrderEntry() {
         {/* Delivery date */}
         <TouchableOpacity
           onPress={() => changeModalVisibiblity(true, setDelDateModalVisible)}
-          style={[styles.input, { flex: 1 }]}
+          style={[styles.input, { flex: 0.8 }]}
         >
           <Text
             style={[
               styles.inputText,
-              { fontFamily: "IranYekanLight", fontSize: 11 },
+              { fontFamily: "IranYekanLight", fontSize: 12 },
             ]}
           >
             {deliveryDate}
@@ -155,12 +165,12 @@ export default function OrderEntry() {
         {/* Entry date */}
         <TouchableOpacity
           onPress={() => changeModalVisibiblity(true, setEnDateModalVisible)}
-          style={[styles.input, { flex: 1 }]}
+          style={[styles.input, { flex: 0.8 }]}
         >
           <Text
             style={[
               styles.inputText,
-              { fontFamily: "IranYekanLight", fontSize: 11 },
+              { fontFamily: "IranYekanLight", fontSize: 12 },
             ]}
           >
             {entryDate}
@@ -188,11 +198,11 @@ export default function OrderEntry() {
           value={customer}
           onChangeText={(text) => setCustomer(text)}
           autoCapitalize="none"
-          style={[styles.input, { flex: 1.7 }]}
+          style={[styles.input, { flex: 1 }]}
         />
       </View>
 
-      {/*Repeater ***************/}
+      {/*Repeater field ***************/}
       {orderItems.map((orderItem, index) => (
         <View style={{ flexDirection: "row" }} key={index}>
           {/*TotalPrice */}
@@ -243,9 +253,15 @@ export default function OrderEntry() {
       ))}
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>ثبت سفارش</Text>
-        </TouchableOpacity>
+        {prevOrder.customer ? (
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}> به روزرسانی سفارش</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>ثبت سفارش</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity style={[styles.addButton]} onPress={addFormField}>
           <Image
@@ -263,20 +279,20 @@ export default function OrderEntry() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    padding: 10,
+    padding: 5,
     paddingTop: 5,
-    marginTop: 0,
     borderWidth: 2,
     borderColor: "#24438E15",
     backgroundColor: "#FFFFFF80",
     borderRadius: 20,
-    margin: 10,
+    margin: 8,
+    marginTop: 0,
   },
   input: {
+    marginTop: 8,
     paddingHorizontal: 2,
     paddingVertical: 4,
-    marginHorizontal: 1,
-    marginTop: 4,
+    marginHorizontal: 2,
     height: 35,
     alignItems: "center",
     textAlign: "center",
@@ -298,8 +314,8 @@ const styles = StyleSheet.create({
     color: "#24408E",
   },
   addButton: {
-    marginHorizontal: 2,
-    marginTop: 5,
+    marginHorizontal: 4,
+    marginTop: 10,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderWidth: 2,
@@ -309,19 +325,19 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   button: {
-    marginHorizontal: 2,
-    marginTop: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 8,
+    marginHorizontal: 4,
+    marginTop: 10,
+    paddingVertical: 4,
+    paddingHorizontal: 15,
     backgroundColor: "#63D98A",
     borderRadius: 20,
     color: "#fff",
-    width: 95,
+    width: 'auto',
   },
   buttonText: {
     fontSize: 16,
     fontFamily: "YekanBakhMedium",
-    color: "#fff",
+    color: "#24408E",
     textAlign: "center",
   },
 });

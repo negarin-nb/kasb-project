@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   useWindowDimensions,
   StyleSheet,
-  TouchableOpacity,
-  Button,
-  Modal,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Orders from "../model/orders";
 import OrderListItem from "./orderListItem";
 //import Modal from "react-native-modal";
 
-export default function OrderList() {
+export default function OrderList({navigation}) {
     const { width } = useWindowDimensions();
     const [orderDetail, setOrderDetail] = useState(Orders);
   return (
@@ -21,7 +17,7 @@ export default function OrderList() {
       {/* Orsder List */}
       <FlatList
         data={orderDetail}
-        renderItem={({ item }) => <OrderListItem item={item} />}
+        renderItem={({ item }) => <OrderListItem item={item} navigation={navigation} />}
         style={{ width: width - 90 }}
       />
     </View>

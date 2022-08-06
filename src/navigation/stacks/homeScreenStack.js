@@ -14,7 +14,7 @@ import CustomerContactScreen from '../../screens/managementScreens/customerConta
 import StorageScreen from '../../screens/managementScreens/storageScreen';
 import OrderSubmitScreen from '../../screens/managementScreens/orderSubmitScreen';
 import OrderListScreen from '../../screens/managementScreens/orderListScreen';
-
+import OrderDetailScreen from '../../screens/managementScreens/orderDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +35,7 @@ export default function HomeScreenStack () {
       />
       <Stack.Screen name="OrderSubmitScreen" component={OrderSubmitScreen} />
       <Stack.Screen name="OrderListScreen" component={OrderListScreen} />
+      <Stack.Screen name="OrderDetailScreen" component={OrderDetailScreen} />
       <Stack.Screen name="StorageScreen" component={StorageScreen} />
     </Stack.Navigator>
   );

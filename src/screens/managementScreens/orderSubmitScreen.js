@@ -4,11 +4,9 @@ import {
   StyleSheet,
 } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
-import TopBar from "../../orderDetail.js/topBar";
-import OrderEntry from "../../orderDetail.js/orderEntry";
-import CardExpand from '../../orderDetail.js/cardExpand';
-
-
+import TopBar from "../../components/topBar";
+import OrderEntry from "../../components/orderEntry";
+import Card from "../../components/card";
 
 export default function OrderSubmitScreen() {
   
@@ -19,7 +17,11 @@ export default function OrderSubmitScreen() {
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"
       />
-      <CardExpand title={"ثبت سفارش"} children={() => <OrderEntry />} />
+      <Card
+        title={"ثبت سفارش"}
+        children={() => <OrderEntry prevOrder={{}} />}
+        expanded={true}
+      />
     </View>
   );
 }

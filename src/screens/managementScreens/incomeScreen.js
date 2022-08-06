@@ -17,10 +17,21 @@ export default function IncomeScreen() {
           iconSourc={require("../../../assets/icons/withdrawal.png")}
           title="مدیریت درآمدها"
         />
-          <Card title={"ثبت درآمد"} children={() => <IncomeEntry />} />
-          <Card title={"لیست درآمد"} children={() => <IncomeList />} />
-          <Card title={"گزارش درآمدها"} children={() => <AppPieChart />} />
-        
+        <Card
+          title={"ثبت درآمد"}
+          children={() => <IncomeEntry />}
+          expanded={false}
+        />
+        <Card
+          title={"لیست درآمد"}
+          children={() => <IncomeList />}
+          expanded={false}
+        />
+        <Card
+          title={"گزارش درآمدها"}
+          children={() => <AppPieChart />}
+          expanded={false}
+        />
       </View>
     </View>
   );

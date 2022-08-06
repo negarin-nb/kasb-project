@@ -8,15 +8,15 @@ export default Orders = [
     orderItems: [
       {
         orderName: "کاسه آش‌خوری",
-        number: 6,
-        unitPrice: 20000,
-        totalPrice: 120000,
+        number: '6',
+        unitPrice: '20000',
+        totalPrice: '120000',
       },
       {
         orderName: "سینی مزه",
-        number: 1,
-        unitPrice: 150000,
-        totalPrice: 150000,
+        number: '1',
+        unitPrice: '150000',
+        totalPrice: '150000',
       },
     ],
     orderStatus: "نقد",
@@ -30,9 +30,9 @@ export default Orders = [
     orderItems: [
       {
         orderName: "سینی مزه",
-        number: 1,
-        unitPrice: 150000,
-        totalPrice: 150000,
+        number: '1',
+        unitPrice: '150000',
+        totalPrice: '150000',
       },
     ],
     orderStatus: "نقد",
@@ -46,15 +46,15 @@ export default Orders = [
     orderItems: [
       {
         orderName: "سینی مزه",
-        number: 1,
-        unitPrice: 150000,
-        totalPrice: 150000,
+        number: '1',
+        unitPrice: '150000',
+        totalPrice: '150000',
       },
       {
         orderName: "سینی مزه",
-        number: 1,
-        unitPrice: 150000,
-        totalPrice: 150000,
+        number: '1',
+        unitPrice: '150000',
+        totalPrice: '150000',
       },
     ],
     orderStatus: "نقد",

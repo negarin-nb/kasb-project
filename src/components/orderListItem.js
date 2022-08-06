@@ -1,30 +1,37 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import OrderEntry from './orderEntry';
 
-export default function OrderListItem({
-  item,
-}) {
-  return (
-    <View>
-      <View style={styles.container}>
-        {/*Update button*/}
-        <TouchableOpacity
-          style={[styles.button, { flex: 0.6 }]}
-        >
-          <Image
-            style={{ width: 15, height: 15 }}
-            source={require("../../assets/icons/more.png")}
-          />
-        </TouchableOpacity>
+export default function OrderListItem({item , navigation}) {
+const handleMoreButton = () => {
+    console.log("press button");
+    navigation.navigate('OrderDetailScreen');
+    
+};
+ return (
+   <View>
+     <View style={styles.container}>
+       {/*Update button*/}
+       <TouchableOpacity
+         style={[styles.button, { flex: 0.5 }]}
+         onPress={() => navigation.navigate('OrderDetailScreen', item)}
+       >
+         <Image
+           style={{ width: 15, height: 15 }}
+           source={require("../../assets/icons/more.png")}
+         />
+       </TouchableOpacity>
 
-        {/*List item*/}
-        <Text style={[styles.item, { flex: 1.2 }]}>{item.deliveryMethod}</Text>
-        <Text style={[styles.item, { flex: 1.4 }]}>{item.deliveryDate}</Text>
-        <Text style={[styles.item, { flex: 2.5, paddingEnd: 2 }]}>سفارش {item.id}</Text>
-      </View>
-    </View>
-  );
+       {/*List item*/}
+       <Text style={[styles.item, { flex: 1 }]}>{item.deliveryMethod}</Text>
+       <Text style={[styles.item, { flex: 1.4 }]}>{item.deliveryDate}</Text>
+       <Text style={[styles.item, { flex: 2, paddingEnd: 2 }]}>
+         سفارش {item.id}
+       </Text>
+     </View>
+   </View>
+ );
 }
 const styles = StyleSheet.create({
   container: {
@@ -32,7 +39,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.3,
     borderBottomColor: "white",
     justifyContent: "space-between",
-    alignContent: "flex-end",
+   // alignContent: "flex-end",
   },
   item: {
     fontFamily: "IranYekanRegular",
@@ -47,12 +54,6 @@ const styles = StyleSheet.create({
     flex: 0.7,
     justifyContent: "flex-end",
     marginBottom: 10,
-  },
-  text: {
-    margin: 8,
-    color: "#24408E",
-    fontSize: 15,
-    fontFamily: "YekanBakhThin",
-    textAlign: "center",
+    alignItems:'center'
   },
 });

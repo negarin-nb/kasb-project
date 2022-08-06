@@ -4,11 +4,11 @@ import {
   StyleSheet,
 } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
-import TopBar from "../../orderDetail.js/topBar";
-import CardExpand from '../../orderDetail.js/cardExpand';
-import OrderList from '../../orderDetail.js/orderList';
+import TopBar from "../../components/topBar";
+import Card from "../../components/card";
+import OrderList from '../../components/orderList';
 
-export default function OrderListScreen() {
+export default function OrderListScreen({navigation}) {
   return (
     <View style={styles.container}>
       <HeaderScreen />
@@ -16,7 +16,7 @@ export default function OrderListScreen() {
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"
       />
-      <CardExpand title={"لیست سفارش"} children={() => <OrderList />} />
+      <Card title={"لیست سفارش"} children={() => <OrderList navigation={navigation} />} expanded={true} />
     </View>
   );
 }

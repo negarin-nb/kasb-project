@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  ImageBackground,
   TouchableOpacity,
   StyleSheet,
   Image,
@@ -11,8 +10,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Card({children, title, imageSource}) {
-  const [isExpand, setIsExpand] = useState(false);
+export default function Card({children, title, expanded}) {
+  const [isExpand, setIsExpand] = useState(expanded);
   const { width } = useWindowDimensions();
 
   const handleExpand = () => {
@@ -26,7 +25,7 @@ export default function Card({children, title, imageSource}) {
         colors={["#63D98A", "#24438E"]}
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 1 }}
-        style={[styles.btn, { width: width - 40 }]}
+        style={[styles.card, { width: width - 40 }]}
       >
         <TouchableOpacity
           style={{
@@ -36,7 +35,7 @@ export default function Card({children, title, imageSource}) {
             paddingHorizontal: 20,
             paddingVertical: 15,
           }}
-          onPress={handleExpand}
+          onPress={expanded ? null : handleExpand}
         >
           <View
             style={{
@@ -55,7 +54,7 @@ export default function Card({children, title, imageSource}) {
           </View>
 
           <View>
-            <Text style={styles.btnTitle}>{title}</Text>
+            <Text style={styles.cardTitle}>{title}</Text>
           </View>
         </TouchableOpacity>
         <View>{isExpand ? children() : null}</View>
@@ -65,27 +64,19 @@ export default function Card({children, title, imageSource}) {
 }
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#fff",
   },
-
-  btn: {
-    //flex: 1,
+  card: {
     marginBottom: 10,
     borderRadius: 20,
-    // minHeight: 70,
-    //justifyContent: "center",
-    // alignItems: "center",
   },
-  btnTitle: {
-    //flex: 1,
+  cardTitle: {
     color: "#fff",
     textAlign: "right",
     fontSize: 18,
     fontFamily: "YekanBakhBold",
     paddingEnd: 10,
-    //paddingTop: 20,
   },
 });

@@ -18,9 +18,21 @@ export default function CostScreen() {
           iconSourc={require("../../../assets/icons/deposite.png")}
           title="مدیریت هزینه‌ها"
         />
-        <Card title={"ثبت هزینه"} children={() => <CostEntry />} />
-        <Card title={"لیست هزینه"} children={() => <CostList />} />
-        <Card title={"گزارش هزینه‌ها"} children={() => <AppPieChart />} />
+        <Card
+          title={"ثبت هزینه"}
+          children={() => <CostEntry />}
+          expanded={false}
+        />
+        <Card
+          title={"لیست هزینه"}
+          children={() => <CostList />}
+          expanded={false}
+        />
+        <Card
+          title={"گزارش هزینه‌ها"}
+          children={() => <AppPieChart />}
+          expanded={false}
+        />
       </View>
     </View>
   );

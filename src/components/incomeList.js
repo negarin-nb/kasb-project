@@ -5,7 +5,6 @@ import {
   useWindowDimensions,
   StyleSheet,
   TouchableOpacity,
-  Button,
   Modal,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
