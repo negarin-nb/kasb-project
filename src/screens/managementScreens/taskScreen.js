@@ -36,7 +36,7 @@ export default function TaskScreen(navigation) {
           />
           <TaskBtn
             btnTitle={"لیست سفارش‌ها"}
-            onPressComponent="TaskScreen"
+            onPressComponent="OrderListScreen"
             navigation={navigation}
           />
 

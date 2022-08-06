@@ -5,13 +5,10 @@ import {
 } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../orderDetail.js/topBar";
-import OrderEntry from "../../orderDetail.js/orderEntry";
 import CardExpand from '../../orderDetail.js/cardExpand';
+import OrderList from '../../orderDetail.js/orderList';
 
-
-
-export default function OrderSubmitScreen() {
-  
+export default function OrderListScreen() {
   return (
     <View style={styles.container}>
       <HeaderScreen />
@@ -19,7 +16,7 @@ export default function OrderSubmitScreen() {
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"
       />
-      <CardExpand title={"ثبت سفارش"} children={() => <OrderEntry />} />
+      <CardExpand title={"لیست سفارش"} children={() => <OrderList />} />
     </View>
   );
 }
@@ -32,5 +29,4 @@ const styles = StyleSheet.create({
     paddingEnd: 20,
     paddingStart: 20,
   },
-  
 });

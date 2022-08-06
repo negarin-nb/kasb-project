@@ -72,12 +72,12 @@ export default function BottomTabNavigator() {
 
         <Tab.Screen name="More" component={MoreScreen} options={{
         
-        tabBarLabel: 'بیشتر', 
+        tabBarLabel: 'جستجو', 
         tabBarIcon: () => (
           <View>
               <Image
                 style={{ width: 25, height: 25 }}
-                source={require("../../assets/icons/more.png")}
+                source={require("../../assets/icons/search.png")}
               />
             </View>
           ),

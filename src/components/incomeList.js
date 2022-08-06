@@ -34,6 +34,7 @@ export default function IncomeList() {
     setUpdateItem(item);
   };
 
+  //Delete Modal Function
   function DeleteItemModal({
     deleteItem,
     setModalVisible,
@@ -64,7 +65,7 @@ export default function IncomeList() {
       </Modal>
     );
   }
-
+  //Update Modal Function
   function UpdateItemModal({
     updateItem,
     setModalVisible,
@@ -85,7 +86,8 @@ export default function IncomeList() {
       </Modal>
     );
   }
-    
+
+  // main render
   return (
     <View style={styles.container}>
       {/* Income List */}
