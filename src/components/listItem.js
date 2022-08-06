@@ -5,20 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Modal,
 } from "react-native";
-import IncomeUpdate from "./incomeUpdate";
-
-
-
 
 export default function ListItem({
   item,
-  changeModalVisibiblity,
-  setDeleteModalVisible,
   handleDeleteModal,
   handleUpdateModal,
-  handleUpdate,
 }) {
   return (
     <View>
