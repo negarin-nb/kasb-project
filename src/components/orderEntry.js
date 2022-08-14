@@ -15,10 +15,10 @@ export default function OrderEntry({prevOrder}) {
   
   const [customer, setCustomer] = useState(prevOrder.customer);
   const [entryDate, setEntryDate] = useState(prevOrder.entryDate || "تاریخ ثبت"); //modal
-  const [enDateModalVisible, setEnDateModalVisible] = useState(false);
+  const [enDateModalVisible, setEnDateModalVisible] = useState(false); //visibility
 
   const [deliveryDate, setDeliveryDate] = useState(prevOrder.deliveryDate || "تاریخ تحویل"); //modal
-  const [delDateModalVisible, setDelDateModalVisible] = useState(false);
+  const [delDateModalVisible, setDelDateModalVisible] = useState(false); //visibility
 
   const [deliveryMethod, setDeliveryMethod] = useState( prevOrder.deliveryMethod || "روش"); //modal
   const [deliveryMethodList, setDeliveryMethodList] = useState(["پیک" , 'پست']); //list
@@ -107,6 +107,22 @@ export default function OrderEntry({prevOrder}) {
     
   return (
     <View style={styles.container}>
+      {/*Order title*/}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingVertical: 10,
+          paddingHorizontal: 10,
+        }}
+      >
+        <Image
+          style={{ width: 24, height: 24 }}
+          source={require("../../assets/icons/order.png")}
+        />
+        <Text style={styles.title}>سفارش ۰۱۰۳۲۲۰۱</Text>
+      </View>
+
       <View style={{ flexDirection: "row" }}>
         {/*Delivery Method*/}
         <TouchableOpacity
@@ -279,7 +295,7 @@ export default function OrderEntry({prevOrder}) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    padding: 5,
+    padding: 10,
     paddingTop: 5,
     borderWidth: 2,
     borderColor: "#24438E15",
@@ -292,7 +308,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 2,
     paddingVertical: 4,
-    marginHorizontal: 2,
+    marginHorizontal: 1,
     height: 35,
     alignItems: "center",
     textAlign: "center",
@@ -306,9 +322,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     marginTop: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
     fontSize: 12,
     fontFamily: "IranYekanLight",
     color: "#24408E",
@@ -332,12 +345,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#63D98A",
     borderRadius: 20,
     color: "#fff",
-    width: 'auto',
+    width: "auto",
   },
   buttonText: {
     fontSize: 16,
     fontFamily: "YekanBakhMedium",
     color: "#24408E",
     textAlign: "center",
+  },
+  title: {
+    color: "#24408E",
+    textAlign: "right",
+    fontSize: 16,
+    fontFamily: "IranYekanBold",
+    
   },
 });
