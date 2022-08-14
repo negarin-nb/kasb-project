@@ -37,12 +37,7 @@ export default function Card({children, title, expanded}) {
           }}
           onPress={expanded ? null : handleExpand}
         >
-          <View
-            style={{
-              paddingTop: 10,
-              flex: 1,
-            }}
-          >
+          <View style={{ paddingTop: 10, flex: 1 }}>
             <Image
               style={{ width: 12, height: 8 }}
               source={
@@ -77,6 +72,6 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 18,
     fontFamily: "YekanBakhBold",
-    paddingEnd: 10,
+    //paddingEnd: 10,
   },
 });

@@ -38,19 +38,16 @@ export default function App() {
       console.log(storedToken);
       if (storedToken) {
         const data = JSON.parse(storedToken);
-          authCtx.authenticate({
-            authAccessToken: data.authAccessToken,
-            authRefreshToken: data.authRefreshToken,
-          });
+        authCtx.authenticate({
+           authAccessToken: data.authAccessToken,
+           authRefreshToken: data.authRefreshToken,
+         });
       }
       setIsTryingLogin(false);
     }
-  
-  
   if (isTryingLogin) {
     return <AppLoading />;
   }
-
   return <Navigation />;
 }
 

@@ -6,8 +6,6 @@ import { AuthContext } from "../../store/auth-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-
-
 export default function HeaderScreen() {
   const [userLoadFaild, setUserLoadFailed] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -15,7 +13,6 @@ export default function HeaderScreen() {
   const [userName, setUserName] = useState(" ");
   const [shopName, setShopName] = useState("فروشگاه ");
   const authCtx = React.useContext(AuthContext);
-
 
   const onImageNotFound = () => {
     setImageError(true);
@@ -36,7 +33,6 @@ export default function HeaderScreen() {
     setShopName(user.data.Item.shop_name);
   }
   const loadUserInfo = async () => {
-      
       let user =  await authCtx.getUser();
       console.log("loadUserInfo " + JSON.stringify(user));
       if (!user){
@@ -53,7 +49,7 @@ export default function HeaderScreen() {
     <View style={styles.container}>
      <StatusBar barStyle={"dark-content"} />
 
-      <View style={{ flexDirection: "row", marginTop: 30 }}>
+      <View style={{ flexDirection: "row", marginTop: 40 }}>
         <Text style={[styles.topBarText, { textAlign: "left" }]}>
           {currentDate}
         </Text>

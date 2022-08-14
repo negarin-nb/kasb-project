@@ -1,5 +1,4 @@
 import client from "./client";
-
 const endpoint = "/users/login/";
 
 const phoneSubmit = (phone_number) =>
