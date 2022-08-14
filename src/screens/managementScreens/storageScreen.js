@@ -12,20 +12,11 @@ import {
 import TopBar from "../../components/topBar";
 import HeaderScreen from "../profileScreens/headerScreen";
 import { LinearGradient } from "expo-linear-gradient";
-import AddProductForm from "../../components/addProductForm";
 import Card from "../../components/card";
+import StorageEntry from "../../components/storageEntry";
+import StorageList from "../../components/storageList";
 
 export default function StorageScreen({ navigation }) {
-  //const [isExpand, setIsExpand] = useState(false);
-  const { width } = useWindowDimensions();
-
-  const handleExpand = () => {
-    setIsExpand(!isExpand);
-  };
-
-  function handleComponent() {
-    return <AddProductForm />;
-  }
 
   return (
     <View style={styles.container}>
@@ -36,34 +27,17 @@ export default function StorageScreen({ navigation }) {
           iconSourc={require("../../../assets/icons/box.png")}
           title="انبار"
         />
-        <ScrollView>
           <Card
-            title={"ورود"}
-            imageSource={require("../../../assets/images/storageRect1.jpeg")}
-            children={() => <AddProductForm />}
+            title={"ثبت کالا"}
+            children={() => <StorageEntry />}
+            expanded={false}
           />
           <Card
-            title={"خروج"}
-            imageSource={require("../../../assets/images/storageRect2.jpeg")}
-            children={() => <AddProductForm />}
+            title={"مشاهده انبار"}
+            children={() => <StorageList />}
+            expanded={false}
           />
-          <Card
-            title={"مرجوعی"}
-            imageSource={require("../../../assets/images/storageRect3.jpeg")}
-            children={() => <AddProductForm />}
-          />
-
-          <Card
-            title={"ضایعات"}
-            imageSource={require("../../../assets/images/storageRect4.jpeg")}
-            children={() => <AddProductForm />}
-          />
-          <Card
-            title={"موجودی"}
-            imageSource={require("../../../assets/images/Rectangle2.jpeg")}
-            children={() => <AddProductForm />}
-          />
-        </ScrollView>
+        
         {/*isExpand ? <ExpandedCard /> : <Card />*/}
       </View>
     </View>
