@@ -6,7 +6,6 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  useWindowDimensions,
   TouchableOpacity,
   Modal,
 } from "react-native";
@@ -15,28 +14,28 @@ import CustomDatePicker from "../util/customDatePicker";
 import { AuthContext } from "../store/auth-context";
 import storageApi from "../api/storage.js";
 
-export default function StorageEntry() {
+export default function StorageEntry({prevItem, setModalVisible, handleCancelModal}) {
   const authCtx = useContext(AuthContext);
-
-  const [itemName, setItemName] = useState("");
-  const [number, setNumber] = useState("");
-  const [purchasePrice, setPurchasePrice] = useState("");
-  const [sellingPrice, setSellingPrice] = useState("");
-  const [entryDate, setEntryDate] = useState("تاریخ ثبت"); //modal
+  console.log(prevItem);
+  const [itemName, setItemName] = useState(prevItem.name || "");
+  const [number, setNumber] = useState(prevItem.count || "");
+  const [purchasePrice, setPurchasePrice] = useState(prevItem.purchase_price.toString() || "");
+  const [sellingPrice, setSellingPrice] = useState(prevItem.suggested_selling_price.toString() || "");
+  const [entryDate, setEntryDate] = useState(prevItem.expire_date || "تاریخ ثبت"); //modal
   const [enDateModalVisible, setEnDateModalVisible] = useState(false);
 
-  const [barcode, setBarcode] = useState("");
-  const [expireDate, setExpireDate] = useState("تاریخ انقضا"); //modal
+  const [barcode, setBarcode] = useState(prevItem.barcode || "");
+  const [expireDate, setExpireDate] = useState(prevItem.expire_date || "تاریخ انقضا"); //modal
   const [exDateModalVisible, setExDateModalVisible] = useState(false);
 
   const [supplyWarn, setSupplyWarn] = useState(""); //modal
   const [expireWarn, setExpireWarn] = useState("");
-  const [lable, setLable] = useState("برچسب"); //modal
+  const [lable, setLable] = useState(prevItem.labels.name || ["برچسب"]); //modal
   const [lableList, setLableList] = useState(["برچسب"]);
   const [lableModalVisible, setLableModalVisible] = useState(false);
 
 
-  const changeModalVisibiblity = (bool, setModalVisible) => {
+  const changeModalVisibiblity = (bool, setModalVisible, handleCancelModal) => {
     setModalVisible(bool);
   };
 
@@ -60,6 +59,29 @@ export default function StorageEntry() {
     alert("کالای مورد نظر ثبت شد");
   };
 
+  const handleStorageEdit = async () => {
+    const itemData = {
+      id: prevItem.id,
+      name: itemName,
+      category: "",
+      purchase_price: purchasePrice,
+      suggested_selling_price: sellingPrice,
+      barcode: "0123443",
+      expire_date: entryDate,
+      labels: lable,
+      registration_date: expireDate,
+      warning_interval: supplyWarn,
+      count: number,
+    };
+    // console.log(itemData.name);
+    //console.log(authCtx.accessToken);
+    const result = await storageApi.updateItem(authCtx.accessToken, itemData);
+    console.log(result.data.Message)
+    if (!result.ok) alert("به روز رسانی آیتم با خطا مواجه شده است!");
+    else alert("کالای مورد نظر به روز رسانی شد!");
+    setModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       {/*Item title*/}
@@ -75,7 +97,9 @@ export default function StorageEntry() {
           style={{ width: 24, height: 24 }}
           source={require("../../assets/icons/order.png")}
         />
-        <Text style={styles.title}>افزودن کالا</Text>
+        <Text style={styles.title}>
+          {prevItem.name ? "به روزرسانی کالا" : "افزودن کالا"}
+        </Text>
       </View>
       {/*row 1 *******/}
       <View style={{ flexDirection: "row" }}>
@@ -210,16 +234,33 @@ export default function StorageEntry() {
           />
         </Modal>
       </View>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity style={styles.button}>
+
+      {prevItem.name ? (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText} onPress={handleStorageEdit}>
+              به روزرسانی کالا
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.cancleButton]}>
+            <Text style={styles.buttonText} onPress={handleCancelModal}>
+              لغو
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity style={[styles.button, {justifyContent:"flex-start"}]}>
           <Text style={styles.buttonText} onPress={handleStorageEntry}>
             ثبت کالا
           </Text>
         </TouchableOpacity>
-      </View>
+        </View>
+      )}
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -241,8 +282,8 @@ const styles = StyleSheet.create({
     height: 35,
     alignItems: "center",
     textAlign: "center",
-    fontSize: 14,
-    fontFamily: "YekanBakhThin",
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
     color: "#24408E",
     borderWidth: 2,
     borderColor: "#24438E10",
@@ -252,8 +293,8 @@ const styles = StyleSheet.create({
   inputText: {
     alignItems: "center",
     textAlign: "center",
-    fontSize: 14,
-    fontFamily: "YekanBakhThin",
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
     color: "#24408E",
   },
   inputDate: {
@@ -277,10 +318,17 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingVertical: 5,
     paddingHorizontal: 20,
-    marginHorizontal: 5,
+    marginHorizontal: 2,
     backgroundColor: "#63D98A",
+    borderColor: "#63D98A",
+    borderWidth: 2,
     borderRadius: 20,
     color: "#fff",
+  },
+  cancleButton: {
+    backgroundColor: "#fff",
+    borderColor: "#63D98A",
+    borderWidth: 2,
   },
   buttonText: {
     fontSize: 16,

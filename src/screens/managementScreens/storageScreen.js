@@ -18,6 +18,16 @@ import StorageList from "../../components/storageList";
 
 export default function StorageScreen({ navigation }) {
 
+  const nullItem = {
+    name: "",
+    count: "",
+    purchase_price:'' ,
+    suggested_selling_price: '',
+    expire_date: "",
+    barcode: "",
+    labels: [{ name: "" }],
+  };
+
   return (
     <View style={styles.container}>
       <HeaderScreen />
@@ -27,17 +37,17 @@ export default function StorageScreen({ navigation }) {
           iconSourc={require("../../../assets/icons/box.png")}
           title="انبار"
         />
-          <Card
-            title={"ثبت کالا"}
-            children={() => <StorageEntry />}
-            expanded={false}
-          />
-          <Card
-            title={"مشاهده انبار"}
-            children={() => <StorageList />}
-            expanded={false}
-          />
-        
+        <Card
+          title={"ثبت کالا"}
+          children={() => <StorageEntry prevItem={nullItem} />}
+          expanded={false}
+        />
+        <Card
+          title={"مشاهده انبار"}
+          children={() => <StorageList />}
+          expanded={false}
+        />
+
         {/*isExpand ? <ExpandedCard /> : <Card />*/}
       </View>
     </View>

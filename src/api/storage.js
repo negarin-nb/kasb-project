@@ -1,8 +1,8 @@
 import client from "./client";
 
 const storeItem = (token , itemData) => {
-    client.setHeaders({ 'Authorization': `Bearer ${token}`});
-    return client.post("/items/item/", itemData);
+  client.setHeaders({ 'Authorization': `Bearer ${token}`});
+  return client.post("/items/item/", itemData);
 }
 
 const getItems = (token) => {
@@ -12,12 +12,12 @@ const getItems = (token) => {
 
 const updateItem = (token, itemData) => {
   client.setHeaders({ Authorization: `Bearer ${token}` });
-  client.put("/items/item/", itemData);
+  return client.put("/items/item/", itemData);
 };
 
-const deleteItem = (token, itemData) => {
+const deleteItem = (token, id) => {
   client.setHeaders({ Authorization: `Bearer ${token}` });
-  client.delete(`/items/item/${itemData.id}/`);
+  return client.delete(`/items/item/${id}/`);
 };
 
 export default {
