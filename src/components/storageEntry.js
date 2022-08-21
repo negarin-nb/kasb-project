@@ -16,26 +16,26 @@ import storageApi from "../api/storage.js";
 
 export default function StorageEntry({prevItem, setModalVisible, handleCancelModal}) {
   const authCtx = useContext(AuthContext);
-  console.log(prevItem);
   const [itemName, setItemName] = useState(prevItem.name || "");
-  const [number, setNumber] = useState(prevItem.count || "");
+  const [number, setNumber] = useState(prevItem.count.toString() || "");
   const [purchasePrice, setPurchasePrice] = useState(prevItem.purchase_price.toString() || "");
   const [sellingPrice, setSellingPrice] = useState(prevItem.suggested_selling_price.toString() || "");
-  const [entryDate, setEntryDate] = useState(prevItem.expire_date || "تاریخ ثبت"); //modal
+  const [entryDate, setEntryDate] = useState(prevItem.registration_date || "تاریخ ثبت"); //modal
   const [enDateModalVisible, setEnDateModalVisible] = useState(false);
 
   const [barcode, setBarcode] = useState(prevItem.barcode || "");
-  const [expireDate, setExpireDate] = useState(prevItem.expire_date || "تاریخ انقضا"); //modal
+  const [expireDate, setExpireDate] = useState(prevItem.expiration_date || "تاریخ انقضا"); //modal
   const [exDateModalVisible, setExDateModalVisible] = useState(false);
 
-  const [supplyWarn, setSupplyWarn] = useState(""); //modal
-  const [expireWarn, setExpireWarn] = useState("");
+  const [supplyWarn, setSupplyWarn] = useState(prevItem.inventory_warning_interval || ""); //modal
+  const [expireWarn, setExpireWarn] = useState(prevItem.expiration_warning_interval || "");
+  const [warnModalVisible, setWarnModalVisible] = useState(false);
   const [lable, setLable] = useState(prevItem.labels.name || ["برچسب"]); //modal
   const [lableList, setLableList] = useState(["برچسب"]);
   const [lableModalVisible, setLableModalVisible] = useState(false);
 
 
-  const changeModalVisibiblity = (bool, setModalVisible, handleCancelModal) => {
+  const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
 
@@ -44,39 +44,42 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
       name: itemName,
       category: "",
       purchase_price: purchasePrice,
-      suggested_selling_price: sellingPrice,
       barcode: "0123443",
-      expire_date: entryDate,
-      labels: lable,
-      registration_date: expireDate,
-      warning_interval: supplyWarn,
       count: number,
+      suggested_selling_price: sellingPrice,
+      registration_date: expireDate,
+      inventory_warning_interval: supplyWarn,
+      expiration_date: entryDate,
+      expiration_warning_interval: expireWarn,
+      labels: lable,
     };
    // console.log(itemData.name);
    //console.log(authCtx.accessToken);
     const result = await storageApi.storeItem(authCtx.accessToken, itemData);
+    console.log(result.data.Message);
     if (!result.ok) alert("ثبت آیتم با خطا مواجه شده است!");
-    alert("کالای مورد نظر ثبت شد");
+    else alert("کالای مورد نظر ثبت شد"); 
   };
-
   const handleStorageEdit = async () => {
     const itemData = {
       id: prevItem.id,
       name: itemName,
       category: "",
       purchase_price: purchasePrice,
-      suggested_selling_price: sellingPrice,
       barcode: "0123443",
-      expire_date: entryDate,
-      labels: lable,
-      registration_date: expireDate,
-      warning_interval: supplyWarn,
       count: number,
+      suggested_selling_price: sellingPrice,
+      registration_date: entryDate,
+      inventory_warning_interval: supplyWarn,
+      expiration_date: expireDate,
+      expiration_warning_interval: expireWarn,
+      labels: lable,
     };
     // console.log(itemData.name);
     //console.log(authCtx.accessToken);
     const result = await storageApi.updateItem(authCtx.accessToken, itemData);
-    console.log(result.data.Message)
+    console.log("in edit");
+    console.log(result.data.Message);
     if (!result.ok) alert("به روز رسانی آیتم با خطا مواجه شده است!");
     else alert("کالای مورد نظر به روز رسانی شد!");
     setModalVisible(false);
@@ -203,14 +206,61 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
           />
         </Modal>
         {/*Warn interval*/}
-        <TextInput
-          placeholder="بازه هشدار"
-          placeholderTextColor="#24408E"
-          value={supplyWarn}
-          onChangeText={(text) => setSupplyWarn(text)}
-          autoCapitalize="none"
+        <TouchableOpacity
+          onPress={() => changeModalVisibiblity(true, setWarnModalVisible)}
           style={[styles.input, { flex: 0.8 }]}
-        />
+        >
+          <Text style={styles.inputText}>{` ${expireWarn} روز ، ${supplyWarn} عدد`}</Text>
+        </TouchableOpacity>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={warnModalVisible}
+          onRequestClose={() =>
+            changeModalVisibiblity(false, setWarnModalVisible)
+          }
+        >
+          <View style={styles.modalContainer}>
+            <View style={[styles.modal, { width: 300 }]}>
+              <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                <TextInput
+                  placeholder="کمتر از ۱۰ عدد"
+                  placeholderTextColor="#24408E70"
+                  value={supplyWarn}
+                  onChangeText={(text) => setSupplyWarn(text)}
+                  autoCapitalize="none"
+                  style={[styles.input, { flex:1 }]}
+                />
+                <Text style={[styles.modalText]}>بازه هشدار موجودی</Text>
+              </View>
+              <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                <TextInput
+                  placeholder="کمتر از ۱۰ روز"
+                  placeholderTextColor="#24408E70"
+                  value={expireWarn}
+                  onChangeText={(text) => setExpireWarn(text)}
+                  autoCapitalize="none"
+                  style={[styles.input, { flex: 1 }]}
+                />
+                <Text style={[styles.modalText]}>بازه هشدار انقضا</Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  style={[styles.button]}
+                >
+                  <Text
+                    style={styles.buttonText}
+                    onPress={() =>
+                      changeModalVisibiblity(false, setWarnModalVisible)
+                    }
+                  >
+                    ثبت
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
         {/*Expire date*/}
         <TouchableOpacity
@@ -250,11 +300,13 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
         </View>
       ) : (
         <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity style={[styles.button, {justifyContent:"flex-start"}]}>
-          <Text style={styles.buttonText} onPress={handleStorageEntry}>
-            ثبت کالا
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { justifyContent: "flex-start" }]}
+          >
+            <Text style={styles.buttonText} onPress={handleStorageEntry}>
+              ثبت کالا
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -341,5 +393,37 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 16,
     fontFamily: "IranYekanBold",
+  },
+
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#00000087",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modal: {
+    padding: 20,
+    width: 140,
+    height: "auto",
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "#24438E40",
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+  },
+  modalButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  
+  modalText: {
+    flex: 1,
+    paddingEnd: 10,
+    marginVertical: 8,
+    color: "#24408E",
+    fontSize: 16,
+    fontFamily: "YekanBakhThin",
+    textAlign:"right",
   },
 });

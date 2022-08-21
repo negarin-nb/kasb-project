@@ -20,11 +20,14 @@ export default function StorageScreen({ navigation }) {
 
   const nullItem = {
     name: "",
+    barcode: "",
     count: "",
     purchase_price:'' ,
     suggested_selling_price: '',
-    expire_date: "",
-    barcode: "",
+    expiration_date: "",
+    registration_date:"",
+    inventory_warning_interval: "",
+    expiration_warning_interval: "",
     labels: [{ name: "" }],
   };
 

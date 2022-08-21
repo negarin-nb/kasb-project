@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Image,
@@ -10,30 +10,36 @@ import {
 } from "react-native";
 import ModalPicker from "./modalPicker";
 import CustomDatePicker from "../util/customDatePicker";
+import searchApi from "../api/search";
+import { AuthContext } from "../store/auth-context";
+import orderApi from "../api/order";
 
 export default function OrderEntry({prevOrder}) {
-  
+  const authCtx = useContext(AuthContext);
   const [customer, setCustomer] = useState(prevOrder.customer);
-  const [entryDate, setEntryDate] = useState(prevOrder.entryDate || "تاریخ ثبت"); //modal
+  const [entryDate, setEntryDate] = useState(prevOrder.registration_date || "تاریخ ثبت"); //modal
   const [enDateModalVisible, setEnDateModalVisible] = useState(false); //visibility
 
-  const [deliveryDate, setDeliveryDate] = useState(prevOrder.deliveryDate || "تاریخ تحویل"); //modal
+  const [deliveryDate, setDeliveryDate] = useState(prevOrder.delivery_date || "تاریخ تحویل"); //modal
   const [delDateModalVisible, setDelDateModalVisible] = useState(false); //visibility
 
-  const [deliveryMethod, setDeliveryMethod] = useState( prevOrder.deliveryMethod || "روش"); //modal
+  const [deliveryMethod, setDeliveryMethod] = useState( prevOrder.delivery_type || "روش"); //modal
   const [deliveryMethodList, setDeliveryMethodList] = useState(["پیک" , 'پست']); //list
   const [methodModalVisible, setMethodModalVisible] = useState(false); //visibility
 
-  const [orderStatus, setOrderStatus] = useState( prevOrder.orderStatus || [
-    "پیش‌پرداخت",
-    "نقد",
-    "تسویه",
-  ]);
+  const [orderStatus, setOrderStatus] = useState( prevOrder.payment_type || "نحوه پرداخت");
+  const [orderStatusList, setOrderStatusList] = useState(["نقد", "تسویه"]);
+  const [prepaid, setPrepaid] = useState(prevOrder.prepaid || "پیش‌پرداخت");
+
+  const [suggestions, setSuggestions] = useState([]);
+  const [custSuggestions, setCustSuggestions] = useState([]);
+  const [suggestionsVisible, setSuggestionsVisible] = useState([false]);
+  const [custSuggestionsVisible, setCustSuggestionsVisible] = useState(false);
 //array of order items
   const [orderItems, setOrderItems] = useState(
-    prevOrder.orderItems || [
+    prevOrder.items || [
       {
-        orderName:  "",
+        orderName: "",
         number: "",
         unitPrice: "",
         totalPrice: "",
@@ -41,16 +47,85 @@ export default function OrderEntry({prevOrder}) {
     ]
   );
 
-  const [order, setOrder] = useState( prevOrder || {
-    customer: customer,
-    entryDate: entryDate,
-    deliveryDate: deliveryDate,
-    deliveryMethod: deliveryMethod,
-    orderItems: orderItems,
-    orderStatus: orderStatus,
-  });
+  const finalOrderItems = [];
+  orderItems.map((item) =>
+    finalOrderItems.push({
+      item_name: item.orderName,
+      count: parseInt(item.number),
+      selling_price: parseInt(item.unitPrice),
+      total_price: parseInt(item.totalPrice),
+    })
+  );
 
+  console.log("finalOrderItems");
+  console.log(finalOrderItems);
 
+  //order.items = [...orderItems];
+  const order = {
+    customer_name: customer,
+    registration_date: entryDate,
+    delivery_date: deliveryDate,
+    delivery_type: deliveryMethodList.indexOf(deliveryMethod),
+    items: finalOrderItems,
+    /*items: [{
+            item_name: "کالا 1",
+            count: 5,
+            selling_price: 10000,
+            total_price: 50000
+        }],*/
+    payment_type: 1, //orderStatusList.indexOf(orderStatus),
+    prepaid: 1000,
+  };
+
+   console.log("items");
+  console.log(order.items);
+
+  const order2 = {
+    customer_name: "مشتری1",
+    registration_date: "1401/03/26",
+    delivery_date: "1401/03/29",
+    delivery_type: 1,
+    payment_type: 1,
+    prepaid: 10000,
+    items: [
+        {
+            "item_name": "کالا 1",
+            "count": 5,
+            "selling_price": 10000,
+            "total_price": 50000
+        }]
+      }
+
+  
+
+  const changeModalVisibiblity = (bool, setModalVisible) => {
+    setModalVisible(bool);
+  };
+  const changSuggestionsVisibility = (index, bool) => {
+    const _suggestionsVisible = [...suggestionsVisible];
+    _suggestionsVisible[index] = bool;
+    setSuggestionsVisible(_suggestionsVisible);
+}
+
+  const handleOnChangeItem = (text, index) => {
+    handleAutoCompleteItem(text);
+    handleOrderName (text, index);
+  }
+  
+  const handleAutoCompleteItem = async (text) => {
+   if (text.length >1){
+   const result = await searchApi.searchItem(authCtx.accessToken, text);
+   if(!result.ok) console.log("error in autocomplete search item api!");
+   setSuggestions(result.data.ListItems);
+  }
+  }
+  const handleAutoCompleCustomer = async (text) => {
+    if (text.length > 1) {
+      const result = await searchApi.searchCustomer(authCtx.accessToken, text);
+      if (!result.ok) console.log("error in autocomplete search customer api!");
+      setCustSuggestions(result.data.ListItems);
+    }
+  };
   const handleOrderName = (text, index) => {
     const _orderItems = [...orderItems];
     _orderItems[index] = { ..._orderItems[index], orderName: text };
@@ -63,7 +138,6 @@ export default function OrderEntry({prevOrder}) {
     _orderItems[index] = { ..._orderItems[index], number: text };
     console.log("handleNumber: ");
     console.log(_orderItems);
-    console.log( parseInt(prevOrder.orderItems.number));
     setOrderItems(_orderItems);
   };
   const handleUnitPrice = (text, index) => {
@@ -72,7 +146,9 @@ export default function OrderEntry({prevOrder}) {
     console.log("handleUnitPrice");
     console.log(_orderItems);
     setOrderItems(_orderItems);
+    
   };
+  
   const handleTotalPrice = (text, index) => {
     const _orderItems = [...orderItems];
     _orderItems[index] = { ..._orderItems[index], totalPrice: text };
@@ -82,7 +158,6 @@ export default function OrderEntry({prevOrder}) {
   };
 
   const addFormField = () => {
-    console.log(orderItems);
     const _orderItems = [...orderItems];
     _orderItems.push({
       orderName: null,
@@ -91,12 +166,36 @@ export default function OrderEntry({prevOrder}) {
       totalPrice: null,
     });
     setOrderItems(_orderItems);
-    console.log(orderItems);
+
+    const _suggestionsVisible = [...suggestionsVisible];
+    _suggestionsVisible.push(false);
+    setSuggestionsVisible(_suggestionsVisible);
+
+    console.log("add: "+ orderItems);
   };
 
-  const changeModalVisibiblity = (bool, setModalVisible) => {
-    setModalVisible(bool);
-  };
+  const removeFormField = () => {
+    if(orderItems.length > 1){
+      const _orderItems = [...orderItems];
+      _orderItems.pop();
+      setOrderItems(_orderItems);
+      console.log("remove: " + orderItems);
+    }
+  }
+  
+ const handleCreateOrder = async () => {
+  const result = await orderApi.createOrder(authCtx.accessToken, order);
+  if (!result.ok) alert("خطایی در زمان ثبت سفارش پیش آمده است!");
+  else alert("سفارش با موفقیت ثبت شد"); 
+  console.log(result.data.Message);
+}
+
+ const handleEditOrder = async () => {
+  const result = await orderApi.editOrder(authCtx.accessToken, order);
+  if (!result.ok) alert("خطایی در زمان به رززرسانی سفارش پیش آمده است!");
+  else alert("سفارش با موفقیت به روزرسانی شد!"); 
+  console.log(result.data.Message);
+ };
 
   useEffect(() => {
     if (prevOrder) {
@@ -120,7 +219,9 @@ export default function OrderEntry({prevOrder}) {
           style={{ width: 24, height: 24 }}
           source={require("../../assets/icons/order.png")}
         />
-        <Text style={styles.title}>سفارش ۰۱۰۳۲۲۰۱</Text>
+        <Text style={styles.title}>
+          {prevOrder.id ? `${prevOrder.id} سفارش` : "سفارش جدید"}
+        </Text>
       </View>
 
       <View style={{ flexDirection: "row" }}>
@@ -208,14 +309,54 @@ export default function OrderEntry({prevOrder}) {
         </Modal>
 
         {/*customer */}
-        <TextInput
-          placeholder="سفارش دهنده"
-          placeholderTextColor="#24408E"
-          value={customer}
-          onChangeText={(text) => setCustomer(text)}
-          autoCapitalize="none"
+
+        <TouchableOpacity
+          onPress={() =>
+            changeModalVisibiblity(true, setCustSuggestionsVisible)
+          }
           style={[styles.input, { flex: 1 }]}
-        />
+        >
+          <Text style={styles.inputText}>{customer || "سفارش‌دهنده"}</Text>
+        </TouchableOpacity>
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={custSuggestionsVisible}
+        >
+          <TouchableOpacity
+            style={[styles.modalContainer]}
+            onPress={() => setCustSuggestionsVisible(false)}
+          >
+            <View style={[styles.dropDown]}>
+              <TextInput
+                placeholder="جستجو..."
+                placeholderTextColor="#24408E"
+                value={customer}
+                onChangeText={(text) => {
+                  handleAutoCompleCustomer(text);
+                  setCustomer(text);
+                  setCustSuggestionsVisible(true);
+                }}
+                autoCapitalize="none"
+                autoFocus={true}
+                style={[styles.input]}
+              />
+              {custSuggestions.map((item) => (
+                <TouchableOpacity
+                  key={item}
+                  onPress={() => {
+                    handleAutoCompleCustomer(item);
+                    setCustomer(item);
+                    console.log(order);
+                    setCustSuggestionsVisible(false);
+                  }}
+                >
+                  <Text style={styles.dropDownText}>{item}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
 
       {/*Repeater field ***************/}
@@ -255,45 +396,92 @@ export default function OrderEntry({prevOrder}) {
             style={[styles.input, { flex: 0.6 }]}
           />
           {/*OrderName */}
-          <TextInput
-            placeholder="سفارش"
-            placeholderTextColor="#24408E"
-            value={orderItem.orderName}
-            onChangeText={(text) => {
-              handleOrderName(text, index);
+          <TouchableOpacity
+            onPress={() => {
+              changSuggestionsVisibility(index, true);
             }}
-            autoCapitalize="none"
             style={[styles.input, { flex: 1.7 }]}
-          />
+          >
+            <Text style={styles.inputText}>
+              {orderItem.orderName || "سفارش"}
+            </Text>
+          </TouchableOpacity>
+          <Modal
+            transparent={true}
+            animationType="fade"
+            visible={suggestionsVisible[index]}
+          >
+            <TouchableOpacity
+              style={[styles.modalContainer]}
+              onPress={() => {
+                changSuggestionsVisibility(index, false);
+              }}
+            >
+              <View style={[styles.dropDown]}>
+                <TextInput
+                  placeholder="جستجو..."
+                  placeholderTextColor="#24408E"
+                  value={orderItem.orderName}
+                  onChangeText={(text) => {
+                    handleOnChangeItem(text, index);
+                    //setSuggestionsVisible(true);
+                  }}
+                  autoCapitalize="none"
+                  autoFocus={true}
+                  style={[styles.input]}
+                />
+                {suggestions.map((item) => (
+                  <TouchableOpacity
+                    key={item}
+                    onPress={() => {
+                      handleOnChangeItem(item, index);
+                      changSuggestionsVisibility(index, false);
+                    }}
+                  >
+                    <Text style={styles.dropDownText}>{item}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </TouchableOpacity>
+          </Modal>
         </View>
       ))}
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         {prevOrder.customer ? (
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleEditOrder}>
             <Text style={styles.buttonText}> به روزرسانی سفارش</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleCreateOrder}>
             <Text style={styles.buttonText}>ثبت سفارش</Text>
           </TouchableOpacity>
         )}
-
-        <TouchableOpacity style={[styles.addButton]} onPress={addFormField}>
-          <Image
-            style={{ width: 10, height: 10 }}
-            source={require("../../assets/icons/plus.png")}
-          />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={[styles.addButton]}
+            onPress={removeFormField}
+          >
+            <Image
+              style={{ width: 10, height: 0.8 }}
+              source={require("../../assets/icons/minuse.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.addButton]} onPress={addFormField}>
+            <Image
+              style={{ width: 10, height: 10 }}
+              source={require("../../assets/icons/plus.png")}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 }
 
-
-
 const styles = StyleSheet.create({
   container: {
+    zIndex: 1,
     flexDirection: "column",
     padding: 10,
     paddingTop: 5,
@@ -308,7 +496,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 2,
     paddingVertical: 4,
-    marginHorizontal: 1,
+    marginHorizontal: 3,
     height: 35,
     alignItems: "center",
     textAlign: "center",
@@ -336,6 +524,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF80",
     borderRadius: 20,
     alignItems: "flex-end",
+    justifyContent:"center"
   },
   button: {
     marginHorizontal: 4,
@@ -358,6 +547,28 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 16,
     fontFamily: "IranYekanBold",
-    
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#00000087",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dropDown: {
+    padding: 10,
+    width: 200,
+    minHeight: 100,
+    borderRadius: 40,
+    borderWidth: 2,
+    borderColor: "#24438E40",
+    backgroundColor: "#FFFFFF",
+    // justifyContent: "center",
+  },
+  dropDownText: {
+    marginVertical: 5,
+    color: "#24408E",
+    fontSize: 13,
+    fontFamily: "IranYekanLight",
+    textAlign: "center",
   },
 });

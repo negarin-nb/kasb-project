@@ -21,12 +21,12 @@ export default function StorageListItem({ item, handleDeleteItem }) {
   const [wasteModalVisible, setWastedModalVisible] = useState(false);
   const { width } = useWindowDimensions();
 
-  const handleMoreButton = () => {
-    console.log("press button");
-    changeModalVisibiblity(true ,setMoreModalVisible);
-  };
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
+  };
+  
+  const handleMoreButton = () => {
+    changeModalVisibiblity(true ,setMoreModalVisible);
   };
 
   const handleModalButton = (item) => {
@@ -38,49 +38,41 @@ export default function StorageListItem({ item, handleDeleteItem }) {
     {
       name: "حذف",
       imgSource: require("../../assets/icons/delete.png"),
-      handleOnPress: handleDeleteButton,
+      //handleOnPress: handleDeleteButton,
       visiblity: deleteModalVisible,
       setVisiblity: setDeleteModalVisible,
     },
     {
       name: "ویرایش",
       imgSource: require("../../assets/icons/edit.png"),
-      handleOnPress: handleEditButton,
+      //handleOnPress: handleEditButton,
       visiblity: editModalVisible,
       setVisiblity: setEditModalVisible,
     },
     {
       name: "خروج",
       imgSource: require("../../assets/icons/exit.png"),
-      handleOnPress: handleExitButton,
+      //handleOnPress: handleExitButton,
       visiblity: exitModalVisible,
       setVisiblity: setExitModalVisible,
     },
     {
       name: "مرجوع",
       imgSource: require("../../assets/icons/returned.png"),
-      handleOnPress: handleReturnedButton,
+      //handleOnPress: handleReturnedButton,
       visiblity: returnedModalVisible,
       setVisiblity: setReturnedModalVisible,
     },
     {
       name: "ضایعات",
       imgSource: require("../../assets/icons/wast.png"),
-      handleOnPress: handleWasteButton,
+      //handleOnPress: handleWasteButton,
       visiblity: wasteModalVisible,
       setVisiblity: setWastedModalVisible,
     },
   ];
 
-  const handleDeleteButton = (deleteItem) => {
-    handleDeleteItem(deleteItem);
-    changeModalVisibiblity(false, setMoreModalVisible);
-
-  };
-  const handleEditButton = () => {};
-  const handleExitButton = () => {};
-  const handleReturnedButton = () => {};
-  const handleWasteButton = () => {};
+  
 
   return (
     <View>
@@ -170,8 +162,6 @@ export default function StorageListItem({ item, handleDeleteItem }) {
                 },
               ]}
             >
-              {/*console.log("item in edit modal")}
-              {console.log(item)*/}
               <StorageEntry
                 prevItem={item}
                 setModalVisible={setEditModalVisible}
@@ -185,7 +175,7 @@ export default function StorageListItem({ item, handleDeleteItem }) {
 
         {/*List item*/}
         <Text style={[styles.item, { flex: 1 }]}>وضعیت</Text>
-        <Text style={[styles.item, { flex: 1.4 }]}>{item.expire_date}</Text>
+        <Text style={[styles.item, { flex: 1.4 }]}>{item.expiration_date}</Text>
         <Text style={[styles.item, { flex: 1.2 }]}>{item.purchase_price}</Text>
         <Text style={[styles.item, { flex: 1.4, paddingEnd: 2 }]}>
           {item.name}
