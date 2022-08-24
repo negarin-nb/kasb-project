@@ -12,7 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function Card({children, title, expanded}) {
   const [isExpand, setIsExpand] = useState(expanded);
-  const { width } = useWindowDimensions();
+  const { width , height } = useWindowDimensions();
 
   const handleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -23,9 +23,9 @@ export default function Card({children, title, expanded}) {
     <View style={styles.container}>
       <LinearGradient
         colors={["#63D98A", "#24438E"]}
-        start={{ x: 0, y: 0.5 }}
+        start={{ x: 0, y: 0.95 }}
         end={{ x: 1, y: 1 }}
-        style={[styles.card, { width: width - 40 }]}
+        style={[styles.card, { width: width - 40}]}
       >
         <TouchableOpacity
           style={{
@@ -59,6 +59,7 @@ export default function Card({children, title, expanded}) {
 }
 const styles = StyleSheet.create({
   container: {
+    
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#fff",
@@ -66,12 +67,13 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 10,
     borderRadius: 20,
+    
+    // padding:10
   },
   cardTitle: {
     color: "#fff",
     textAlign: "right",
     fontSize: 18,
     fontFamily: "YekanBakhBold",
-    //paddingEnd: 10,
   },
 });

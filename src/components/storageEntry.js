@@ -27,8 +27,8 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
   const [expireDate, setExpireDate] = useState(prevItem.expiration_date || "تاریخ انقضا"); //modal
   const [exDateModalVisible, setExDateModalVisible] = useState(false);
 
-  const [supplyWarn, setSupplyWarn] = useState(prevItem.inventory_warning_interval || ""); //modal
-  const [expireWarn, setExpireWarn] = useState(prevItem.expiration_warning_interval || "");
+  const [supplyWarn, setSupplyWarn] = useState(prevItem.inventory_warning_interval.toString() || ""); //modal
+  const [expireWarn, setExpireWarn] = useState(prevItem.expiration_warning_interval.toString() || "");
   const [warnModalVisible, setWarnModalVisible] = useState(false);
   const [lable, setLable] = useState(prevItem.labels.name || ["برچسب"]); //modal
   const [lableList, setLableList] = useState(["برچسب"]);
@@ -317,7 +317,7 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    padding: 10,
+    padding: 5,
     paddingTop: 5,
     marginTop: 0,
     borderWidth: 2,
@@ -327,11 +327,11 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   input: {
-    paddingHorizontal: 5,
-    paddingVertical: 5,
+    marginTop: 8,
+    paddingHorizontal: 2,
+    paddingVertical: 4,
     marginHorizontal: 2,
-    marginTop: 5,
-    height: 35,
+    height: 32,
     alignItems: "center",
     textAlign: "center",
     fontSize: 12,
