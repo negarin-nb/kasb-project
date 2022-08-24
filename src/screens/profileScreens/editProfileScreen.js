@@ -6,11 +6,11 @@ import {
   Image,
   StyleSheet,
   TouchableWithoutFeedback,
-  ImageBackground,
+  Keyboard,
 } from "react-native";
 import AppButton from "../../components/appButton";
 
-export default function EditProfileScreen() {
+export default function EditProfileScreen({navigation}) {
   const [name, setName] = useState("");
   const [shopName, setShopName] = useState("");
   const [job, setJob] = useState("");
@@ -24,21 +24,17 @@ export default function EditProfileScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        {/*header and date*/}
-        <View style={{ flexDirection: "row", marginTop: 30 }}>
-          <Text style={[styles.topBarText, { textAlign: "left" }]}>تاریخ</Text>
-          <Text style={styles.topBarText}>سلام مریم</Text>
-        </View>
+        
 
         {/*avatar*/}
-        <View style={{ flex: 4, justifyContent: "flex-top" }}>
+        <View style={{ flex: 4, marginTop:20 }}>
           <Image
             style={styles.avatar}
             source={
               imageError
                 ? require("../../../assets/images/profile.png")
                 : {
-                    uri: "https://organicthemes.com/demo/profile/files/2018/05/profile-pic.jpg",
+                    uri: "https//organicthemes.com/demo/profile/files/2018/05/profile-pic.jpg",
                   }
             }
             onError={() => onImageNotFound()}
@@ -73,14 +69,15 @@ export default function EditProfileScreen() {
             autoCapitalize="none"
             style={styles.input}
           />
-        </View>
-
-        <View style={{ flex: 1, justifyContent: "flex-end" }}>
+          <View style={{ flex: 1, justifyContent: "flex-end", marginBottom:50 }}>
           <AppButton
             handleButton={handleEditProfile}
             textButton="ثبت تغییرات"
           />
         </View>
+        </View>
+
+        
       </View>
     </TouchableWithoutFeedback>
   );

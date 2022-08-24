@@ -15,7 +15,7 @@ export default function BottomSheetButtons() {
     <View
       style={{
         flexDirection: "row",
-        paddingBottom: 62,
+        paddingBottom: 75,
         justifyContent: "center",
       }}
     >
@@ -96,7 +96,7 @@ buttonSheet: {
     justifyContent:'space-evenly',
     alignContent:'center',
     height:50,
-    marginTop: 5,
+    marginTop: 8,
     borderRadius: 200,
     marginEnd: 11,
     marginStart:11,

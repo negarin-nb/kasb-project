@@ -21,7 +21,7 @@ import InvoiceScreen from '../../screens/managementScreens/invoiceScreen';
 import InvoiceCreatScreen from '../../screens/managementScreens/invoiceCreatScreen';
 import InvoiceListScreen from "../../screens/managementScreens/invoiceListScreen";
 import InvoiceDetailScreen from "../../screens/managementScreens/invoiceDetailScreen";
-
+import EditProfileScreen from '../../screens/profileScreens/editProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +29,7 @@ export default function HomeScreenStack () {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
 
       <Stack.Screen name="BusinessScreen" component={BusinessScreen} />
       <Stack.Screen name="IncomeScreen" component={IncomeScreen} />
@@ -47,8 +48,10 @@ export default function HomeScreenStack () {
       <Stack.Screen name="InvoiceScreen" component={InvoiceScreen} />
       <Stack.Screen name="InvoiceCreatScreen" component={InvoiceCreatScreen} />
       <Stack.Screen name="InvoiceListScreen" component={InvoiceListScreen} />
-      <Stack.Screen name="invoiceDetailScreen" component={InvoiceDetailScreen} />
-
+      <Stack.Screen
+        name="invoiceDetailScreen"
+        component={InvoiceDetailScreen}
+      />
 
       <Stack.Screen name="StorageScreen" component={StorageScreen} />
     </Stack.Navigator>

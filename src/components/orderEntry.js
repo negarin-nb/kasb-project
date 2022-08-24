@@ -14,10 +14,8 @@ import CustomDatePicker from "../util/customDatePicker";
 import searchApi from "../api/search";
 import { AuthContext } from "../store/auth-context";
 import orderApi from "../api/order";
-
 import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
-import getHtmlApi from "../api/getHtml";
 import getHtmlTemplate from '../model/invoiceTemplate';
 
 
@@ -185,18 +183,13 @@ export default function OrderEntry({prevOrder}) {
  }
   const handleProFormaInvoice = async () => {
 
-    //const uri = await getHtmlApi.getProFormaInvoice(authCtx.accessToken);
-    //console.log(uri.data);
      const html = getHtmlTemplate(prevOrder);
-     console.log(html);
      const { uri } = await Print.printToFileAsync({
-      html,
-    }); 
+       html: html,
+     }); 
     console.log("File has been saved to:", uri);
     await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
-
   }
-
 
   useEffect(() => {
     if (prevOrder.order_items) {

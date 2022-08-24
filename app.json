@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "kasb",
+    "name": "Kasb",
     "slug": "kasb",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash-kasb.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,6 +21,7 @@
       "supportsTablet": true
     },
     "android": {
+      "softwareKeyboardLayoutMode" : "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

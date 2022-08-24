@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
+import React, { useState, useEffect, useNavigation } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Image,
+  useWindowDimensions,
+  TouchableOpacity,
+} from "react-native";
 import getCurrentDate from "../../util/getCurrentDate";
 import authApi from "../../api/auth.js";
 import { AuthContext } from "../../store/auth-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function HeaderScreen() {
+export default function HeaderScreen({navigation}) {
   const [userLoadFaild, setUserLoadFailed] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
   const [userName, setUserName] = useState(" ");
   const [shopName, setShopName] = useState("فروشگاه ");
   const authCtx = React.useContext(AuthContext);
+  const { height } = useWindowDimensions();
 
   const onImageNotFound = () => {
     setImageError(true);
@@ -47,9 +55,9 @@ export default function HeaderScreen() {
 
   return (
     <View style={styles.container}>
-     <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle={"dark-content"} />
 
-      <View style={{ flexDirection: "row", marginTop: 40 }}>
+      <View style={{ flexDirection: "row", marginTop: height * 0.04 }}>
         <Text style={[styles.topBarText, { textAlign: "left" }]}>
           {currentDate}
         </Text>
@@ -68,17 +76,19 @@ export default function HeaderScreen() {
         }}
       >
         {/*avatar*/}
+        {/* <TouchableOpacity onPress = {navigation.navigate("EditProfileScreen")}> */}
         <Image
           style={styles.avatar}
           source={
             imageError
               ? require("../../../assets/images/profile.png")
               : {
-                  uri: "https://organicthemes.com/demo/profile/files/2018/05/profile-pic.jpg",
+                  uri: "https://rganicthemes.com/demo/profile/files/2018/05/profile-pic.jpg",
                 }
           }
           onError={() => onImageNotFound()}
         />
+        {/* </TouchableOpacity> */}
 
         <Text style={styles.titleText}>{shopName}</Text>
       </View>

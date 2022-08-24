@@ -21,10 +21,8 @@ import pickImage from "../../util/myImagePicker";
 import HeaderScreen from "./headerScreen";
 import authApi from "../../api/auth.js";
 
-
 export default function HomeScreen({ navigation }) {
   const authCtx = React.useContext(AuthContext);
-  
   const [currentCash, setCurrentCash] = useState(0);
   const [cashArray, setCashArray] = useState([]);
   const [question, setQuestion] = useState("");
@@ -35,7 +33,7 @@ export default function HomeScreen({ navigation }) {
     value: 0,
   });
 
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const [image, setImage] = useState(null);
 
   const handlePickImage = async () => {
@@ -44,12 +42,6 @@ export default function HomeScreen({ navigation }) {
       setImage(resultImage.uri);
     }
   };
-
-  
-
-
-
-
   //const authCtv=React.useContext(AuthContext2);
   //setCash(authCtx.user[0].cash);
   //const response = await axios.get(apiEndpoint/cash).then((response) => {setCash(response.data)});
@@ -70,12 +62,10 @@ export default function HomeScreen({ navigation }) {
     authCtx.logout();
   };
 
-
-  
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { height }]}>
       <StatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/*cash button*/}
@@ -235,12 +225,13 @@ export default function HomeScreen({ navigation }) {
               <View>
                 <TextInput
                   placeholder="متن سؤال"
-                  numberOfLines={4}
+                  numberOfLines={5}
                   multiline
                   value={question}
                   maxLength={700}
                   onChangeText={(text) => setQuestion(text)}
                   style={{
+                    textAlignVertical: "top",
                     flex: 4,
                     textAlign: "right",
                     fontFamily: "YekanBakhMedium",
@@ -265,7 +256,9 @@ export default function HomeScreen({ navigation }) {
           </View>
         </LinearGradient>
 
-        <Button title="log out" onPress={handleLogout} />
+        <View style={{ marginBottom: 100 }}>
+          <Button title="log out" onPress={handleLogout} />
+        </View>
       </ScrollView>
 
       {/*bottom buttons */}
@@ -331,6 +324,7 @@ const styles = StyleSheet.create({
 
   questionWrapper: {
     marginTop: 10,
+    marginBottom: 50,
     borderRadius: 20,
     height: "auto",
     //justifyContent: "center",

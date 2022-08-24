@@ -13,14 +13,15 @@ export default function BottomTabNavigator() {
       screenOptions={{
         unmountOnBlur: true,
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor:"#63D98A",
         tabBarInactiveTintColor:'#fff',
         tabBarLabelStyle: {fontSize: 14, fontFamily:"YekanBakhMedium"},
         tabBarStyle: {
           position: "absolute",
-          paddingBottom: 5,
+          paddingBottom: 15,
           paddingTop: 7,
-          height: 60,
+          height:70,
           left: 20,
           right: 20,
           borderTopEndRadius: 15,
