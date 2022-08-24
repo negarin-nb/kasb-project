@@ -16,7 +16,17 @@ export default function OrderListScreen({navigation}) {
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"
       />
-      <Card title={"لیست سفارش"} children={() => <OrderList navigation={navigation} />} expanded={true} />
+      <Card
+        title={"لیست سفارش"}
+        children={() => (
+          <OrderList
+            navigation={navigation}
+            screen={"OrderDetailScreen"}
+            listTitle={"سفارش"}
+          />
+        )}
+        expanded={true}
+      />
     </View>
   );
 }

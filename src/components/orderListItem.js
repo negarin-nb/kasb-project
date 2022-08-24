@@ -1,13 +1,14 @@
 
-import React, {useContext} from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, {useContext, useState} from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image, screen, listTitle  } from "react-native";
 import orderApi from "../api/order";
 import { AuthContext } from "../store/auth-context";
 import OrderEntry from './orderEntry';
 
-export default function OrderListItem({item , navigation}) {
+export default function OrderListItem({item , navigation, screen, listTitle}) {
 
-  const authCtx = useContext(AuthContext);
+const [deliveryMethodList, setDeliveryMethodList] = useState(["پیک", "پست"]); 
+const authCtx = useContext(AuthContext);
 
 const handleMoreButton = async () => {
 
@@ -16,11 +17,12 @@ const handleMoreButton = async () => {
     const result = await orderApi.getOrderDetail(authCtx.accessToken, item.id);
     if (!result.ok) alert("خطایی در زمان دریافت جزئیات سفارش رخ داده است!");
     else{
+      console.log(result.data.Message); 
       const data = result.data.Item; 
-      navigation.navigate("OrderDetailScreen", data);
+      console.log(data);
+      navigation.navigate(screen, data);
     } 
-    console.log(data);  
-    console.log(result.data.Message);  
+     
 };
  return (
    <View>
@@ -37,10 +39,10 @@ const handleMoreButton = async () => {
        </TouchableOpacity>
 
        {/*List item*/}
-       <Text style={[styles.item, { flex: 1 }]}>{item.delivery_type}</Text>
+       <Text style={[styles.item, { flex: 1 }]}>{deliveryMethodList[item.delivery_type]}</Text>
        <Text style={[styles.item, { flex: 1.4 }]}>{item.delivery_date}</Text>
        <Text style={[styles.item, { flex: 2, paddingEnd: 2 }]}>
-         سفارش {item.id}
+         {listTitle} {item.id}
        </Text>
      </View>
    </View>

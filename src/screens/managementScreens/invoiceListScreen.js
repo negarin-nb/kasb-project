@@ -5,17 +5,23 @@ import TopBar from "../../components/topBar";
 import Card from "../../components/card";
 import OrderList from "../../components/orderList";
 
-export default function OrderListScreen({ navigation }) {
+export default function InvoicListScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <HeaderScreen />
       <TopBar
-        iconSourc={require("../../../assets/icons/bill.png")}
+        iconSourc={require("../../../assets/icons/invoice2w.png")}
         title="مشاهده پیش‌فاکتورها"
       />
       <Card
         title={"لیست پیش‌فاکتورها"}
-        children={() => <OrderList navigation={navigation} />}
+        children={() => (
+          <OrderList
+            navigation={navigation}
+            screen={"invoiceDetailScreen"}
+            listTitle={"پیش‌فاکتور"}
+          />
+        )}
         expanded={true}
       />
     </View>

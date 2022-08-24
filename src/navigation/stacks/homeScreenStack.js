@@ -47,7 +47,7 @@ export default function HomeScreenStack () {
       <Stack.Screen name="InvoiceScreen" component={InvoiceScreen} />
       <Stack.Screen name="InvoiceCreatScreen" component={InvoiceCreatScreen} />
       <Stack.Screen name="InvoiceListScreen" component={InvoiceListScreen} />
-      <Stack.Screen name="InvoiceDetailScreen" component={InvoiceDetailScreen} />
+      <Stack.Screen name="invoiceDetailScreen" component={InvoiceDetailScreen} />
 
 
       <Stack.Screen name="StorageScreen" component={StorageScreen} />

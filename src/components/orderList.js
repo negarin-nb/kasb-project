@@ -6,18 +6,21 @@ import {
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import orderApi from "../api/order";
-import Orders from "../model/orders";
 import OrderListItem from "./orderListItem";
 //import Modal from "react-native-modal";
 import { AuthContext } from '../store/auth-context';
 
-export default function OrderList({navigation}) {
+export default function OrderList({navigation, screen, listTitle}) {
    const authCtx= useContext(AuthContext);
-    const { width } = useWindowDimensions();
-    const [orderList, setOrderList] = useState();
-    const [orderDetail, setOrderDetail] = useState(Orders);
+    const { width, height } = useWindowDimensions();
+    const [orderList, setOrderList] = useState([]);
+  
 
-    useEffect(() => {loadOrders();} ,[]);
+    useEffect(() => {
+      loadOrders();
+      if (listTitle === "پیش‌فاکتور"){
+        setOrderList(orderList.filter((item) => item.final_approval === false));}
+    } ,[]);
     const loadOrders = async () => {
       const result = await orderApi.getOrderList(authCtx.accessToken);
       if (!result.ok) alert("خطایی در بازیابی سفارش ها پیش آمده!");
@@ -25,14 +28,15 @@ export default function OrderList({navigation}) {
       console.log(result.data.Message);
     }
   return (
-    <View style={styles.container}>
-      {/* Orsder List */}
+    <View style={[styles.container, { maxHeight: height - 330}]}>
+      {/* Order List or invoice List*/}
+
       <FlatList
         data={orderList}
         renderItem={({ item }) => (
-          <OrderListItem item={item} navigation={navigation} />
+          <OrderListItem item={item} navigation={navigation} screen={screen} listTitle={listTitle}/>
         )}
-        style={{ width: width - 90 }}
+        style={{ width: width - 90, flexGrow:0 }}
       />
     </View>
   );
@@ -49,6 +53,6 @@ const styles = StyleSheet.create({
     borderColor: "#24438E15",
     backgroundColor: "#FFFFFF80",
     borderRadius: 20,
-    margin: 10,
+    margin:10,
   },
 });

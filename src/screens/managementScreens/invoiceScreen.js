@@ -9,14 +9,16 @@ export default function InvoiceScreen({navigation}) {
     <View style={styles.container}>
       <HeaderScreen />
       <TopBar
-        iconSourc={require("../../../assets/icons/bill.png")}
+        iconSourc={require("../../../assets/icons/invoice2w.png")}
         title="صدور فاکتور"
       />
-      <TaskBtn
+      
+      {/* <TaskBtn
         btnTitle={"صدور پیش‌فاکتور"}
         navigation={navigation}
         onPressComponent="InvoiceCreatScreen"
-      />
+      /> */}
+      
       <TaskBtn
         btnTitle={"لیست پیش‌فاکتورها"}
         navigation={navigation}

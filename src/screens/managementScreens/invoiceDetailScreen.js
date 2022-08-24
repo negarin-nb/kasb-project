@@ -10,7 +10,7 @@ export default function InvoiceDetailScreen({ route }) {
     <View style={styles.container}>
       <HeaderScreen />
       <TopBar
-        iconSourc={require("../../../assets/icons/shop.png")}
+        iconSourc={require("../../../assets/icons/invoice2w.png")}
         title="مشاهده پیش‌فاکتورها"
       />
       <Card

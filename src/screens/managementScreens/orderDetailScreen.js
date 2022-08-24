@@ -7,6 +7,8 @@ import OrderEntry from "../../components/orderEntry";
 
 
 export default function OrderDetailScreen({route}) {
+  console.log("orderDetailScreen");
+  console.log(route.params.order_items);
   return (
     <View style={styles.container}>
       <HeaderScreen />
@@ -14,7 +16,11 @@ export default function OrderDetailScreen({route}) {
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"
       />
-      <Card title={"جزئیات سفارش"} children={() => <OrderEntry prevOrder={route.params} />} expanded={true} />
+      <Card
+        title={"جزئیات سفارش"}
+        children={() => <OrderEntry prevOrder={route.params} />}
+        expanded={true}
+      />
     </View>
   );
 }
