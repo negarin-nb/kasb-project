@@ -8,10 +8,10 @@ import CostList from "../../components/costList";
 import AppPieChart from '../../components/appPieChart';
 
 
-export default function CostScreen() {
+export default function CostScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <View style={{ flex: 1 }}>
         {/*Top Bar*/}
         <TopBar
@@ -36,7 +36,6 @@ export default function CostScreen() {
       </View>
     </View>
   );
-  
 }
 
 const styles = StyleSheet.create({

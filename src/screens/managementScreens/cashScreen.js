@@ -10,7 +10,7 @@ import TopBar from "../../components/topBar";
 export default function CashScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <View>
         {/*Top Bar*/}
         <TopBar

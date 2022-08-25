@@ -33,7 +33,7 @@ export default function StorageScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <View style={{ flex: 1 }}>
         {/*Top Bar*/}
         <TopBar

@@ -5,10 +5,10 @@ import TaskBtn from "../../components/taskBtn";
 import { ScrollView } from "react-native-gesture-handler";
 import TopBar from "../../components/topBar";
 
-export default function TaskScreen(navigation) {
+export default function TaskScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
 
       {/*Top Bar*/}
       <View style={{ flex: 1 }}>

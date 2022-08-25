@@ -8,7 +8,7 @@ import OrderEntry from "../../components/orderEntry";
 export default function InvoiceDetailScreen({ route }) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <TopBar
         iconSourc={require("../../../assets/icons/invoice2w.png")}
         title="مشاهده پیش‌فاکتورها"

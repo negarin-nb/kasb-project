@@ -7,29 +7,29 @@ import ContactBtn from '../../components/contactBtn';
 export default function CustomerContactScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <View style={{ flex: 1 }}>
         {/*Top Bar*/}
         <TopBar
           iconSourc={require("../../../assets/icons/shop.png")}
           title="مدیریت ارتباط با مشتری"
         />
-        <ContactBtn 
-            btnTitle={"مشتریان"}
-            onPressComponent="BusinessScreen"
-            navigation={navigation}
-          />
-          <ContactBtn 
-            btnTitle={"تأمین‌کنندگان"}
-            onPressComponent="BusinessScreen"
-            navigation={navigation}
-          />
-          <ContactBtn 
-            btnTitle={"همکاران"}
-            onPressComponent="BusinessScreen"
-            navigation={navigation}
-          />
-     </View>
+        <ContactBtn
+          btnTitle={"مشتریان"}
+          onPressComponent="BusinessScreen"
+          navigation={navigation}
+        />
+        <ContactBtn
+          btnTitle={"تأمین‌کنندگان"}
+          onPressComponent="BusinessScreen"
+          navigation={navigation}
+        />
+        <ContactBtn
+          btnTitle={"همکاران"}
+          onPressComponent="BusinessScreen"
+          navigation={navigation}
+        />
+      </View>
     </View>
   );
 }

@@ -17,7 +17,7 @@ export default function RegiCodeSubmitScreen({ route , navigation }) {
 
   const {
     phone_number,
-    verification_code,
+   // verification_code,
     password,
     first_name,
     last_name,
@@ -31,9 +31,9 @@ export default function RegiCodeSubmitScreen({ route , navigation }) {
   console.log(phone_number);
 
   const handleCodeSubmit = async () => {
-    if (code !== verification_code) {
-      alert("کد وارد شده اشتباه است.");
-    } else {
+   // if (code !== verification_code) {
+    //  alert("کد وارد شده اشتباه است.");
+   // } else {
       const userInfo = {
         phone_number,
         verification_code : code,
@@ -43,6 +43,7 @@ export default function RegiCodeSubmitScreen({ route , navigation }) {
         shop_name,
       };
       const result = await authApi.register(userInfo);
+
       if (result.ok) {
         authCtx.authenticate({
           authAccessToken: result.data.Item.access,
@@ -53,7 +54,7 @@ export default function RegiCodeSubmitScreen({ route , navigation }) {
     }
 
     //navigation.navigate("PassSubmit");
-  }
+ // }
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -61,7 +62,7 @@ export default function RegiCodeSubmitScreen({ route , navigation }) {
           style={styles.authImage}
           source={require("../../../assets/images/unlockKey.png")}
         />
-        <Text tyle={styles.title}>{route.params.verification_code}</Text>
+        {/* <Text tyle={styles.title}>{route.params.verification_code}</Text> */}
         <TextInput
           value={code}
           onChangeText={(text) => setCode(text)}

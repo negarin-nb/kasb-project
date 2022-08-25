@@ -161,7 +161,11 @@ export default function OrderEntry({prevOrder}) {
   }
  const handleCreateOrder = async () => {
     const result = await orderApi.createOrder(authCtx.accessToken, order);
-    if (!result.ok) alert("خطایی در زمان ثبت سفارش پیش آمده است!");
+    if (
+      !result.ok &&
+      result.data.Message === "Item matching query does not exist.")
+      alert("آیتم مورد نظر در انبار ثبت نشده است!");
+    else if (!result.ok) alert("خطایی در زمان ثبت سفارش پیش آمده است!");
     else alert("سفارش با موفقیت ثبت شد"); 
     console.log(result.data.Message);
 }
@@ -170,7 +174,10 @@ export default function OrderEntry({prevOrder}) {
     console.log('_order');
     console.log(_order);
     const result = await orderApi.editOrder(authCtx.accessToken, _order);
-    if (!result.ok) alert("خطایی در زمان به روز رسانی سفارش پیش آمده است!");
+    if (!result.ok && result.data.Message === "the delivery_date has passed!")
+      alert("تاریخ تحویل گذشته است!");
+    else if (!result.ok)
+      alert("خطایی در زمان به روز رسانی سفارش پیش آمده است!");
     else alert("سفارش با موفقیت به روز رسانی شد!"); 
     console.log(result.data.Message);
  }
@@ -182,7 +189,6 @@ export default function OrderEntry({prevOrder}) {
     console.log(result.data.Message);
  }
   const handleProFormaInvoice = async () => {
-
      const html = getHtmlTemplate(prevOrder);
      const { uri } = await Print.printToFileAsync({
        html: html,
@@ -205,6 +211,12 @@ export default function OrderEntry({prevOrder}) {
       setOrderItems(_orderItems);
       setCustomer(prevOrder.customer.full_name);
       setPrepaid(prevOrder.prepaid.toString());
+      
+      const _suggestionsVisible = [...suggestionsVisible];
+      _suggestionsVisible.push(false);
+      setSuggestionsVisible(_suggestionsVisible);
+      
+      
     }
   }, [prevOrder]);
     

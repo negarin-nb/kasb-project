@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useNavigation } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ export default function HeaderScreen({navigation}) {
   const [currentDate, setCurrentDate] = useState("");
   const [userName, setUserName] = useState(" ");
   const [shopName, setShopName] = useState("فروشگاه ");
+  const [userProfile, setUserProfile] = useState({});
   const authCtx = React.useContext(AuthContext);
   const { height } = useWindowDimensions();
 
@@ -29,7 +30,29 @@ export default function HeaderScreen({navigation}) {
   useEffect(() => {
     setCurrentDate(getCurrentDate());
     loadUserInfo();
-  }, [userName, shopName]);
+  }, [userName]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+    setCurrentDate(getCurrentDate());
+    loadUserInfo();
+    });
+
+    return unsubscribe;
+  }, []);
+
+  /* useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [])
+  ); */
+
+
 
   async function fetchUser() {
     console.log("api get user called");
@@ -47,6 +70,7 @@ export default function HeaderScreen({navigation}) {
         fetchUser();
       }
       else{
+      console.log(user.first_name);
       setUserName(user.first_name);
       setShopName(user.shop_name);
       }
@@ -76,7 +100,7 @@ export default function HeaderScreen({navigation}) {
         }}
       >
         {/*avatar*/}
-        {/* <TouchableOpacity onPress = {navigation.navigate("EditProfileScreen")}> */}
+        <TouchableOpacity onPress = {() => navigation.navigate("EditProfileScreen")}>
         <Image
           style={styles.avatar}
           source={
@@ -88,7 +112,7 @@ export default function HeaderScreen({navigation}) {
           }
           onError={() => onImageNotFound()}
         />
-        {/* </TouchableOpacity> */}
+        </TouchableOpacity>
 
         <Text style={styles.titleText}>{shopName}</Text>
       </View>

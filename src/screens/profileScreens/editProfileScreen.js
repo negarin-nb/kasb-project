@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,25 +9,66 @@ import {
   Keyboard,
 } from "react-native";
 import AppButton from "../../components/appButton";
+import authApi from "../../api/auth.js";
+import { AuthContext } from "../../store/auth-context";
 
-export default function EditProfileScreen({navigation}) {
+export default function EditProfileScreen({ navigation }) {
   const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [shopName, setShopName] = useState("");
   const [job, setJob] = useState("");
   const [email, setEmail] = useState("");
+  const [phonNumber, setPhoneNumber] = useState("");
+  const [userProfile, setUserProfile] = useState({});
+  const [imgUrl, setImgUrl] = useState("");
   const [imageError, setImageError] = useState(false);
+  const authCtx = React.useContext(AuthContext);
 
   const onImageNotFound = () => {
     setImageError(true);
   };
-  const handleEditProfile = () => {};
+
+  useEffect(() => {
+    loadProfile();
+  }, [userProfile]);
+
+  async function loadProfile() {
+    const user = await authCtx.getUser();
+    console.log("user");
+    console.log(user);
+    if(user){
+      setUserProfile(user);
+      //console.log("set userProfile");
+      //console.log(userProfile);
+      setName(userProfile.first_name);
+      setLastName(userProfile.last_name);
+      setShopName(userProfile.shop_name);
+      setPhoneNumber(userProfile.phone_number);
+      console.log("userProfile");
+      console.log(userProfile);
+    }
+    else alert("خطا در بازیابی اطلاعات، لطفا دوباره وارد شوید!")
+  }
+  const handleEditProfile = async () => {
+    const _userProfile = {
+      first_name: name,
+      last_name: lastName,
+      shop_name: shopName,
+      phone_number: phonNumber,
+    };
+  console.log(_userProfile);
+   const result = await authApi.editProfile(authCtx.accessToken, _userProfile);
+   if (!result.ok) console.log("Edit profile faild");
+   else alert("اطلاعات شما با موفقیت ویرایش شد!");
+   console.log(result.data.Message);
+   console.log(result.data);
+   authCtx.setUserData(_userProfile);
+  }
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        
-
         {/*avatar*/}
-        <View style={{ flex: 4, marginTop:20 }}>
+        <View style={{ flex: 4, marginTop: 70 }}>
           <Image
             style={styles.avatar}
             source={
@@ -63,21 +104,21 @@ export default function EditProfileScreen({navigation}) {
             style={styles.input}
           />
           <TextInput
-            placeholder="آدرس ایمیل"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+            placeholder="شماره تماس"
+            value={phonNumber}
+            onChangeText={(text) => setPhonNumber(text)}
             autoCapitalize="none"
             style={styles.input}
           />
-          <View style={{ flex: 1, justifyContent: "flex-end", marginBottom:50 }}>
-          <AppButton
-            handleButton={handleEditProfile}
-            textButton="ثبت تغییرات"
-          />
+          <View
+            style={{ flex: 1, justifyContent: "flex-end", marginBottom: 50 }}
+          >
+            <AppButton
+              handleButton={handleEditProfile}
+              textButton="ثبت تغییرات"
+            />
+          </View>
         </View>
-        </View>
-
-        
       </View>
     </TouchableWithoutFeedback>
   );

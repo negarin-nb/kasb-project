@@ -8,7 +8,7 @@ import OrderList from "../../components/orderList";
 export default function InvoicListScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <TopBar
         iconSourc={require("../../../assets/icons/invoice2w.png")}
         title="مشاهده پیش‌فاکتورها"

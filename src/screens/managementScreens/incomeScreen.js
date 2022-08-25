@@ -7,10 +7,10 @@ import IncomeEntry from "../../components/incomeEntry";
 import IncomeList from "../../components/incomeList";
 import AppPieChart from "../../components/appPieChart";
 
-export default function IncomeScreen() {
+export default function IncomeScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <View style={{ flex: 1 }}>
         {/*Top Bar*/}
         <TopBar

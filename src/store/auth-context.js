@@ -10,8 +10,7 @@ export const AuthContext = createContext({
   setUserData: (user) => {},
   getUser: () => {},
   logout: () => {},
-  user: {
-    id: 1,
+  authUserProfile: {
     email: "",
     username: "",
     password: "",
@@ -29,6 +28,8 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   const [authUserProfile, setAuthUserProfile] = useState(null);
+
+  useEffect(() => {}, [authUserProfile]);
   
   function authenticate(data) {
 
@@ -42,18 +43,25 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   function setUserData(profil){
-    setAuthUserProfile(profil);
+    /* console.log("profile");
+    console.log(profil);
+    console.log("authUserProfile in setUserData"); */
+    
+    setAuthUserProfile(profil); // this applied for next render of this component.
+    //console.log(authUserProfile);
     AsyncStorage.setItem("user", JSON.stringify(profil));
   }
  
   async function getUser(){
    if (!authUserProfile){
-   const storedUser = await AsyncStorage.getItem("user");
-   console.log("AsyncStorage called");
-  return JSON.parse(storedUser);
+    const storedUser = await AsyncStorage.getItem("user");
+    setAuthUserProfile(JSON.parse(storedUser));
+    console.log("AsyncStorage called");
+    return JSON.parse(storedUser);
   }
   console.log("localStorage called");
-  console.log(authUserProfile);
+  //console.log("authUserProfile in getUser");
+  //console.log(authUserProfile);
   return authUserProfile;
   }
 
@@ -74,7 +82,7 @@ export const AuthContextProvider = ({ children }) => {
     setUserData: setUserData,
     logout: logout,
     getUser: getUser,
-    user: authUserProfile,
+    authUserProfile: authUserProfile,
   };
 
   return (

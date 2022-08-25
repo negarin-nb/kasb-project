@@ -11,7 +11,7 @@ import OrderList from '../../components/orderList';
 export default function OrderListScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <TopBar
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"

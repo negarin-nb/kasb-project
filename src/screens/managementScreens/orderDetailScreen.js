@@ -6,12 +6,12 @@ import Card from "../../components/card";
 import OrderEntry from "../../components/orderEntry";
 
 
-export default function OrderDetailScreen({route}) {
+export default function OrderDetailScreen({route, navigation}) {
   console.log("orderDetailScreen");
   console.log(route.params.order_items);
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <TopBar
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"

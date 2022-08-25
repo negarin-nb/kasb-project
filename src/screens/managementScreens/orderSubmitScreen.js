@@ -8,11 +8,11 @@ import TopBar from "../../components/topBar";
 import OrderEntry from "../../components/orderEntry";
 import Card from "../../components/card";
 
-export default function OrderSubmitScreen() {
+export default function OrderSubmitScreen({navigation}) {
   
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <TopBar
         iconSourc={require("../../../assets/icons/shop.png")}
         title="مدیریت سفارش‌ها"

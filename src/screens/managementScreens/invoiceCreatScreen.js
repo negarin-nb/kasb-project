@@ -8,7 +8,7 @@ import Card from "../../components/card";
 export default function InvoiceCreatScreen() {
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <HeaderScreen navigation={navigation} />
       <TopBar
         iconSourc={require("../../../assets/icons/shop.png")}
         title="صدور فاکتور"
