@@ -10,12 +10,14 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import CashListItem from "./cashListItem";
-import Incomes from "../model/incomes";
-import Costs from "../model/costs";
+import { getIncomes } from "../model/incomes";
+import { getCosts } from "../model/costs";
 
 
 export default function CashList() {
   const { width } = useWindowDimensions();
+  const Incomes = getIncomes();
+  const Costs = getCosts();
   const [incomeDetail,setIncomesDetail] = useState(Incomes);
   const [costDetail, setCostDetail] = useState(Costs);
   return (

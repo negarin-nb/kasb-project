@@ -17,14 +17,14 @@ import AppButton from "../components/appButton";
 
 //const STYLES = ["default", "dark-content", "light-content"];
 
-export default OnboardingScreen = ({navigation}) => {
+export default function OnboardingScreen ({navigation}) {
   
   //const [statusBarStyle, setStatusBarStyle] = useState(STYLES[2]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const slideRef = useRef(null);
   const viewableItemsChanged = useRef(({ viewableItems }) => {
-    setCurrentIndex(viewableItems[0].index);
+    setCurrentIndex(viewableItems[0]);
   }).current;
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
   

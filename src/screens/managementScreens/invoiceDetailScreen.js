@@ -5,7 +5,7 @@ import TopBar from "../../components/topBar";
 import Card from "../../components/card";
 import OrderEntry from "../../components/orderEntry";
 
-export default function InvoiceDetailScreen({ route }) {
+export default function InvoiceDetailScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <HeaderScreen navigation={navigation} />

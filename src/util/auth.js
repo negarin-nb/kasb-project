@@ -1,5 +1,5 @@
 import axios from "axios";
-import Users, { addUser } from "../model/users";
+import { addUser , getUsers } from "../model/users";
 
 const API_KEY = "AIzaSyDEi7EDnlWEXCS4A67MKKBLOztU2HYFAwY";
 
@@ -29,6 +29,7 @@ export function fakeCreateUser(name, job, phone) {
 }
 
 export function fakeLogin(userName, password) {
+  const Users = getUsers();
   const foundUser = Users.filter((item) => {
     return userName == item.username && password == item.password;
   });

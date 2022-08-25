@@ -4,15 +4,14 @@ export default function getHtmlTemplate(pevOrder) {
     <style>
       @font-face{
         font-family: IranYekan;
-        src: url(../../assets/fonts/IRANYekanRegular.ttf);
+        src: url('../../assets/fonts/IRANYekanRegular.ttf');
       }
       table {
-        font-family: 'Iran Yekan', "IranYekan", IranYekan, "Iran Yekan";
+        font-family: 'IranYekan';
         border-collapse: collapse;
         width: 100%;
         //color:gray;
-      }
-      
+      }    
       th {
         border-bottom: 1px solid #D4D4DA;
         background-color: #dddddd;

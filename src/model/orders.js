@@ -1,4 +1,4 @@
-export default Orders = [
+const Orders = [
   {
     id: '01032201',
     customer: "آقای محمد نایب",
@@ -60,3 +60,7 @@ export default Orders = [
     orderStatus: "نقد",
   },
 ];
+
+export function getOrders() {
+  return Orders;
+};

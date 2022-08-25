@@ -1,4 +1,4 @@
-export default Costs =[
+const Costs =[
     {
         id:4,
         product:'۵ بسته خاک رس',
@@ -27,4 +27,8 @@ export default Costs =[
         method:'الوپیک',
         price:230000
     },
-]
+];
+
+export function getCosts() {
+  return Costs;
+};

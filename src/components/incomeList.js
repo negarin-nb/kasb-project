@@ -8,13 +8,14 @@ import {
   Modal,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import Incomes from "../model/incomes";
+import { getIncomes } from "../model/incomes";
 import IncomeUpdate from "./incomeUpdate";
 import ListItem from "./listItem";
 //import Modal from "react-native-modal";
 
 export default function IncomeList() {
   const { width } = useWindowDimensions();
+  Incomes = getIncomes();
   const [incomesDetail, setIncomesDetail] = useState(Incomes);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);

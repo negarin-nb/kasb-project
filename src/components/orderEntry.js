@@ -18,7 +18,6 @@ import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
 import getHtmlTemplate from '../model/invoiceTemplate';
 
-
 export default function OrderEntry({prevOrder}) {
   const authCtx = useContext(AuthContext);
   const [customer, setCustomer] = useState();
@@ -86,12 +85,10 @@ export default function OrderEntry({prevOrder}) {
     //console.log(_suggestionsVisible[index]);
     setSuggestionsVisible(_suggestionsVisible);
 }
-
   const handleOnChangeItem = (text, index) => {
     handleAutoCompleteItem(text);
     handleOrderName (text, index);
-  }
-  
+  } 
   const handleAutoCompleteItem = async (text) => {
    if (text.length >1){
    const result = await searchApi.searchItem(authCtx.accessToken, text);
@@ -214,9 +211,7 @@ export default function OrderEntry({prevOrder}) {
       
       const _suggestionsVisible = [...suggestionsVisible];
       _suggestionsVisible.push(false);
-      setSuggestionsVisible(_suggestionsVisible);
-      
-      
+      setSuggestionsVisible(_suggestionsVisible);    
     }
   }, [prevOrder]);
     

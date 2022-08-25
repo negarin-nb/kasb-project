@@ -8,12 +8,13 @@ import {
   Button,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import Costs from "../model/costs";
+import { getCosts } from "../model/costs";
 import ListItem from "./listItem";
 import Modal from "react-native-modal";
 
 export default function CostList() {
   const { width } = useWindowDimensions();
+  const Costs = getCosts();
   const [costsDetail, setCostsDetail] = useState(Costs);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isUpdateModalVisible, setIsUdateModalVisible] = useState(false);

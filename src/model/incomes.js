@@ -1,4 +1,4 @@
-export default Incomes =[
+const Incomes =[
     {
         id:'034',
         product:'ظرف سفالی',
@@ -35,6 +35,9 @@ export default Incomes =[
         price:170000
     },
     
-
 ];
+
+export function getIncomes() {
+  return Incomes;
+};
 

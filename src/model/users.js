@@ -1,4 +1,4 @@
-export default Users = [
+const Users = [
   {
     id: 1,
     email: "user1@email.com",
