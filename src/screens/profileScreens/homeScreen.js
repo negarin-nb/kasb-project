@@ -11,6 +11,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   StatusBar,
+  SafeAreaView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "../../store/auth-context";
@@ -63,7 +64,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <View style={[styles.container, { height }]}>
+    <SafeAreaView style={[styles.container, { height }]}>
       <StatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
       <HeaderScreen navigation={navigation} />
 
@@ -82,8 +83,8 @@ export default function HomeScreen({ navigation }) {
         </LinearGradient>
 
         {/*chart*/}
-        <Chart tooltipPos={tooltipPos} setTooltipPos={setTooltipPos} />
-
+        {/* <Chart tooltipPos={tooltipPos} setTooltipPos={setTooltipPos} />
+ */}
         {/*four buttons */}
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <HomeBtn
@@ -263,7 +264,7 @@ export default function HomeScreen({ navigation }) {
 
       {/*bottom buttons */}
       <BottomSheetButtons />
-    </View>
+    </SafeAreaView>
   );
 }
 

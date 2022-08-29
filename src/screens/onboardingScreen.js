@@ -11,6 +11,7 @@ import {
 import slides from "../slides";
 import OnboardingItem from "../components/onboardingItem";
 import Paginator from "../components/paginator";
+import { Link } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import AppButton from "../components/appButton";
 
@@ -26,9 +27,9 @@ export default function OnboardingScreen ({navigation}) {
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0]);
   }).current;
-  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+ const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
   
-  const handleLogin = () => navigation.navigate('Login');
+ // const handleLogin = () => navigation.navigate('Login');
   
   return (
     <View style={styles.container}>
@@ -58,7 +59,12 @@ export default function OnboardingScreen ({navigation}) {
         />
       </View>
       <View
-        style={{ flex: 0.2, justifyContent: "center", alignItems: "center", marginTop:-20 }}
+        style={{
+          flex: 0.2,
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: -20,
+        }}
       >
         <Paginator
           data={slides}
@@ -66,11 +72,13 @@ export default function OnboardingScreen ({navigation}) {
           currentIndex={currentIndex}
         />
 
-        <AppButton
+        <Link to={{ screen: "Login" }}>Start</Link>
+
+        {/* <AppButton
           style={{ marginBottom: 20 }}
           handleButton={handleLogin}
           textButton="شروع"
-        />
+        /> */}
       </View>
     </View>
   );

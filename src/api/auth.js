@@ -1,8 +1,13 @@
 import client from "./client";
 const endpoint = "/users/login/";
 
-const phoneSubmit = (phoneInfo) =>
-  client.post("/users/SendVerificationCode/", phoneInfo);
+const phoneSubmit = (phoneInfo) => {
+  client.setHeaders({
+    "Access-Control-Allow-Credentials": "true",
+    "Access-Control-Allow-Origin": "*",
+  });
+  return client.post("/users/SendVeriƒicationCode/", phoneInfo);
+}
 
 const register = (userInfo) => client.post("/users/register/" , userInfo);
 
