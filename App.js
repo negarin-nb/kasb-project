@@ -52,7 +52,7 @@ export default function App() {
 }
 
   return (
-      <AuthContextProvider>
+      <AuthContextProvider >
         <Root />
       </AuthContextProvider>
   );

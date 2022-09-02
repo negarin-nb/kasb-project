@@ -40,18 +40,16 @@ export default function StorageScreen({ navigation }) {
           iconSourc={require("../../../assets/icons/box.png")}
           title="انبار"
         />
-        <Card
+        {/* <Card
           title={"ثبت کالا"}
           children={() => <StorageEntry prevItem={nullItem} />}
           expanded={false}
-        />
+        /> */}
         <Card
           title={"مشاهده انبار"}
           children={() => <StorageList />}
-          expanded={false}
+          expanded={true}
         />
-
-        {/*isExpand ? <ExpandedCard /> : <Card />*/}
       </View>
     </View>
   );

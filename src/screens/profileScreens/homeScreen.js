@@ -64,7 +64,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { height }]}>
+    <View style={[styles.container, { height }]}>
       <StatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
       <HeaderScreen navigation={navigation} />
 
@@ -83,13 +83,15 @@ export default function HomeScreen({ navigation }) {
         </LinearGradient>
 
         {/*chart*/}
-        {/* <Chart tooltipPos={tooltipPos} setTooltipPos={setTooltipPos} />
- */}
+        <Chart tooltipPos={tooltipPos} setTooltipPos={setTooltipPos} />
+
         {/*four buttons */}
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <HomeBtn
             text="آکادمی"
             imgSource={require("../../../assets/icons/openbook.png")}
+            onPressComponent=""
+            navigation={navigation}
           />
           <HomeBtn
             text="مدیریت کار"
@@ -261,10 +263,9 @@ export default function HomeScreen({ navigation }) {
           <Button title="log out" onPress={handleLogout} />
         </View>
       </ScrollView>
-
       {/*bottom buttons */}
       <BottomSheetButtons />
-    </SafeAreaView>
+    </View>
   );
 }
 

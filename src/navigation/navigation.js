@@ -8,7 +8,6 @@ import TaskScreen from '../screens/managementScreens/taskScreen';
 
 const linking = {
   /* prefixes: [
-   
     ["https://kasb-co.com"],
   ], */
   config: {
@@ -35,10 +34,10 @@ export default function Navigation() {
 
   return (
     <NavigationContainer linking={linking}>
-      <BottomTabNavigator  />
+     
       {/*!authCtx.isAuthenticated && <AuthStack />}
       {authCtx.isAuthenticated && <AppDrawer />*/}
-      {/* {authCtx.isAuthenticated ? <BottomTabNavigator /> : <AuthStack />} */}
+     {authCtx.isAuthenticated ? <BottomTabNavigator /> : <AuthStack />}
     </NavigationContainer>
   );
 }

@@ -7,7 +7,9 @@ export default function HomeBtn({ text, imgSource,onPressComponent, navigation }
   return (
     <TouchableOpacity
       style={[styles.button, { width: width / 2, marginEnd: 5 }]}
-      onPress={() => navigation.navigate(onPressComponent)}
+      onPress={() =>{
+        onPressComponent ? 
+        navigation.navigate(onPressComponent) : null}}
     >
       <Text style={styles.buttonText}>{text}</Text>
       <Image style={{ width: 24, height: 24 }} source={imgSource} />

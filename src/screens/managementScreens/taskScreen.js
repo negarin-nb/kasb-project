@@ -25,13 +25,18 @@ export default function TaskScreen({navigation}) {
             onPressComponent="CustomerContactScreen"
   />*/}
           <TaskBtn
-            btnTitle={"ثبت سفارش"}
-            onPressComponent="OrderSubmitScreen"
+            btnTitle={"ثبت کالا"}
+            onPressComponent="StorageSubmitScreen"
             navigation={navigation}
           />
           <TaskBtn
-            btnTitle={"صدور فاکتور"}
-            onPressComponent="InvoiceScreen"
+            btnTitle={"انبار"}
+            onPressComponent="StorageScreen"
+            navigation={navigation}
+          />
+          <TaskBtn
+            btnTitle={"ثبت سفارش"}
+            onPressComponent="OrderSubmitScreen"
             navigation={navigation}
           />
           <TaskBtn
@@ -40,8 +45,8 @@ export default function TaskScreen({navigation}) {
             navigation={navigation}
           />
           <TaskBtn
-            btnTitle={"انبار"}
-            onPressComponent="StorageScreen"
+            btnTitle={"صدور فاکتور"}
+            onPressComponent="InvoiceScreen"
             navigation={navigation}
           />
         </ScrollView>

@@ -11,7 +11,7 @@ import CashScreen from '../../screens/managementScreens/cashScreen';
 import TaskScreen from '../../screens/managementScreens/taskScreen';
 import CustomerContactScreen from '../../screens/managementScreens/customerContactScreen';
 import StorageScreen from '../../screens/managementScreens/storageScreen';
-
+import StorageSubmitScreen from "../../screens/managementScreens/storageSubmitScreen";
 import OrderSubmitScreen from '../../screens/managementScreens/orderSubmitScreen';
 
 import OrderListScreen from '../../screens/managementScreens/orderListScreen';
@@ -22,6 +22,7 @@ import InvoiceCreatScreen from '../../screens/managementScreens/invoiceCreatScre
 import InvoiceListScreen from "../../screens/managementScreens/invoiceListScreen";
 import InvoiceDetailScreen from "../../screens/managementScreens/invoiceDetailScreen";
 import EditProfileScreen from '../../screens/profileScreens/editProfileScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,7 @@ export default function HomeScreenStack () {
       />
 
       <Stack.Screen name="StorageScreen" component={StorageScreen} />
+      <Stack.Screen name="StorageSubmitScreen" component={StorageSubmitScreen} />
     </Stack.Navigator>
   );
 };
