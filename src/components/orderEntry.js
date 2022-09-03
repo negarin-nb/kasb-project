@@ -33,7 +33,9 @@ export default function OrderEntry({prevOrder}) {
 
   const [orderStatus, setOrderStatus] = useState( prevOrder.payment_type || "نحوه پرداخت");
   const [orderStatusList, setOrderStatusList] = useState(["چک", "نقد"]);
-  const [prepaid, setPrepaid] = useState();
+  const [orderStatusModalVisible, setOrderStatusModalVisible] = useState(false);
+  const [prepaid, setPrepaid] = useState("");
+  const [finalPrice, setFinalPrice] = useState("مجموع");
 
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionsVisible, setSuggestionsVisible] = useState([false]);
@@ -46,7 +48,7 @@ export default function OrderEntry({prevOrder}) {
         orderName: "",
         number: "",
         unitPrice: "",
-        totalPrice: "",
+        totalPrice: "بهای کل",
       },
     ]
   );
@@ -111,50 +113,95 @@ export default function OrderEntry({prevOrder}) {
     setOrderItems(_orderItems);
   };
   const handleNumber = (text, index) => {
+    console.log(index);
     const _orderItems = [...orderItems];
-    _orderItems[index] = { ..._orderItems[index], number: toEnglish(text) };
+    if(parseInt(orderItems[index].unitPrice) > 0){
+      const _totalPrice = parseInt(orderItems[index].unitPrice) * parseInt(toEnglish(text));
+      _orderItems[index] = { ..._orderItems[index], number: toEnglish(text), totalPrice: _totalPrice.toString() };   
+    }
+    else{
+      _orderItems[index] = { ..._orderItems[index], number: toEnglish(text), totalPrice: "بهای کل" };
+    }
     console.log("handleNumber: ");
     console.log(_orderItems);
+    handleFinalPrice(_orderItems);
     setOrderItems(_orderItems);
   };
+
   const handleUnitPrice = (text, index) => {
     const _orderItems = [...orderItems];
-    _orderItems[index] = { ..._orderItems[index], unitPrice: toEnglish(text) };
+    if(parseInt(orderItems[index].number) > 0){
+      const _totalPrice = parseInt(toEnglish(text)) * parseInt(orderItems[index].number);
+      _orderItems[index] = { ..._orderItems[index], unitPrice: toEnglish(text), totalPrice:_totalPrice.toString()};
+    }
+    else{
+      _orderItems[index] = { ..._orderItems[index], unitPrice: toEnglish(text), totalPrice: "بهای کل" };
+    }
     console.log("handleUnitPrice");
     console.log(_orderItems);
+    handleFinalPrice(_orderItems);
     setOrderItems(_orderItems);
   };
-  const handleTotalPrice = (text, index) => {
-    const _orderItems = [...orderItems];
-    _orderItems[index] = { ..._orderItems[index], totalPrice: toEnglish(text) };
-    console.log("handleTotalPrice");
-    console.log(_orderItems);
-    setOrderItems(_orderItems);
+  const handleFinalPrice = (_orderItems) => {
+    let _finalPrice = 0;
+    _orderItems.map((item) => {
+      _finalPrice += parseInt(item.totalPrice);
+    });
+    setFinalPrice(_finalPrice === "NaN" ? "مجموع" : _finalPrice.toString());
+    console.log("finalPrice");
+    console.log(_finalPrice);
   };
+
+  
+
+   const deleteFormField = (index) => {
+     if(orderItems.length > 1) {
+      const _orderItems = [...orderItems];
+      
+      let _finalPrice = finalPrice;
+      let sub = 0;
+      sub = parseInt(_finalPrice) - parseInt(_orderItems[index].totalPrice);
+      if (sub === "NaN" || finalPrice === "0")
+       setFinalPrice("مجموع");
+
+      if (_orderItems[index].totalPrice !== "بهای کل") 
+        setFinalPrice(sub);
+
+      _orderItems.splice(index, 1); // 2nd parameter means remove one item only
+      setOrderItems(_orderItems);     
+     }         
+    }
 
   const addFormField = () => {
-    const _orderItems = [...orderItems];
-    _orderItems.push({
-      orderName: null,
-      number: null,
-      unitPrice: null,
-      totalPrice: null,
-    });
-    setOrderItems(_orderItems);
+    let index = orderItems.length -1;
+    
+    if(orderItems[index].orderName && orderItems[index].number && orderItems[index].unitPrice){
+      const _orderItems = [...orderItems];
 
-    const _suggestionsVisible = [...suggestionsVisible];
-    _suggestionsVisible.push(false);
-    setSuggestionsVisible(_suggestionsVisible);
-   // console.log("add: "+ orderItems);
+      _orderItems.push({
+        orderName: null,
+        number: null,
+        unitPrice: null,
+        totalPrice: "بهای کل",
+      });
+      setOrderItems(_orderItems);
+
+      const _suggestionsVisible = [...suggestionsVisible];
+      _suggestionsVisible.push(false);
+      setSuggestionsVisible(_suggestionsVisible);
+    // console.log("add: "+ orderItems);
+    }else
+    alert('فیلدهای سفارش خالی است!')
   };
 
   const removeFormField = () => {
-    if(orderItems.length > 1){
+    if (orderItems.length > 1 ) {
       const _orderItems = [...orderItems];
       _orderItems.pop();
       setOrderItems(_orderItems);
       //console.log("remove: " + orderItems);
     }
+    
   }
  const handleCreateOrder = async () => {
     const result = await orderApi.createOrder(authCtx.accessToken, order);
@@ -197,17 +244,21 @@ export default function OrderEntry({prevOrder}) {
   useEffect(() => {
     if (prevOrder.order_items) {
       const _orderItems = [];
+      let _finalPrice = 0;
       prevOrder.order_items.map((item) =>
-        _orderItems.push({
+        {_orderItems.push({
           orderName: item.name,
           number: item.count.toString(),
           unitPrice: item.selling_price.toString(),
           totalPrice: item.total_price.toString(),
-        })
+        });
+        _finalPrice += item.total_price;
+      }
       );
       setOrderItems(_orderItems);
       setCustomer(prevOrder.customer.full_name);
       setPrepaid(prevOrder.prepaid.toString());
+      setFinalPrice(_finalPrice);
       
       const _suggestionsVisible = [...suggestionsVisible];
       _suggestionsVisible.push(false);
@@ -254,7 +305,7 @@ export default function OrderEntry({prevOrder}) {
             }
           >
             <ModalPicker
-              addNew={"+ ایجاد روش تحویل جدید"}
+              // addNew={"+ ایجاد روش تحویل جدید"}
               dataList={deliveryMethodList}
               setData={setDeliveryMethod}
               setModalVisible={setMethodModalVisible}
@@ -374,24 +425,32 @@ export default function OrderEntry({prevOrder}) {
         {/*Repeater field ***************/}
         {orderItems.map((orderItem, index) => (
           <View style={{ flexDirection: "row" }} key={index}>
+            {/* remove row button */}
+            <TouchableOpacity
+              style={[styles.addButton]}
+              onPress={() => deleteFormField(index)}
+            >
+              <Image
+                style={{ width: 10, height: 0.8 }}
+                source={require("../../assets/icons/minuse.png")}
+              />
+            </TouchableOpacity>
+
             {/*TotalPrice */}
-            <TextInput
-              placeholder="بهای کل"
-              placeholderTextColor="#24408E"
-              value={orderItem.totalPrice}
-              onChangeText={(text) => {
-                handleTotalPrice(text, index);
-              }}
-              autoCapitalize="none"
-              style={[styles.input, { flex: 1 }]}
-            />
+            <View style={[styles.input, { flex: 1 }]}>
+              <Text style={[styles.inputText]}>
+                {orderItem.totalPrice === "NaN"
+                  ? "بهای کل"
+                  : orderItem.totalPrice}
+              </Text>
+            </View>
             {/*َUnitPrice */}
             <TextInput
               placeholder="فی"
               placeholderTextColor="#24408E"
               value={orderItem.unitPrice}
               onChangeText={(text) => {
-                handleUnitPrice(text, index);
+                handleUnitPrice(text, orderItems.indexOf(orderItem));
               }}
               autoCapitalize="none"
               style={[styles.input, { flex: 1 }]}
@@ -402,7 +461,7 @@ export default function OrderEntry({prevOrder}) {
               placeholderTextColor="#24408E"
               value={orderItem.number}
               onChangeText={(text) => {
-                handleNumber(text, index);
+                handleNumber(text, orderItems.indexOf(orderItem));
               }}
               autoCapitalize="none"
               style={[styles.input, { flex: 0.6 }]}
@@ -461,7 +520,8 @@ export default function OrderEntry({prevOrder}) {
         ))}
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View
+          {/*Pre Pay */}
+          {/* <View
             style={[
               styles.input,
               {
@@ -471,27 +531,83 @@ export default function OrderEntry({prevOrder}) {
                 paddingHorizontal: 4,
               },
             ]}
-          >
-            <TextInput
-              placeholder="............"
-              placeholderTextColor="#24408E"
-              value={prepaid}
-              onChangeText={(text) => {
-                setPrepaid(text);
-              }}
-              autoCapitalize="none"
-              style={[styles.inputText]}
-            />
-            <Text style={[styles.inputText, { marginStart: 5 }]}>
-              پیش‌پرداخت
-            </Text>
-            <TouchableOpacity>
-              <Text style={[styles.inputText, { marginStart: 10 }]}>
-                {orderStatusList[orderStatus] || "تسویه"}{" "}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          > */}
+          <TextInput
+            placeholder="پیش‌پرداخت......"
+            placeholderTextColor="#24408E"
+            value={prepaid}
+            onChangeText={(text) => setPrepaid(text)}
+            autoCapitalize="none"
+            style={[styles.input, { flex: 0.8 }]}
+          />
+          {/* <Text style={[styles.inputText, { marginStart: 5 }]}>پیش‌پرداخت</Text> */}
+          {/* <TextInput
+            placeholder="بهای کل"
+            placeholderTextColor="#24408E"
+            value={finalPrice}
+            onChangeText={(text) => {setFinalPrice(text)}}
+            autoCapitalize="none"
+            style={[styles.input, { flex: 0.6 }]}
+          /> */}
 
+          {/*Pay Method */}
+          <TouchableOpacity
+            style={[styles.input, { flex: 0.6 }]}
+            onPress={() => setOrderStatusModalVisible(true)}
+          >
+            <Text style={[styles.inputText]}>{orderStatus}</Text>
+          </TouchableOpacity>
+
+          <Modal
+            transparent={true}
+            animationType="fade"
+            visible={orderStatusModalVisible}
+          >
+            <TouchableOpacity
+              style={[styles.modalContainer]}
+              onPress={() => setOrderStatusModalVisible(false)}
+            >
+              <View style={[styles.dropDown]}>
+                {/*<TextInput
+                  placeholder="جستجو..."
+                  placeholderTextColor="#24408E"
+                  value={customer}
+                  onChangeText={(text) => {
+                    handleAutoCompleCustomer(text);
+                    setCustomer(text);
+                    setCustSuggestionsVisible(true);
+                  }}
+                  autoCapitalize="none"
+                  autoFocus={true}
+                  style={[styles.input]}
+                /> */}
+                {orderStatusList.map((item) => (
+                  <TouchableOpacity
+                    key={item}
+                    onPress={() => {
+                      //handleAutoComplePayList(item);
+                      setOrderStatus(item);
+                      setOrderStatusModalVisible(false);
+                    }}
+                  >
+                    <Text style={styles.dropDownText}>{item}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </TouchableOpacity>
+          </Modal>
+          {/*Final Price */}
+          <TouchableOpacity
+            style={[styles.input, { flex: 0.6 }]}
+            onPress={() => handleFinalPrice(orderItems)}
+          >
+            <Text style={[styles.inputText]}>
+              {finalPrice === "NaN" ? "مجموع" : finalPrice}
+            </Text>
+          </TouchableOpacity>
+          {/*  </View> */}
+
+          {/* remove row button */}
           <View style={{ flexDirection: "row" }}>
             <TouchableOpacity
               style={[styles.addButton]}
@@ -502,6 +618,8 @@ export default function OrderEntry({prevOrder}) {
                 source={require("../../assets/icons/minuse.png")}
               />
             </TouchableOpacity>
+
+            {/* add row button */}
             <TouchableOpacity style={[styles.addButton]} onPress={addFormField}>
               <Image
                 style={{ width: 10, height: 10 }}
@@ -510,6 +628,8 @@ export default function OrderEntry({prevOrder}) {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* submit buttons */}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           {prevOrder.customer ? (
             <TouchableOpacity style={styles.button} onPress={handleEditOrder}>
@@ -523,7 +643,7 @@ export default function OrderEntry({prevOrder}) {
         </View>
       </View>
 
-      {/* tow last buttons */}
+      {/* tow last buttons in edit */}
       {prevOrder.customer ? (
         <View
           style={{
