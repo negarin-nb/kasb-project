@@ -64,7 +64,6 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
 
   const reRender = () => {
     setItemName("");
-   // setItemCategory("");
     setPurchasePrice("");
     setNumber("");
     setSellingPrice("");
@@ -72,9 +71,6 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
     setEntryDate("تاریخ ثبت");
     setSupplyWarn("");
     setExpireWarn("")
-
-
-
   };
 
   const handleStorageEntry = async () => {
