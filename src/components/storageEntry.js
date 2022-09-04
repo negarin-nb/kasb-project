@@ -14,6 +14,7 @@ import CustomDatePicker from "../util/customDatePicker";
 import { AuthContext } from "../store/auth-context";
 import storageApi from "../api/storage.js";
 import searchApi from "../api/search";
+import { toEnglish } from 'persian';
 
 export default function StorageEntry({prevItem, setModalVisible, handleCancelModal}) {
   const authCtx = useContext(AuthContext);
@@ -76,20 +77,20 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
   const handleStorageEntry = async () => {
     const itemData = {
       name: itemName,
-      category: "",
-      purchase_price: purchasePrice,
+      category: "دسته بندی",
+      purchase_price: parseInt(toEnglish(purchasePrice)),
       barcode: "0123443",
-      count: number,
-      suggested_selling_price: sellingPrice,
+      count: parseInt(toEnglish(number)),
+      suggested_selling_price: parseInt(toEnglish(sellingPrice)),
       registration_date: expireDate,
-      inventory_warning_interval: supplyWarn,
+      inventory_warning_interval: parseInt(toEnglish(supplyWarn)),
       expiration_date: entryDate,
-      expiration_warning_interval: expireWarn,
-      labels:["برچسب"],
+      expiration_warning_interval: parseInt(toEnglish(expireWarn)),
+      labels: "برچسب",
     };
 
 
-   // console.log(itemData.name);
+   console.log(itemData);
    //console.log(authCtx.accessToken);
     const result = await storageApi.storeItem(authCtx.accessToken, itemData);
     console.log(result.data.Message);
