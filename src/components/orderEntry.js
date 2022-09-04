@@ -31,8 +31,8 @@ export default function OrderEntry({prevOrder}) {
   const [deliveryMethod, setDeliveryMethod] = useState(deliveryMethodList[prevOrder.delivery_type] || "روش"); //modal
   const [methodModalVisible, setMethodModalVisible] = useState(false); //visibility
 
-  const [orderStatus, setOrderStatus] = useState( prevOrder.payment_type || "نحوه پرداخت");
   const [orderStatusList, setOrderStatusList] = useState(["چک", "نقد"]);
+  const [orderStatus, setOrderStatus] = useState( orderStatusList[prevOrder.payment_type] || "نحوه پرداخت");
   const [orderStatusModalVisible, setOrderStatusModalVisible] = useState(false);
   const [prepaid, setPrepaid] = useState("");
   const [finalPrice, setFinalPrice] = useState("مجموع");
@@ -70,7 +70,7 @@ export default function OrderEntry({prevOrder}) {
     delivery_date: deliveryDate,
     delivery_type: deliveryMethodList.indexOf(deliveryMethod),
     order_items: finalOrderItems,
-    payment_type: 1, //orderStatusList.indexOf(orderStatus),
+    payment_type: orderStatusList.indexOf(orderStatus),
     prepaid: prepaid,
   };
   //console.log("items");
