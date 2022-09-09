@@ -6,7 +6,7 @@ const phoneSubmit = (phoneInfo) => {
     "Access-Control-Allow-Credentials": "true",
     "Access-Control-Allow-Origin": "*",
   });
-  return client.post("/users/SendVeriƒicationCode/", phoneInfo);
+  return client.post("/users/SendVerificationCode/", phoneInfo);
 }
 
 const register = (userInfo) => client.post("/users/register/" , userInfo);

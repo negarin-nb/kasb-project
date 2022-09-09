@@ -31,15 +31,18 @@ export default function RegisterScreen({ navigation }) {
     const result = await authApi.phoneSubmit(phoneInfo);
    // const resultCode = result.data.Item.verification_code;
     console.log(result.data.Message);
-    if (result.ok)
-      navigation.navigate("RegiCodeSubmit", {
-        phone_number: phone,
-        //verification_code: resultCode,
-        password: password,
-        first_name: firstName,
-        last_name: lastName,
-        shop_name: shopName,
-      });
+    if (!result.ok){
+      alert(result.data.Message);
+    }
+      if (result.ok)
+        navigation.navigate("RegiCodeSubmit", {
+          phone_number: phone,
+          //verification_code: resultCode,
+          password: password,
+          first_name: firstName,
+          last_name: lastName,
+          shop_name: shopName,
+        });
   }
 
   /*async function handleRegister(name, job, phone) {
