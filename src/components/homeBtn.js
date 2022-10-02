@@ -6,13 +6,20 @@ export default function HomeBtn({ text, imgSource,onPressComponent, navigation }
   const { width } = useWindowDimensions();
   return (
     <TouchableOpacity
-      style={[styles.button, { width: width / 2, marginEnd: 5 }]}
-      onPress={() =>{
-        onPressComponent ? 
-        navigation.navigate(onPressComponent) : null}}
+      style={
+        onPressComponent
+          ? [styles.button, { width: width / 2, marginEnd: 5 }]
+          : [styles.button, { width: width / 2, marginEnd: 5, opacity: 0.5 }]
+      }
+      onPress={() => {
+        onPressComponent ? navigation.navigate(onPressComponent) : null;
+      }}
     >
       <Text style={styles.buttonText}>{text}</Text>
-      <Image style={{ width: 24, height: 24 }} source={imgSource} />
+      <Image
+        style={{ width: 24, height: 24 }}
+        source={imgSource}
+      />
     </TouchableOpacity>
   );
 }

@@ -29,7 +29,7 @@ export default function OnboardingScreen ({navigation}) {
   }).current;
  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
   
- // const handleLogin = () => navigation.navigate('Login');
+  const handleLogin = () => navigation.navigate('Login');
   
   return (
     <View style={styles.container}>
@@ -72,13 +72,13 @@ export default function OnboardingScreen ({navigation}) {
           currentIndex={currentIndex}
         />
 
-        <Link to={{ screen: "Login" }}>Start</Link>
+       {/*  <Link to={{ screen: "Login" }}>Start</Link> */}
 
-        {/* <AppButton
+       <AppButton
           style={{ marginBottom: 20 }}
           handleButton={handleLogin}
           textButton="شروع"
-        /> */}
+        /> 
       </View>
     </View>
   );

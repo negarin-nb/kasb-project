@@ -1,35 +1,11 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  ImageBackground,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  useWindowDimensions,
-} from "react-native";
+import React from "react";
+import {View,StyleSheet} from "react-native";
 import TopBar from "../../components/topBar";
 import HeaderScreen from "../profileScreens/headerScreen";
-import { LinearGradient } from "expo-linear-gradient";
 import Card from "../../components/card";
-import StorageEntry from "../../components/storageEntry";
-import StorageList from "../../components/storageList";
+import StorageList from "../../components/inventory/storageList";
 
 export default function StorageScreen({ navigation }) {
-
-  const nullItem = {
-    name: "",
-    barcode: "",
-    count: "",
-    purchase_price:'' ,
-    suggested_selling_price: '',
-    expiration_date: "",
-    registration_date:"",
-    inventory_warning_interval: "",
-    expiration_warning_interval: "",
-    labels: [{ name: "" }],
-  };
 
   return (
     <View style={styles.container}>

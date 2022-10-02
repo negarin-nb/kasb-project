@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  Button,
 } from "react-native";
 import AppButton from "../../components/appButton";
 import authApi from "../../api/auth.js";
@@ -24,6 +25,9 @@ export default function EditProfileScreen({ navigation }) {
   const [imageError, setImageError] = useState(false);
   const authCtx = React.useContext(AuthContext);
 
+  const handleLogout = () => {
+    authCtx.logout();
+  };
   const onImageNotFound = () => {
     setImageError(true);
   };
@@ -118,6 +122,11 @@ export default function EditProfileScreen({ navigation }) {
               textButton="ثبت تغییرات"
             />
           </View>
+
+          <View style={{ marginBottom: 80 }}>
+            <Button title="log out" onPress={handleLogout} />
+          </View>
+
         </View>
       </View>
     </TouchableWithoutFeedback>

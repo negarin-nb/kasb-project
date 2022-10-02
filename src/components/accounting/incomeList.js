@@ -8,7 +8,7 @@ import {
   Modal,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { getIncomes } from "../model/incomes";
+import { getIncomes } from "../../model/incomes";
 import IncomeUpdate from "./incomeUpdate";
 import ListItem from "./listItem";
 //import Modal from "react-native-modal";

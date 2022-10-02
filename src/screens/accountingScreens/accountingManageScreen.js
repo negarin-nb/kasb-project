@@ -11,7 +11,7 @@ import HeaderScreen from "../profileScreens/headerScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import TopBar from "../../components/topBar";
 
-export default function BusinessScreen({ navigation }) {
+export default function AccountingManageScreen({ navigation }) {
   [income, setIncome] = useState(2780000);
   [cost, setCost] = useState(650000);
   [cash, setCash] = useState(4750000);

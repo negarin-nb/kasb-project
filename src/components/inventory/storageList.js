@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, useWindowDimensions, StyleSheet, Modal } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import storageApi from "../api/storage";
-import { AuthContext } from "../store/auth-context";
+import storageApi from "../../api/storage";
+import { AuthContext } from "../../store/auth-context";
 import StorageListItem from "./storageListItem";
 
 export default function StorageList() {

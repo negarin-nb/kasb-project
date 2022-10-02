@@ -2,8 +2,8 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
-import OrderEntry from "../../components/orderEntry";
 import Card from "../../components/card";
+import OrderEntry from "../../components/inventory/orderEntry";
 
 export default function InvoiceCreatScreen() {
   return (

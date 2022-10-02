@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import Card from "../../components/card";
-import OrderEntry from "../../components/orderEntry";
+import OrderEntry from "../../components/inventory/orderEntry";
 
 
 export default function OrderDetailScreen({route, navigation}) {

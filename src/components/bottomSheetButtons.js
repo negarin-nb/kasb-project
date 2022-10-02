@@ -26,11 +26,14 @@ export default function BottomSheetButtons() {
           end={{ x: 1, y: 1 }}
           style={[styles.buttonSheet, { width: width / 8 }]}
         >
-          <TouchableOpacity style={{alignItems:'center'}} >
-            <Image style={{width:24, height:24}} source={require('../../assets/icons/bill.png')} />
+          <TouchableOpacity style={{ alignItems: "center" }}>
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../assets/icons/bill.png")}
+            />
           </TouchableOpacity>
         </LinearGradient>
-        <Text style={styles.buttonSheetText}>صدور فاکتور</Text>
+        <Text style={styles.buttonSheetText}>به زودی</Text>
       </View>
 
       <View style={{ flexDirection: "column" }}>
@@ -40,11 +43,14 @@ export default function BottomSheetButtons() {
           end={{ x: 1, y: 1 }}
           style={[styles.buttonSheet, { width: width / 8 }]}
         >
-          <TouchableOpacity style={{alignItems:'center'}}>
-            <Image style={{width:24, height:24}} source={require('../../assets/icons/basket.png')} />
+          <TouchableOpacity style={{ alignItems: "center" }}>
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../assets/icons/basket.png")}
+            />
           </TouchableOpacity>
         </LinearGradient>
-        <Text style={styles.buttonSheetText}>سفارش‌ها</Text>
+        <Text style={styles.buttonSheetText}>به زودی</Text>
       </View>
 
       <View style={{ flexDirection: "column" }}>
@@ -54,11 +60,14 @@ export default function BottomSheetButtons() {
           end={{ x: 1, y: 1 }}
           style={[styles.buttonSheet, { width: width / 8 }]}
         >
-          <TouchableOpacity style={{alignItems:'center'}}>
-            <Image style={{width:24, height:24}} source={require('../../assets/icons/shop.png')} />
+          <TouchableOpacity style={{ alignItems: "center" }}>
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../assets/icons/shop.png")}
+            />
           </TouchableOpacity>
         </LinearGradient>
-        <Text style={styles.buttonSheetText}>انبار</Text>
+        <Text style={styles.buttonSheetText}>به زودی</Text>
       </View>
 
       <View style={{ flexDirection: "column" }}>
@@ -68,11 +77,14 @@ export default function BottomSheetButtons() {
           end={{ x: 1, y: 1 }}
           style={[styles.buttonSheet, { width: width / 8 }]}
         >
-          <TouchableOpacity style={{alignItems:'center'}}>
-            <Image style={{width:24, height:24}} source={require('../../assets/icons/calendar.png')} />
+          <TouchableOpacity style={{ alignItems: "center" }}>
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../assets/icons/calendar.png")}
+            />
           </TouchableOpacity>
         </LinearGradient>
-        <Text style={styles.buttonSheetText}>تقویم محتوایی</Text>
+        <Text style={styles.buttonSheetText}>به زودی</Text>
       </View>
 
       <View style={{ flexDirection: "column" }}>
@@ -82,24 +94,28 @@ export default function BottomSheetButtons() {
           end={{ x: 1, y: 1 }}
           style={[styles.buttonSheet, { width: width / 8 }]}
         >
-          <TouchableOpacity style={{alignItems:'center'}}>
-            <Image style={{width:24, height:24}} source={require('../../assets/icons/add.png')} />
+          <TouchableOpacity style={{ alignItems: "center" }}>
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../assets/icons/add.png")}
+            />
           </TouchableOpacity>
         </LinearGradient>
-        <Text style={styles.buttonSheetText}>افزودن میانبر</Text>
+        <Text style={styles.buttonSheetText}>به زودی</Text>
       </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
-buttonSheet: {
-    justifyContent:'space-evenly',
-    alignContent:'center',
-    height:50,
+  buttonSheet: {
+    justifyContent: "space-evenly",
+    alignContent: "center",
+    height: 50,
     marginTop: 8,
     borderRadius: 200,
     marginEnd: 11,
-    marginStart:11,
+    marginStart: 11,
+    opacity: 0.5,
   },
 
   buttonSheetText: {
@@ -108,5 +124,5 @@ buttonSheet: {
     color: "#24438E",
     fontSize: 11,
     marginTop: 5,
-  }
+  },
 });

@@ -4,7 +4,6 @@ import AppDrawer from "./appDrawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "../store/auth-context";
 import BottomTabNavigator from "./bottomTabNavigator";
-import TaskScreen from '../screens/managementScreens/taskScreen';
 
 const linking = {
   /* prefixes: [
@@ -18,10 +17,11 @@ const linking = {
       HomeS: {
         screens: {
           Home: "home",
-          BusinessScreen: "business",
-          TaskScreen: "tasks",
+          AccountingManageScreen: "accounting",
+          InventoryManageScreen: "inventory",
           OrderSubmitScreen: "order-submit",
-        }},
+        },
+      },
       Notification: "notification",
       Support: "support",
       More: "more",

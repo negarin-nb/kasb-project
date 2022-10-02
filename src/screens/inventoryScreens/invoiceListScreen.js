@@ -3,9 +3,9 @@ import { View, StyleSheet } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import Card from "../../components/card";
-import OrderEntry from "../../components/orderEntry";
+import OrderList from "../../components/inventory/orderList";
 
-export default function InvoiceDetailScreen({ route, navigation }) {
+export default function InvoicListScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <HeaderScreen navigation={navigation} />
@@ -15,7 +15,13 @@ export default function InvoiceDetailScreen({ route, navigation }) {
       />
       <Card
         title={"لیست پیش‌فاکتورها"}
-        children={() => <OrderEntry prevOrder={route.params} />}
+        children={() => (
+          <OrderList
+            navigation={navigation}
+            screen={"invoiceDetailScreen"}
+            listTitle={"پیش‌فاکتور"}
+          />
+        )}
         expanded={true}
       />
     </View>

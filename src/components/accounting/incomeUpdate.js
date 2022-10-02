@@ -10,7 +10,7 @@ import {
   Modal,
   ScrollView,
 } from "react-native";
-import ModalPicker from "./modalPicker";
+import ModalPicker from "../modalPicker";
 
 export default function IncomeUpdate({setUpdateModalVisible, item}) {
   const [incomeTitle, setIncomeTitle] = useState(item.product+' '+item.id);
@@ -136,7 +136,7 @@ export default function IncomeUpdate({setUpdateModalVisible, item}) {
         <TouchableOpacity style={[styles.addButton]}>
           <Image
             style={{ width: 10, height: 10 }}
-            source={require("../../assets/icons/plus.png")}
+            source={require("../../../assets/icons/plus.png")}
           />
         </TouchableOpacity>
       </View>

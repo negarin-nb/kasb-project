@@ -1,10 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/profileScreens/homeScreen";
 import NotificationScreen from "../screens/profileScreens/notificationScreen";
 import SupportScreen from "../screens/profileScreens/supportScreen";
 import MoreScreen from "../screens/profileScreens/moreScreen";
 import { Image, View ,Text} from "react-native";
-import { color } from "react-native-reanimated";
 import HomeScreenStack from './stacks/homeScreenStack'
 const Tab = createBottomTabNavigator();
 export default function BottomTabNavigator() {

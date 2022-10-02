@@ -1,30 +1,21 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import Card from "../../components/card";
-import OrderList from '../../components/orderList';
+import OrderEntry from "../../components/inventory/orderEntry";
 
-export default function OrderListScreen({navigation}) {
+export default function InvoiceDetailScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <HeaderScreen navigation={navigation} />
       <TopBar
-        iconSourc={require("../../../assets/icons/shop.png")}
-        title="مدیریت سفارش‌ها"
+        iconSourc={require("../../../assets/icons/invoice2w.png")}
+        title="مشاهده پیش‌فاکتورها"
       />
       <Card
-        title={"لیست سفارش"}
-        children={() => (
-          <OrderList
-            navigation={navigation}
-            screen={"OrderDetailScreen"}
-            listTitle={"سفارش"}
-          />
-        )}
+        title={"لیست پیش‌فاکتورها"}
+        children={() => <OrderEntry prevOrder={route.params} />}
         expanded={true}
       />
     </View>

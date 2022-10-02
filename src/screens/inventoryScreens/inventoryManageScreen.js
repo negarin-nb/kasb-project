@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import HeaderScreen from "../profileScreens/headerScreen";
-import TaskBtn from "../../components/taskBtn";
 import { ScrollView } from "react-native-gesture-handler";
+import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
+import TaskBtn from "../../components/taskBtn";
 
-export default function TaskScreen({navigation}) {
+export default function InventoryManageScreen({navigation}) {
   return (
     <View style={styles.container}>
       <HeaderScreen navigation={navigation} />
@@ -19,11 +19,7 @@ export default function TaskScreen({navigation}) {
 
         {/*storage button*/}
         <ScrollView>
-          {/*<TaskBtn
-            btnTitle={"مدیریت ارتباط با مشتری"}
-            navigation={navigation}
-            onPressComponent="CustomerContactScreen"
-  />*/}
+          
           <TaskBtn
             btnTitle={"ثبت کالا"}
             onPressComponent="StorageSubmitScreen"

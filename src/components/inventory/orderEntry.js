@@ -9,14 +9,14 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import ModalPicker from "./modalPicker";
-import CustomDatePicker from "../util/customDatePicker";
-import searchApi from "../api/search";
-import { AuthContext } from "../store/auth-context";
-import orderApi from "../api/order";
+import ModalPicker from "../modalPicker";
+import CustomDatePicker from "../../util/customDatePicker";
+import searchApi from "../../api/search";
+import { AuthContext } from "../../store/auth-context";
+import orderApi from "../../api/order";
 import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
-import getHtmlTemplate from '../model/invoiceTemplate';
+import getHtmlTemplate from '../../model/invoiceTemplate';
 
 export default function OrderEntry({prevOrder}) {
   const authCtx = useContext(AuthContext);
@@ -152,8 +152,6 @@ export default function OrderEntry({prevOrder}) {
     console.log(_finalPrice);
   };
 
-  
-
    const deleteFormField = (index) => {
      if(orderItems.length > 1) {
       const _orderItems = [...orderItems];
@@ -280,7 +278,7 @@ export default function OrderEntry({prevOrder}) {
         >
           <Image
             style={{ width: 24, height: 24 }}
-            source={require("../../assets/icons/order.png")}
+            source={require("../../../assets/icons/order.png")}
           />
           <Text style={styles.title}>
             {prevOrder.id ? `سفارش ${prevOrder.id}` : "سفارش جدید"}
@@ -432,7 +430,7 @@ export default function OrderEntry({prevOrder}) {
             >
               <Image
                 style={{ width: 10, height: 0.8 }}
-                source={require("../../assets/icons/minuse.png")}
+                source={require("../../../assets/icons/minuse.png")}
               />
             </TouchableOpacity>
 
@@ -615,7 +613,7 @@ export default function OrderEntry({prevOrder}) {
             >
               <Image
                 style={{ width: 10, height: 0.8 }}
-                source={require("../../assets/icons/minuse.png")}
+                source={require("../../../assets/icons/minuse.png")}
               />
             </TouchableOpacity>
 
@@ -623,7 +621,7 @@ export default function OrderEntry({prevOrder}) {
             <TouchableOpacity style={[styles.addButton]} onPress={addFormField}>
               <Image
                 style={{ width: 10, height: 10 }}
-                source={require("../../assets/icons/plus.png")}
+                source={require("../../../assets/icons/plus.png")}
               />
             </TouchableOpacity>
           </View>
@@ -664,7 +662,7 @@ export default function OrderEntry({prevOrder}) {
           <TouchableOpacity style={[styles.whiteButton]}>
             <Image
               style={{ width: 19, height: 19 }}
-              source={require("../../assets/icons/invoiceSend.png")}
+              source={require("../../../assets/icons/invoiceSend.png")}
             />
             <Text
               style={[styles.buttonText, { fontSize: 14, paddingStart: 5 }]}

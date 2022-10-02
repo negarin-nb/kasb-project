@@ -43,7 +43,9 @@ export default function RegiCodeSubmitScreen({ route , navigation }) {
         shop_name,
       };
       const result = await authApi.register(userInfo);
-
+      if(!result.ok){
+        alert(result.data.Message);
+      }
       if (result.ok) {
         authCtx.authenticate({
           authAccessToken: result.data.Item.access,

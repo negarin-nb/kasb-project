@@ -37,35 +37,35 @@ export default function StorageListItem({ item, handleDeleteItem }) {
   const dataList = [
     {
       name: "حذف",
-      imgSource: require("../../assets/icons/delete.png"),
+      imgSource: require("../../../assets/icons/delete.png"),
       //handleOnPress: handleDeleteButton,
       visiblity: deleteModalVisible,
       setVisiblity: setDeleteModalVisible,
     },
     {
       name: "ویرایش",
-      imgSource: require("../../assets/icons/edit.png"),
+      imgSource: require("../../../assets/icons/edit.png"),
       //handleOnPress: handleEditButton,
       visiblity: editModalVisible,
       setVisiblity: setEditModalVisible,
     },
     {
       name: "خروج",
-      imgSource: require("../../assets/icons/exit.png"),
+      imgSource: require("../../../assets/icons/exit.png"),
       //handleOnPress: handleExitButton,
       visiblity: exitModalVisible,
       setVisiblity: setExitModalVisible,
     },
     {
       name: "مرجوع",
-      imgSource: require("../../assets/icons/returned.png"),
+      imgSource: require("../../../assets/icons/returned.png"),
       //handleOnPress: handleReturnedButton,
       visiblity: returnedModalVisible,
       setVisiblity: setReturnedModalVisible,
     },
     {
       name: "ضایعات",
-      imgSource: require("../../assets/icons/wast.png"),
+      imgSource: require("../../../assets/icons/wast.png"),
       //handleOnPress: handleWasteButton,
       visiblity: wasteModalVisible,
       setVisiblity: setWastedModalVisible,
@@ -84,7 +84,7 @@ export default function StorageListItem({ item, handleDeleteItem }) {
         >
           <Image
             style={{ width: 15, height: 15 }}
-            source={require("../../assets/icons/more.png")}
+            source={require("../../../assets/icons/more.png")}
           />
         </TouchableOpacity>
         {/* More modal */}

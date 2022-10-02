@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { getCosts } from "../model/costs";
+import { getCosts } from "../../model/costs";
 import ListItem from "./listItem";
 import Modal from "react-native-modal";
 

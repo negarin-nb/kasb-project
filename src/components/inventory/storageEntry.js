@@ -9,17 +9,16 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import ModalPicker from "./modalPicker";
-import CustomDatePicker from "../util/customDatePicker";
-import { AuthContext } from "../store/auth-context";
-import storageApi from "../api/storage.js";
-import searchApi from "../api/search";
+import CustomDatePicker from "../../util/customDatePicker";
+import { AuthContext } from "../../store/auth-context";
+import storageApi from "../../api/storage.js";
+import searchApi from "../../api/search";
 import { toEnglish } from 'persian';
 
 export default function StorageEntry({prevItem, setModalVisible, handleCancelModal}) {
   const authCtx = useContext(AuthContext);
   const [itemName, setItemName] = useState(prevItem.name || "");
-  const [itemCategory, setItemCategory] = useState(prevItem.category || "");
+  const [itemCategory, setItemCategory] = useState(prevItem.category.name || "");
   const [categoryModalVisible, setCategoryModalVisible] = useState(false);//modal
   const [categoryList, setCategoryList] = useState([]);
 
@@ -65,19 +64,21 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
 
   const reRender = () => {
     setItemName("");
+    setItemCategory("");
     setPurchasePrice("");
     setNumber("");
     setSellingPrice("");
     setExpireDate("تاریخ انقضا");
     setEntryDate("تاریخ ثبت");
     setSupplyWarn("");
-    setExpireWarn("")
+    setExpireWarn("");
+    setLable("");
   };
 
   const handleStorageEntry = async () => {
     const itemData = {
       name: itemName,
-      category: "دسته بندی",
+      category: itemCategory,
       purchase_price: parseInt(toEnglish(purchasePrice)),
       barcode: "0123443",
       count: parseInt(toEnglish(number)),
@@ -86,7 +87,7 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
       inventory_warning_interval: parseInt(toEnglish(supplyWarn)),
       expiration_date: entryDate,
       expiration_warning_interval: parseInt(toEnglish(expireWarn)),
-      labels: "برچسب",
+      labels: [lable],
     };
 
 
@@ -114,7 +115,7 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
       inventory_warning_interval: supplyWarn,
       expiration_date: expireDate,
       expiration_warning_interval: expireWarn,
-      labels: lable,
+      labels: [lable],
     };
     // console.log(itemData.name);
     //console.log(authCtx.accessToken);
@@ -140,7 +141,7 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
       >
         <Image
           style={{ width: 24, height: 24 }}
-          source={require("../../assets/icons/order.png")}
+          source={require("../../../assets/icons/order.png")}
         />
         <Text style={styles.title}>
           {prevItem.name ? "به روزرسانی کالا" : "افزودن کالا"}
@@ -332,6 +333,7 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
                 placeholderTextColor="#24408E"
                 value={lable}
                 onChangeText={(text) => {
+                  setLable(text);
                   handleLabelList(text);
                 }}
                 autoCapitalize="none"

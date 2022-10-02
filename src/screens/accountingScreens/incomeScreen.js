@@ -3,9 +3,9 @@ import { View, StyleSheet, FlatList } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import Card from "../../components/card";
-import IncomeEntry from "../../components/incomeEntry";
-import IncomeList from "../../components/incomeList";
-import AppPieChart from "../../components/appPieChart";
+import IncomeEntry from "../../components/accounting/incomeEntry";
+import IncomeList from "../../components/accounting/incomeList";
+import AppPieChart from "../../components/accounting/appPieChart";
 
 export default function IncomeScreen({navigation}) {
   return (

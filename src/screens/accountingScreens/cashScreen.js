@@ -4,7 +4,7 @@ import {
   StyleSheet,
 } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
-import CashList from "../../components/cashList";
+import CashList from "../../components/accounting/cashList";
 import TopBar from "../../components/topBar";
 
 export default function CashScreen({ navigation }) {

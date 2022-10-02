@@ -5,10 +5,9 @@ import {
   StyleSheet,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import orderApi from "../api/order";
+import orderApi from "../../api/order";
 import OrderListItem from "./orderListItem";
-//import Modal from "react-native-modal";
-import { AuthContext } from '../store/auth-context';
+import { AuthContext } from '../../store/auth-context';
 
 export default function OrderList({navigation, screen, listTitle}) {
    const authCtx= useContext(AuthContext);

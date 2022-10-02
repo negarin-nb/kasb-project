@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   Modal
 } from "react-native";
-import ModalPicker from "./modalPicker";
-import CustomDatePicker from "../util/customDatePicker";
+import ModalPicker from "../modalPicker";
+import CustomDatePicker from "../../util/customDatePicker";
 
 export default function CostEntry() {
   const [costTitle, setCostTitle] = useState();
@@ -118,7 +118,7 @@ export default function CostEntry() {
         <TouchableOpacity style={[styles.addButton]}>
           <Image
             style={{ width: 10, height: 10 }}
-            source={require("../../assets/icons/plus.png")}
+            source={require("../../../assets/icons/plus.png")}
           />
         </TouchableOpacity>
       </View>

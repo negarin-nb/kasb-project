@@ -22,7 +22,7 @@ export default function ListItem({
         >
           <Image
             style={{ width: 15, height: 15 }}
-            source={require("../../assets/icons/delete.png")}
+            source={require("../../../assets/icons/delete.png")}
           />
         </TouchableOpacity>
 
@@ -33,7 +33,7 @@ export default function ListItem({
         >
           <Image
             style={{ width: 15, height: 15 }}
-            source={require("../../assets/icons/update.png")}
+            source={require("../../../assets/icons/update.png")}
           />
         </TouchableOpacity>
 

@@ -1,8 +1,8 @@
 
 import React, {useContext, useState} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, screen, listTitle  } from "react-native";
-import orderApi from "../api/order";
-import { AuthContext } from "../store/auth-context";
+import orderApi from "../../api/order";
+import { AuthContext } from "../../store/auth-context";
 import OrderEntry from './orderEntry';
 
 export default function OrderListItem({item , navigation, screen, listTitle}) {
@@ -34,7 +34,7 @@ const handleMoreButton = async () => {
        >
          <Image
            style={{ width: 15, height: 15 }}
-           source={require("../../assets/icons/more.png")}
+           source={require("../../../assets/icons/more.png")}
          />
        </TouchableOpacity>
 

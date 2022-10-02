@@ -3,9 +3,9 @@ import { View, StyleSheet } from "react-native";
 import HeaderScreen from '../profileScreens/headerScreen';
 import TopBar from '../../components/topBar';
 import Card from "../../components/card";
-import CostEntry from "../../components/costEntry";
-import CostList from "../../components/costList";
-import AppPieChart from '../../components/appPieChart';
+import CostEntry from "../../components/accounting/costEntry";
+import CostList from "../../components/accounting/costList";
+import AppPieChart from '../../components/accounting/appPieChart';
 
 
 export default function CostScreen({ navigation }) {

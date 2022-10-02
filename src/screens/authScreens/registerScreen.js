@@ -13,6 +13,7 @@ import styles from "../../styles/styles.js";
 import AppButton from "../../components/appButton.js";
 import { AuthContext } from "../../store/auth-context.js";
 import authApi from "../../api/auth.js";
+import { toEnglish } from 'persian';
 
 export default function RegisterScreen({ navigation }) {
   const [firstName, setFirstName] = useState("");
@@ -21,15 +22,13 @@ export default function RegisterScreen({ navigation }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const authCtx = useContext(AuthContext);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   async function handleRegister ({firstName, lastName, shopName, phone}){
     
-    const phoneInfo = {phone_number: phone, dev_mode: false}
+    const phoneInfo = { phone_number: toEnglish(phone), dev_mode: false };
     const result = await authApi.phoneSubmit(phoneInfo);
-   // const resultCode = result.data.Item.verification_code;
     console.log(result.data.Message);
     if (!result.ok){
       alert(result.data.Message);
@@ -37,29 +36,12 @@ export default function RegisterScreen({ navigation }) {
       if (result.ok)
         navigation.navigate("RegiCodeSubmit", {
           phone_number: phone,
-          //verification_code: resultCode,
           password: password,
           first_name: firstName,
           last_name: lastName,
           shop_name: shopName,
         });
   }
-
-  /*async function handleRegister(name, job, phone) {
-    setIsAuthenticating(true);
-    try {
-      //const token = await createUser(name,job,phone );
-      const token = fakeCreateUser(name, job, phone);
-      authCtx.authenticate(token);
-    } catch (error) {
-      Alert.alert("Registration failed!");
-      setIsAuthenticating(false);
-    }
-    //navigation.navigate('RegiCodeSubmit');
-  }
-  if (isAuthenticating) {
-    return <LoadingOverlay message="Creating User..." />;
-  }*/
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

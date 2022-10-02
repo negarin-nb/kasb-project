@@ -10,8 +10,8 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import CashListItem from "./cashListItem";
-import { getIncomes } from "../model/incomes";
-import { getCosts } from "../model/costs";
+import { getIncomes } from "../../model/incomes";
+import { getCosts } from "../../model/costs";
 
 
 export default function CashList() {
@@ -45,7 +45,7 @@ export default function CashList() {
           >
             <Image
               style={{ width: 24, height: 24, marginStart: 5 }}
-              source={require("../../assets/icons/withdrawal.png")}
+              source={require("../../../assets/icons/withdrawal.png")}
             />
             <Text style={styles.whiteAreaTitle}>دریافت</Text>
           </View>
@@ -67,7 +67,7 @@ export default function CashList() {
           >
             <Image
               style={{ width: 24, height: 24, marginStart: 5 }}
-              source={require("../../assets/icons/deposite.png")}
+              source={require("../../../assets/icons/deposite.png")}
             />
             <Text style={styles.whiteAreaTitle}>پرداخت</Text>
           </View>

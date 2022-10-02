@@ -2,25 +2,25 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import HomeScreen from '../../screens/profileScreens/homeScreen';
 
-import BusinessScreen from "../../screens/managementScreens/businessScreen";
-import IncomeScreen from "../../screens/managementScreens/incomeScreen";
-import CostScreen from '../../screens/managementScreens/costScreen';
-import CashScreen from '../../screens/managementScreens/cashScreen';
+import AccountingManageScreen from "../../screens/accountingScreens/accountingManageScreen";
+import IncomeScreen from "../../screens/accountingScreens/incomeScreen";
+import CostScreen from '../../screens/accountingScreens/costScreen';
+import CashScreen from '../../screens/accountingScreens/cashScreen';
 
 
-import TaskScreen from '../../screens/managementScreens/taskScreen';
-import CustomerContactScreen from '../../screens/managementScreens/customerContactScreen';
-import StorageScreen from '../../screens/managementScreens/storageScreen';
-import StorageSubmitScreen from "../../screens/managementScreens/storageSubmitScreen";
-import OrderSubmitScreen from '../../screens/managementScreens/orderSubmitScreen';
+import InventoryManageScreen from "../../screens/inventoryScreens/inventoryManageScreen";
+import CustomerContactScreen from '../../screens/contactScreens/customerContactScreen';
+import StorageScreen from '../../screens/inventoryScreens/storageScreen';
+import StorageSubmitScreen from "../../screens/inventoryScreens/storageSubmitScreen";
+import OrderSubmitScreen from '../../screens/inventoryScreens/orderSubmitScreen';
 
-import OrderListScreen from '../../screens/managementScreens/orderListScreen';
-import OrderDetailScreen from '../../screens/managementScreens/orderDetailScreen';
+import OrderListScreen from '../../screens/inventoryScreens/orderListScreen';
+import OrderDetailScreen from '../../screens/inventoryScreens/orderDetailScreen';
 
-import InvoiceScreen from '../../screens/managementScreens/invoiceScreen';
-import InvoiceCreatScreen from '../../screens/managementScreens/invoiceCreatScreen';
-import InvoiceListScreen from "../../screens/managementScreens/invoiceListScreen";
-import InvoiceDetailScreen from "../../screens/managementScreens/invoiceDetailScreen";
+import InvoiceScreen from '../../screens/inventoryScreens/invoiceScreen';
+import InvoiceCreatScreen from '../../screens/inventoryScreens/invoiceCreatScreen';
+import InvoiceListScreen from "../../screens/inventoryScreens/invoiceListScreen";
+import InvoiceDetailScreen from "../../screens/inventoryScreens/invoiceDetailScreen";
 import EditProfileScreen from '../../screens/profileScreens/editProfileScreen';
 
 
@@ -32,12 +32,12 @@ export default function HomeScreenStack () {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
 
-      <Stack.Screen name="BusinessScreen" component={BusinessScreen} />
+      <Stack.Screen name="AccountingManageScreen" component={AccountingManageScreen} />
       <Stack.Screen name="IncomeScreen" component={IncomeScreen} />
       <Stack.Screen name="CostScreen" component={CostScreen} />
       <Stack.Screen name="CashScreen" component={CashScreen} />
 
-      <Stack.Screen name="TaskScreen" component={TaskScreen} />
+      <Stack.Screen name="InventoryManageScreen" component={InventoryManageScreen} />
       <Stack.Screen
         name="CustomerContactScreen"
         component={CustomerContactScreen}
@@ -55,7 +55,10 @@ export default function HomeScreenStack () {
       />
 
       <Stack.Screen name="StorageScreen" component={StorageScreen} />
-      <Stack.Screen name="StorageSubmitScreen" component={StorageSubmitScreen} />
+      <Stack.Screen
+        name="StorageSubmitScreen"
+        component={StorageSubmitScreen}
+      />
     </Stack.Navigator>
   );
 };

@@ -26,29 +26,19 @@ export const AuthContextProvider = ({ children }) => {
     authAccessToken: authAccessToken,
     authRefreshToken: authRefreshToken,
   });
-
   const [authUserProfile, setAuthUserProfile] = useState(null);
 
   useEffect(() => {}, [authUserProfile]);
   
   function authenticate(data) {
-
     setAuthToken(data);
     setauthAccessToken(data.authAccessToken);
     setauthRefreshToken(data.authRefreshToken);
     AsyncStorage.setItem("Token", JSON.stringify(data));
-    //AsyncStorage.setItem("refreshToken", token.refresh);
-    //AsyncStorage.setItem("accessToken", token.refresh);
-    //console.log("accessToken: " + token.access);
   }
 
   function setUserData(profil){
-    /* console.log("profile");
-    console.log(profil);
-    console.log("authUserProfile in setUserData"); */
-    
     setAuthUserProfile(profil); // this applied for next render of this component.
-    //console.log(authUserProfile);
     AsyncStorage.setItem("user", JSON.stringify(profil));
   }
  
@@ -60,8 +50,6 @@ export const AuthContextProvider = ({ children }) => {
     return JSON.parse(storedUser);
   }
   console.log("localStorage called");
-  //console.log("authUserProfile in getUser");
-  //console.log(authUserProfile);
   return authUserProfile;
   }
 

@@ -59,9 +59,6 @@ export default function HomeScreen({ navigation }) {
   // fetchUser();
   // }, []);
 
-  const handleLogout = () => {
-    authCtx.logout();
-  };
 
   return (
     <View style={[styles.container, { height }]}>
@@ -88,7 +85,7 @@ export default function HomeScreen({ navigation }) {
         {/*four buttons */}
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <HomeBtn
-            text="آکادمی"
+            text="به زودی"
             imgSource={require("../../../assets/icons/openbook.png")}
             onPressComponent=""
             navigation={navigation}
@@ -96,171 +93,23 @@ export default function HomeScreen({ navigation }) {
           <HomeBtn
             text="مدیریت کار"
             imgSource={require("../../../assets/icons/greenshop.png")}
-            onPressComponent="TaskScreen"
+            onPressComponent="InventoryManageScreen"
             navigation={navigation}
           />
         </View>
         <View style={{ flexDirection: "row", marginTop: 8 }}>
           <HomeBtn
-            text="ارتباطات"
+            text="به زودی"
             imgSource={require("../../../assets/icons/megaphone.png")}
-            onPressComponent="CustomerContactScreen"
+            onPressComponent=""
             navigation={navigation}
           />
           <HomeBtn
             text="مدیریت کسب"
             imgSource={require("../../../assets/icons/calculation.png")}
-            onPressComponent="BusinessScreen"
+            onPressComponent="AccountingManageScreen"
             navigation={navigation}
           />
-        </View>
-
-        {/*FAQ button */}
-        <LinearGradient
-          colors={["#63D98A", "#24438E"]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 1 }}
-          style={[styles.btn, { width: width - 40 }]}
-        >
-          <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
-            <View style={{ flex: 1 }}>
-              <Image
-                style={{ width: 11, height: 17, marginStart: 20, marginTop: 2 }}
-                source={require("../../../assets/icons/leftchevron.png")}
-              />
-            </View>
-            <Text style={styles.btnText}>سؤالات متداول</Text>
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <Image
-                style={{ width: 39, height: 39, marginTop: -10 }}
-                source={require("../../../assets/icons/books.png")}
-              />
-            </View>
-          </TouchableOpacity>
-        </LinearGradient>
-
-        {/*answer buttons */}
-        <LinearGradient
-          colors={["#63D98A", "#24438E"]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 1 }}
-          style={[styles.btn, { width: width - 40 }]}
-        >
-          <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
-            <View style={{ flex: 1 }}>
-              <Image
-                style={{ width: 11, height: 17, marginStart: 20, marginTop: 2 }}
-                source={require("../../../assets/icons/leftchevron.png")}
-              />
-            </View>
-            <Text style={styles.btnText}>پاسخ سؤالات شما</Text>
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <Image
-                style={{ width: 39, height: 39, marginTop: -10 }}
-                source={require("../../../assets/icons/helpfile.png")}
-              />
-            </View>
-          </TouchableOpacity>
-        </LinearGradient>
-
-        {/* question submit */}
-        <LinearGradient
-          colors={["#63D98A", "#24438E"]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 1 }}
-          style={[styles.questionWrapper, { width: width - 40 }]}
-        >
-          <Text style={[styles.btnText, { marginBottom: 20 }]}>
-            ثبت سؤال شما
-          </Text>
-          {/* white area */}
-          <View style={[styles.questionArea, { width: width - 70 }]}>
-            {/* left buttons */}
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity>
-                <Image
-                  style={{ width: 24, height: 24 }}
-                  source={require("../../../assets/icons/document.png")}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handlePickImage}>
-                <Image
-                  style={{ width: 24, height: 24, marginTop: 10 }}
-                  source={require("../../../assets/icons/addimage.png")}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image
-                  style={{ width: 24, height: 24, marginTop: 10 }}
-                  source={require("../../../assets/icons/mic.png")}
-                />
-              </TouchableOpacity>
-
-              {/* submit button */}
-              <TouchableOpacity
-                style={{
-                  flex: 10,
-                  alignItems: "flex-end",
-                  flexDirection: "row",
-                  marginTop: 80,
-                }}
-              >
-                <Image
-                  style={{ width: 24, height: 24 }}
-                  source={require("../../../assets/icons/submit.png")}
-                />
-                <Text
-                  style={{
-                    color: "#24438E30",
-                    marginStart: 5,
-                    fontFamily: "YekanBakhMedium",
-                    marginTop: 2,
-                    fontSize: 15,
-                  }}
-                >
-                  ارسال
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* text area input */}
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-              <View>
-                <TextInput
-                  placeholder="متن سؤال"
-                  numberOfLines={5}
-                  multiline
-                  value={question}
-                  maxLength={700}
-                  onChangeText={(text) => setQuestion(text)}
-                  style={{
-                    textAlignVertical: "top",
-                    flex: 4,
-                    textAlign: "right",
-                    fontFamily: "YekanBakhMedium",
-                    fontSize: 16,
-                    width: width - 150,
-                  }}
-                  required
-                />
-
-                <View style={{ alignItems: "flex-end" }}>
-                  <TouchableOpacity onPress={handlePickImage}>
-                    {image && (
-                      <Image
-                        source={{ uri: image }}
-                        style={{ width: 80, height: 80, marginTop: 5 }}
-                      />
-                    )}
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </LinearGradient>
-
-        <View style={{ marginBottom: 100 }}>
-          <Button title="log out" onPress={handleLogout} />
         </View>
       </ScrollView>
       {/*bottom buttons */}

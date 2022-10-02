@@ -51,9 +51,6 @@ export default function HeaderScreen({navigation}) {
       };
     }, [])
   ); */
-
-
-
   async function fetchUser() {
     console.log("api get user called");
     const user = await authApi.getProfile(authCtx.accessToken);
@@ -75,8 +72,6 @@ export default function HeaderScreen({navigation}) {
       setShopName(user.shop_name);
       }
   }
-
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"dark-content"} />

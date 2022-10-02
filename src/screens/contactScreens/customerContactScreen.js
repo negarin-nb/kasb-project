@@ -16,17 +16,17 @@ export default function CustomerContactScreen({navigation}) {
         />
         <ContactBtn
           btnTitle={"مشتریان"}
-          onPressComponent="BusinessScreen"
+          onPressComponent=""
           navigation={navigation}
         />
         <ContactBtn
           btnTitle={"تأمین‌کنندگان"}
-          onPressComponent="BusinessScreen"
+          onPressComponent=""
           navigation={navigation}
         />
         <ContactBtn
           btnTitle={"همکاران"}
-          onPressComponent="BusinessScreen"
+          onPressComponent=""
           navigation={navigation}
         />
       </View>
