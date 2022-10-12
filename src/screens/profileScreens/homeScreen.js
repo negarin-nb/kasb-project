@@ -99,9 +99,9 @@ export default function HomeScreen({ navigation }) {
         </View>
         <View style={{ flexDirection: "row", marginTop: 8 }}>
           <HomeBtn
-            text="به زودی"
+            text="ارتباطات"
             imgSource={require("../../../assets/icons/megaphone.png")}
-            onPressComponent=""
+            onPressComponent="ContactManageScreen"
             navigation={navigation}
           />
           <HomeBtn

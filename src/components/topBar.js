@@ -11,10 +11,10 @@ export default function TopBar({iconSourc, title}) {
           end={{ x: 1, y: 1 }}
           style={[styles.TopBar, { width: width - 40 }]}
         >
-          <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }}>
+          <TouchableOpacity style={{ flexDirection: "row", marginTop: 8, marginBottom:8 }}>
             <View style={{ flex: 1 }}>
               <Image
-                style={{ width: 24, height: 24, marginStart: 20, marginTop: 2 }}
+                style={{ width: 24, height: 24, marginStart: 20 }}
                 source={iconSourc}
               />
             </View>
@@ -24,17 +24,17 @@ export default function TopBar({iconSourc, title}) {
   );
 }
 const styles = StyleSheet.create({
-    TopBar: {
+  TopBar: {
     borderRadius: 20,
     height: 43,
     paddingEnd: 20,
-    marginVertical: 10,
+    marginBottom: 10,
   },
   TopBarTitle: {
-    fontFamily: "YekanBakhMedium",
+    fontFamily: "IranYekanRegular",
     textAlign: "right",
     color: "#fff",
-    fontSize: 18,
+    fontSize: 16,
   },
 });
 

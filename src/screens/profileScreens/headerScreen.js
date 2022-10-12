@@ -89,7 +89,7 @@ export default function HeaderScreen({navigation}) {
         style={{
           flexDirection: "row",
           marginTop: 10,
-          paddingBottom: 8,
+          paddingBottom: 20,
           //borderBottomWidth: 1,
           borderBottomColor: "#63D98A",
         }}
