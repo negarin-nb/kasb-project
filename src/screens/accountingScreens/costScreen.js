@@ -9,6 +9,14 @@ import AppPieChart from '../../components/accounting/appPieChart';
 
 
 export default function CostScreen({ navigation }) {
+
+  const emptyData = {
+      title: "",
+      category: "",
+      amount: "",
+      reminder_interval: "",
+      registration_date: "",
+    };
   return (
     <View style={styles.container}>
       <HeaderScreen navigation={navigation} />
@@ -20,7 +28,7 @@ export default function CostScreen({ navigation }) {
         />
         <Card
           title={"ثبت هزینه"}
-          children={() => <CostEntry />}
+          children={() => <CostEntry updateItem={emptyData} />}
           expanded={false}
         />
         <Card
@@ -41,7 +49,6 @@ export default function CostScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#fff",
     paddingEnd: 20,

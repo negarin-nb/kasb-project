@@ -12,10 +12,12 @@ import {
 } from "react-native";
 import ModalPicker from "../modalPicker";
 
-export default function IncomeUpdate({setUpdateModalVisible, item}) {
-  const [incomeTitle, setIncomeTitle] = useState(item.product+' '+item.id);
-  const [entryDate, setEntryDate] = useState(item.date);
-  const [incomeType, setIncomeType] = useState(item.method);
+
+export default function IncomeUpdate({ setUpdateModalVisible, item, handleUpdateIncome }) {
+  const id = item.id;
+  const [incomeTitle, setIncomeTitle] = useState(item.title);
+  const [entryDate, setEntryDate] = useState(item.registration_date);
+  const [incomeType, setIncomeType] = useState(item.category.name);
   const [incomeTypeList, setIncomeTypeList] = useState([
     "امانی",
     "عمده",
@@ -34,14 +36,14 @@ export default function IncomeUpdate({setUpdateModalVisible, item}) {
     "کارگاه",
   ]);
   const [tagModalVisible, setTagModalVisible] = useState(false);
-  const [incomeAmount, setIncomeAmount] = useState(item.price.toString());
+  const [incomeAmount, setIncomeAmount] = useState(item.amount.toString());
   const { width } = useWindowDimensions();
 
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
 
-  const handleFinalUpdate=()=>{
+  const handleFinalUpdate = () => {
     changeModalVisibiblity(false, setUpdateModalVisible);
   };
 
@@ -129,7 +131,18 @@ export default function IncomeUpdate({setUpdateModalVisible, item}) {
       </View>
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity  style={styles.button} onPress={() => handleFinalUpdate}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            handleUpdateIncome({
+              id,
+              incomeTitle,
+              entryDate,
+              incomeAmount,
+              incomeType,
+            })
+          }
+        >
           <Text style={styles.buttonText}>ثبت نهایی</Text>
         </TouchableOpacity>
 

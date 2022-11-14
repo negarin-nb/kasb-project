@@ -14,6 +14,7 @@ import pickImage from "../../util/myImagePicker";
 import CustomDatePicker from '../../util/customDatePicker';
 import ModalPicker from '../modalPicker';
 
+
 export default function ContentEntry({prevContent}) {
 
   const [title, setTitle] = useState(prevContent.title || "");//

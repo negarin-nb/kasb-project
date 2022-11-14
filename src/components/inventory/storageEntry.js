@@ -37,7 +37,7 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
   const [supplyWarn, setSupplyWarn] = useState(prevItem.inventory_warning_interval.toString() || ""); //modal
   const [expireWarn, setExpireWarn] = useState(prevItem.expiration_warning_interval.toString() || "");
   const [warnModalVisible, setWarnModalVisible] = useState(false);
-  const [lable, setLable] = useState(prevItem.labels.name || "برچسب"); //modal
+  const [lable, setLable] = useState(prevItem.labels.name || ""); //modal
   const [lableList, setLableList] = useState([]);
   const [labelModalVisible, setLabelModalVisible] = useState(false);
 
@@ -363,9 +363,6 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
           </TouchableOpacity>
         </Modal>
 
-        
-
-        
         {/*Warn interval*/}
         <TouchableOpacity
           onPress={() => changeModalVisibiblity(true, setWarnModalVisible)}

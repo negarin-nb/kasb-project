@@ -39,12 +39,12 @@ export default function ListItem({
 
         {/*List item*/}
         <Text style={[styles.item, { flex: 1, textAlign: "left" }]}>
-          {item.price}
+          {item.amount}
         </Text>
-        <Text style={[styles.item, { flex: 1.2 }]}>{item.method}</Text>
-        <Text style={[styles.item, { flex: 1.4 }]}>{item.date}</Text>
-        <Text style={[styles.item, { flex: 2.5, paddingEnd: 2 }]}>
-          {item.product} {item.id}
+        <Text style={[styles.item, { flex: 1.5 }]}>{item.category.name}</Text>
+        <Text style={[styles.item, { flex: 1.5 }]}>{item.registration_date}</Text>
+        <Text style={[styles.item, { flex: 1.5, paddingEnd: 2 }]}>
+          {item.title} {/* {item.id} */}
         </Text>
 
         {/*Update Modal */}
@@ -91,9 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent:"center",
     alignItems:'center'
-
   },
-
   text: {
     margin: 8,
     color: "#24408E",

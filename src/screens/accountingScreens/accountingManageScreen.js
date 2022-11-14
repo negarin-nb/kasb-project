@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -10,14 +10,39 @@ import {
 import HeaderScreen from "../profileScreens/headerScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import TopBar from "../../components/topBar";
+import accountingApi from "../../api/accounting";
+import { AuthContext } from "../../store/auth-context";
+import { set } from "react-native-reanimated";
+
 
 export default function AccountingManageScreen({ navigation }) {
-  [income, setIncome] = useState(2780000);
-  [cost, setCost] = useState(650000);
-  [cash, setCash] = useState(4750000);
-  [netProfit, setNetProfit] = useState(2130000);
+  [income, setIncome] = useState(0);
+  [cost, setCost] = useState(0);
+  [cash, setCash] = useState(0);
+  [netProfit, setNetProfit] = useState(0);
+
+  const authCtx = useContext(AuthContext);
 
   const { width } = useWindowDimensions();
+
+  useEffect(() => {
+      fetchAccountingData();
+
+  }, []);
+
+ 
+  const fetchAccountingData = async () => {
+    const result = await accountingApi.getReport(authCtx.accessToken);
+    if (!result.ok) alert("خطایی در بازیابی گزارش‌ها پیش آمده!");
+    else {
+      const arr = Object.values(result.data.Item);
+      console.log(arr);
+      setIncome(arr[0]);
+      setCost(arr[1]);
+      setNetProfit(arr[2]);
+    }
+    console.log(result.data.Message);
+  };
 
   return (
     <View style={styles.container}>
@@ -132,8 +157,8 @@ export default function AccountingManageScreen({ navigation }) {
               source={require("../../../assets/icons/invoice.png")}
             />
           </View>
-
-          <Text style={styles.profitText}>{netProfit.toString()} تومان</Text>
+          <Text style={styles.profitText}>{" تومان"}</Text>
+          <Text style={styles.profitText}>{netProfit.toString()}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -193,8 +218,9 @@ const styles = StyleSheet.create({
 
   profitText: {
     color: "#fff",
-    textAlign: "right",
+    //textAlign: "right",
     fontSize: 18,
     fontFamily: "IranYekanBold",
+    alignSelf: "flex-end",
   },
 });

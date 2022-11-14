@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Image,
@@ -11,46 +11,132 @@ import {
 } from "react-native";
 import ModalPicker from "../modalPicker";
 import CustomDatePicker from "../../util/customDatePicker";
+import costApi from "../../api/cost";
+import { toEnglish } from "persian";
+import { AuthContext } from "../../store/auth-context";
 
-export default function CostEntry() {
+export default function CostEntry({ updateItem, handleUpdateCost, setModalVisible }) {
+  const id = updateItem.id;
+  const authCtx = useContext(AuthContext);
   const [costTitle, setCostTitle] = useState();
   const [entryDate, setEntryDate] = useState("تاریخ ثبت");
-  const [dateModalVisible, setDateModalVisible] = useState(false);
-  const [costType, setCostType] = useState("نوع هزینه");
-  const [costTypeList, setCostTypeList] = useState(["ثابت","عملیاتی"]);
-  const [typeModalVisible, setTypeModalVisible] = useState("false");
-  const [costTag, setCostTag] = useState();
-  const [costAmount, setCostAmount] = useState();
+  const [dateModalVisible, setDateModalVisible] = useState(false); //modal
+  const [costType, setCostType] = useState();
+  const [costTypeList, setCostTypeList] = useState(["ثابت", "عملیاتی"]);
+  const [typeModalVisible, setTypeModalVisible] = useState(false); //modal
+  const [reminderInterval, setReminderInterval] = useState();
+  const [costAmount, setCostAmount] = useState("");
+  const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (updateItem.title) {
+      setCostTitle(updateItem.title);
+      setEntryDate(updateItem.registration_date);
+      setCostType(updateItem.category.name);
+      setReminderInterval(updateItem.reminder_interval.toString());
+      setCostAmount(updateItem.amount.toString());
+    }
+  }, []);
+
+  const handleCostTypeList = async () => {
+    const result = await costApi.getCostCategory(authCtx.accessToken);
+    if (!result.ok) console.log("error in getting Cost Category List!");
+    console.log(result.data.Message);
+    setCostTypeList(result.data.ListItems);
+  };
+
+  const reRender = () => {
+    setCostTitle("");
+    setCostType("نوع هزینه");
+    setEntryDate("تاریخ ثبت");
+    setReminderInterval("");
+    setCostAmount("");
+  };
+
+  const handleCostEntry = async () => {
+    const costData = {
+      title: costTitle,
+      category: costType,
+      amount: parseInt(toEnglish(costAmount)),
+      reminder_interval: reminderInterval,
+      registration_date: entryDate,
+    };
+    console.log(costData);
+    //console.log(authCtx.accessToken);
+    const result = await costApi.enterCost(authCtx.accessToken, costData);
+    console.log(result.data.Message);
+    if (!result.ok) alert("ثبت هزینه با خطا مواجه شده است!");
+    else {
+      alert("هزینه مورد نظر ثبت شد");
+      reRender();
+    }
+  };
 
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
 
-  const { width } = useWindowDimensions();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: width - 60 }]}>
       <View style={{ flexDirection: "row" }}>
         {/*cost Type*/}
         <TouchableOpacity
-          onPress={() => changeModalVisibiblity(true, setTypeModalVisible)}
+          onPress={() => {
+            changeModalVisibiblity(true, setTypeModalVisible);
+            handleCostTypeList(); //remove after adding search api
+          }}
           style={[styles.input, { flex: 1.4 }]}
         >
-          <Text style={styles.inputText}>{costType}</Text>
+          <Text style={styles.inputText}>{costType || "نوع هزینه"}</Text>
         </TouchableOpacity>
         <Modal
           transparent={true}
           animationType="fade"
           visible={typeModalVisible}
-          onRequestClose={() =>
-            changeModalVisibiblity(false, setTypeModalVisible)
-          }
         >
-          <ModalPicker
-            dataList={costTypeList}
-            setData={setCostType}
-            setModalVisible={setTypeModalVisible}
-            changeModalVisibiblity={changeModalVisibiblity}
-          />
+          <TouchableOpacity
+            style={[styles.modalContainer]}
+            onPress={() => {
+              setTypeModalVisible(false);
+            }}
+          >
+            <View style={[styles.dropDown]}>
+              {/* modal input */}
+              <TextInput
+                placeholder="نوع هزینه"
+                placeholderTextColor="#24408E"
+                value={costType}
+                onChangeText={(text) => {
+                  setCostType(text);
+                  //handleCostTypeList(text); it is for search api
+                }}
+                autoCapitalize="none"
+                autoFocus={true}
+                style={[styles.input]}
+              />
+              {/* modal list */}
+              {costTypeList.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => {
+                    setCostType(item.name);
+                    setTypeModalVisible(false);
+                  }}
+                >
+                  <Text style={styles.dropDownText}>{item.name}</Text>
+                </TouchableOpacity>
+              ))}
+              {/* modal submit button */}
+              <TouchableOpacity
+                style={[styles.button, { width: 70, alignSelf: "center" }]}
+                onPress={() => {
+                  setTypeModalVisible(false);
+                }}
+              >
+                <Text style={styles.buttonText}>ثبت</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
         </Modal>
 
         <TextInput
@@ -67,8 +153,8 @@ export default function CostEntry() {
         <TextInput
           placeholder="بازه یادآوری"
           placeholderTextColor="#24408E"
-          value={costTag}
-          onChangeText={(text) => setIncomeTag(text)}
+          value={reminderInterval}
+          onChangeText={(text) => setReminderInterval(text)}
           autoCapitalize="none"
           style={[styles.input, { flex: 1 }]}
         />
@@ -111,10 +197,38 @@ export default function CostEntry() {
       </View>
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity style={[styles.button, {}]}>
-          <Text style={styles.buttonText}>ثبت نهایی</Text>
-        </TouchableOpacity>
-
+        {updateItem.title ? (
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                handleUpdateCost({
+                  id,
+                  costTitle,
+                  entryDate,
+                  costAmount,
+                  reminderInterval,
+                  costType,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>به روز رسانی</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+               style={styles.input}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={[styles.inputText,{paddingHorizontal:20}]}>بازگشت</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={[styles.button]}
+            onPress={handleCostEntry}
+          >
+            <Text style={styles.buttonText}>ثبت نهایی</Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity style={[styles.addButton]}>
           <Image
             style={{ width: 10, height: 10 }}
@@ -146,9 +260,9 @@ const styles = StyleSheet.create({
     height: 35,
     alignItems: "center",
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
     color: "#24408E",
-    fontFamily: "YekanBakhThin",
     borderWidth: 2,
     borderColor: "#24438E10",
     backgroundColor: "#FFFFFF80",
@@ -157,9 +271,32 @@ const styles = StyleSheet.create({
   inputText: {
     alignItems: "center",
     textAlign: "center",
-    fontSize: 14,
-    fontFamily: "YekanBakhThin",
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
     color: "#24408E",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#00000087",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dropDown: {
+    padding: 10,
+    width: 200,
+    minHeight: 100,
+    borderRadius: 40,
+    borderWidth: 2,
+    borderColor: "#24438E40",
+    backgroundColor: "#FFFFFF",
+    // justifyContent: "center",
+  },
+  dropDownText: {
+    marginVertical: 5,
+    color: "#24408E",
+    fontSize: 13,
+    fontFamily: "IranYekanLight",
+    textAlign: "center",
   },
   addButton: {
     marginTop: 5,

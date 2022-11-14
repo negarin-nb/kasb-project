@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -8,56 +8,94 @@ import {
   Modal,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { getIncomes } from "../../model/incomes";
 import IncomeUpdate from "./incomeUpdate";
 import ListItem from "./listItem";
-//import Modal from "react-native-modal";
+import incomeApi from "../../api/income";
+import { AuthContext } from "../../store/auth-context";
+import { toEnglish } from "persian";
+import IncomeEntry from "./incomeEntry";
+
+
+
 
 export default function IncomeList() {
+  const authCtx = useContext(AuthContext);
   const { width } = useWindowDimensions();
-  Incomes = getIncomes();
-  const [incomesDetail, setIncomesDetail] = useState(Incomes);
+  const [incomesDetail, setIncomesDetail] = useState([]);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [updateItem, setUpdateItem] = useState([]);
-  const [deleteItem, setDeleteItem] = useState([]);
+  const [deleteItem, setDeleteItem] = useState();
 
-  const changeModalVisibiblity = (bool, setModalVisible) => {
-    setModalVisible(bool);
+  useEffect(() => {
+    loadIncomes();
+  }, []);
+  const loadIncomes = async () => {
+    const result = await incomeApi.getIncomeList(authCtx.accessToken);
+    if (!result.ok) alert(" خطایی در بازیابی درآمدها پیش آمده است!");
+    else setIncomesDetail(result.data.ListItems);
+    console.log(result.data.Message);
   };
-  const handleDeleteModal = (item) => {
-    changeModalVisibiblity(true, setDeleteModalVisible);
+
+  const handleDeleteModal =  (item) => {
+    setDeleteModalVisible(true);
     setDeleteItem(item);
   };
+
   const handleUpdateModal = (item) => {
-    changeModalVisibiblity(true, setUpdateModalVisible);
+    setUpdateModalVisible(true);
     setUpdateItem(item);
   };
 
+  const handleDeleteIncome = async (item) => {
+    setDeleteModalVisible(false);
+    const result = await incomeApi.deleteIncome(authCtx.accessToken, item.id);
+    if (!result.ok) alert("خطایی در حذف درآمد پیش آمده است!");
+    else setIncomesDetail(result.data.ListItems);
+    console.log(result.data.Message);
+    loadIncomes();
+  };
+
+  const handleUpdateIncome = async (item) => {
+    console.log(item);
+    const incomeData = {
+      id: item.id,
+      title: item.incomeTitle,
+      category: item.incomeType,
+      amount: parseInt(toEnglish(item.incomeAmount)),
+      registration_date: item.entryDate,
+    };
+    setUpdateModalVisible(false);
+    const result = await incomeApi.updateIncome(authCtx.accessToken, incomeData);
+    if (!result.ok) alert("خطایی در به روز رسانی درآمد پیش آمده است!");
+    else {setIncomesDetail(result.data.ListItems); 
+    alert("درآمد با موفقیت به روز رسانی شد!");}
+    console.log(result.data.Message);
+    loadIncomes();
+  };
+  
   //Delete Modal Function
   function DeleteItemModal({
     deleteItem,
+    modalVisible,
     setModalVisible,
-    changeModalVisibiblity,
+    
   }) {
     return (
-      <Modal
-        transparent={true}
-        animationType="fade"
-        visible={deleteModalVisible}
-      >
+      <Modal transparent={true} animationType="fade" visible={modalVisible}>
         <View style={styles.modalContainer}>
-          <View style={styles.modal}>
+          <View style={[styles.modal, { paddingVertical: 20 }]}>
             <Text style={styles.text}>از حذف این درآمد مطمئن هستید؟</Text>
             <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => changeModalVisibiblity(false, setModalVisible)}
-              >
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
                 <Text style={styles.text}>خیر</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => handleDeleteModal(deleteItem)}>
-                <Text style={styles.text}>بله</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleDeleteIncome(deleteItem)}
+              >
+                <Text style={styles.buttonText}>بله</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -68,20 +106,31 @@ export default function IncomeList() {
   //Update Modal Function
   function UpdateItemModal({
     updateItem,
+    modalVisible,
     setModalVisible,
-    changeModalVisibiblity,
   }) {
     return (
-      <Modal
-        transparent={true}
-        animationType="fade"
-        visible={updateModalVisible}
-      >
+      <Modal transparent={true} animationType="fade" visible={modalVisible}>
         <TouchableOpacity
           style={styles.modalContainer}
-          onPress={() => changeModalVisibiblity(false, setModalVisible)}
+          onPress={() => setModalVisible(false)}
         >
-          <IncomeUpdate item={updateItem} />
+          <View
+            style={[styles.modal, { width: width - 40, alignItems: "center" }]}
+          >
+            <IncomeEntry
+              updateItem={updateItem}
+              handleUpdateIncome={handleUpdateIncome}
+              setModalVisible={setModalVisible}
+              style={{ alignItems: "center", alignItems: "center" }}
+            />
+
+            {/* <IncomeUpdate
+            item={updateItem}
+            setUpdateModalVisible={setUpdateModalVisible}
+            handleUpdateIncome={handleUpdateIncome}
+          /> */}
+          </View>
         </TouchableOpacity>
       </Modal>
     );
@@ -89,7 +138,7 @@ export default function IncomeList() {
 
   // main render
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       {/* Income List */}
       <FlatList
         data={incomesDetail}
@@ -105,15 +154,15 @@ export default function IncomeList() {
       {/* Delete Modal */}
       <DeleteItemModal
         deleteItem={deleteItem}
+        modalVisible={deleteModalVisible}
         setModalVisible={setDeleteModalVisible}
-        changeModalVisibiblity={changeModalVisibiblity}
       />
 
       {/* Update Modal */}
       <UpdateItemModal
         updateItem={updateItem}
+        modalVisible={updateModalVisible}
         setModalVisible={setUpdateModalVisible}
-        changeModalVisibiblity={changeModalVisibiblity}
       />
     </View>
   );
@@ -173,10 +222,9 @@ const styles = StyleSheet.create({
   },
 
   modal: {
-    padding: 20,
+    paddingTop:10,
     width: 300,
-    height: "auto",
-    borderRadius: 40,
+    borderRadius: 20,
     borderWidth: 2,
     borderColor: "#24438E40",
     backgroundColor: "#FFFFFF",
@@ -186,9 +234,26 @@ const styles = StyleSheet.create({
 
   text: {
     margin: 8,
+    marginHorizontal: 20,
     color: "#24408E",
-    fontSize: 15,
-    fontFamily: "YekanBakhThin",
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
+    textAlign: "center",
+  },
+  button: {
+    marginTop: 5,
+    marginHorizontal: 2,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    backgroundColor: "#63D98A",
+    borderRadius: 20,
+    color: "#fff",
+    width: 70,
+  },
+  buttonText: {
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
+    color: "#fff",
     textAlign: "center",
   },
 });

@@ -43,7 +43,7 @@ export default function ContentCalendarScreen({ navigation }) {
     setMoreModalVisible(false);
     console.log(option.title);
     option.title === "مشاهده"
-      ? navigation.navigate("DayCalendarScreen", { date , weekDay })
+      ? navigation.navigate("DayContentListScreen", { date , weekDay })
       : option.setVisible(true);
 
   };
@@ -81,6 +81,14 @@ export default function ContentCalendarScreen({ navigation }) {
     setContentViewVisible(true);
     //setMoreModalVisible(true);
     //navigation.navigate("DayCalendarScreen", { date });
+  };
+
+  const editContent = {
+    title: "",
+    category: "",
+    date: "",
+    content:"",
+    tags: [],
   };
 
   return (
@@ -165,13 +173,13 @@ export default function ContentCalendarScreen({ navigation }) {
                 }}
               >
                 <Image
-                  style={{ width: 20, height: 20}}
+                  style={{ width: 20, height: 20 }}
                   source={require("../../../assets/icons/close.png")}
                 />
                 <Text style={styles.dateText}>{weekDay + " " + date}</Text>
               </View>
             </TouchableOpacity>
-            <ContentEntry />
+            <ContentEntry prevContent={editContent} />
           </View>
         </View>
       </Modal>

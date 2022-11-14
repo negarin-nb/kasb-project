@@ -84,11 +84,12 @@ export default function DayContentScreen({ navigation, route }) {
             </View>
           </View>
 
-          {contents.map((content) => (
+          {contents.map((content, index) => (
             <View style={styles.listItem}>
               <TouchableOpacity
                 style={{ paddingRight: 10 }}
                 onPress={() => setContentViewVisible(true)}
+                key={index}
               >
                 <Image
                   style={{ width: 24, height: 24 }}

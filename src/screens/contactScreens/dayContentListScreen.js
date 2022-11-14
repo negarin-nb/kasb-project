@@ -5,7 +5,7 @@ import TopBar from "../../components/topBar";
 import ReminderBtn from "../../components/content/reminderBtn";
 import ContentBtn from "../../components/content/contentBtn";
 
-export default function DayCalendarScreen({ navigation, route }) {
+export default function DayContentListScreen({ navigation, route }) {
 
   const reminderModel = [
     {
@@ -41,13 +41,15 @@ export default function DayCalendarScreen({ navigation, route }) {
           iconSourc={require("../../../assets/icons/calendar.png")}
           title={weekDay + " " + date}
         />
+        {/* reminders list */}
         {reminders.map((reminder) => (
           <ReminderBtn
             iconSource={require("../../../assets/icons/bell.png")}
             title={reminder.title}
+            key={reminder.title}
           />
         ))}
-
+        {/* content button */}
         <ContentBtn
           iconSource={require("../../../assets/icons/add2.png")}
           title={"محتوا جهت انتشار"}

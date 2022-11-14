@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import Card from "../../components/card";
@@ -7,7 +7,15 @@ import IncomeEntry from "../../components/accounting/incomeEntry";
 import IncomeList from "../../components/accounting/incomeList";
 import AppPieChart from "../../components/accounting/appPieChart";
 
+
 export default function IncomeScreen({navigation}) {
+
+  const emptyData = {
+    title: "",
+    category: "",
+    amount: "",
+    registration_date: "",
+  };
   return (
     <View style={styles.container}>
       <HeaderScreen navigation={navigation} />
@@ -19,7 +27,7 @@ export default function IncomeScreen({navigation}) {
         />
         <Card
           title={"ثبت درآمد"}
-          children={() => <IncomeEntry />}
+          children={() => <IncomeEntry updateItem={emptyData} />}
           expanded={false}
         />
         <Card
@@ -40,7 +48,6 @@ export default function IncomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#fff",
     paddingEnd: 20,
