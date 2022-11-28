@@ -12,6 +12,7 @@ import {
 import ModalPicker from "../modalPicker";
 import CustomDatePicker from "../../util/customDatePicker";
 import incomeApi from "../../api/income";
+import accountingApi from "../../api/accounting";
 import { toEnglish } from "persian";
 import { AuthContext } from "../../store/auth-context";
 
@@ -22,10 +23,7 @@ export default function IncomeEntry({ updateItem, handleUpdateIncome, setModalVi
   const [entryDate, setEntryDate] = useState("تاریخ ثبت");
   const [dateModalVisible, setDateModalVisible] = useState(false); //modal
   const [incomeType, setIncomeType] = useState("");
-  const [incomeTypeList, setIncomeTypeList] = useState([
-    "امانی",
-    "عمده",
-  ]);
+  const [incomeTypeList, setIncomeTypeList] = useState([]);
   const [typeModalVisible, setTypeModalVisible] = useState(false); //modal
   const [incomeTag, setIncomeTag] = useState("برچسب");
   const [incomeTagList, setIncomeTagList] = useState([
@@ -49,16 +47,20 @@ export default function IncomeEntry({ updateItem, handleUpdateIncome, setModalVi
     }
   }, []);
 
-   const handleIncomeTypeList = async () => {
-     const result = await incomeApi.getIncomeCategory(authCtx.accessToken);
+   const handleIncomeTypeList = async (text) => {
+     const result = await accountingApi.searchCategory(
+       authCtx.accessToken,
+       "income",
+       text
+     );
      if (!result.ok) console.log("error in getting Income Category List!");
-     console.log(result.data.Message);
      setIncomeTypeList(result.data.ListItems);
+     console.log(incomeTypeList);
    };
 
   const reRender = () => {
     setIncomeTitle("");
-    setIncomeType("نوع درآمد");
+    setIncomeType("");
     setEntryDate("تاریخ ثبت");
     setIncomeAmount("");
   };
@@ -91,7 +93,7 @@ export default function IncomeEntry({ updateItem, handleUpdateIncome, setModalVi
         <TouchableOpacity
           onPress={() => {
             changeModalVisibiblity(true, setTypeModalVisible);
-            handleIncomeTypeList(); //remove after adding search api
+            //handleIncomeTypeList(); //remove after adding search api
           }}
           style={[styles.input, { flex: 1 }]}
         >
@@ -117,7 +119,7 @@ export default function IncomeEntry({ updateItem, handleUpdateIncome, setModalVi
                 value={incomeType}
                 onChangeText={(text) => {
                   setIncomeType(text);
-                  //handleIncomeTypeList(text); it is for search api
+                  handleIncomeTypeList(text); //it is for search api
                 }}
                 autoCapitalize="none"
                 autoFocus={true}
@@ -128,11 +130,11 @@ export default function IncomeEntry({ updateItem, handleUpdateIncome, setModalVi
                 <TouchableOpacity
                   key={index}
                   onPress={() => {
-                    setIncomeType(item.name);
+                    setIncomeType(item);
                     setTypeModalVisible(false);
                   }}
                 >
-                  <Text style={styles.dropDownText}>{item.name}</Text>
+                  <Text style={styles.dropDownText}>{item}</Text>
                 </TouchableOpacity>
               ))}
               {/* modal submit button */}

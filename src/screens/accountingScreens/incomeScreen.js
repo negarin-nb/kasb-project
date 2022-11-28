@@ -37,7 +37,7 @@ export default function IncomeScreen({navigation}) {
         />
         <Card
           title={"گزارش درآمدها"}
-          children={() => <AppPieChart />}
+          children={() => <AppPieChart type = "income" />}
           expanded={false}
         />
       </View>

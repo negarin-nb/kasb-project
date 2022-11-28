@@ -12,6 +12,7 @@ import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import ContentView from '../../components/content/contentView';
 import ContentEntry from "../../components/content/contentEntry";
+import CloseButton from "../../components/closeButton";
 
 export default function DayContentScreen({ navigation, route }) {
   const contentListModel = [
@@ -112,7 +113,6 @@ export default function DayContentScreen({ navigation, route }) {
             </View>
           ))}
         </View>
-
         {/* content view Modal */}
         <Modal
           transparent={true}
@@ -121,17 +121,14 @@ export default function DayContentScreen({ navigation, route }) {
         >
           <View style={[styles.modalContainer, { justifyContent: "center" }]}>
             <View style={[styles.modal, { width: width - 40 }]}>
-              <TouchableOpacity
-                style={{ paddingHorizontal: 15, paddingTop: 8 }}
-                onPress={() => {
-                  setContentViewVisible(false);
+              <View
+                style={{
+                  paddingHorizontal: 15,
+                  paddingTop: 8,
                 }}
               >
-                <Image
-                  style={{ width: 20, height: 20, marginBottom: -5 }}
-                  source={require("../../../assets/icons/close.png")}
-                />
-              </TouchableOpacity>
+                <CloseButton setModalVisible={setContentViewVisible} />
+              </View>
               <ContentView onEditPress={onEditPress} />
             </View>
           </View>
@@ -145,26 +142,17 @@ export default function DayContentScreen({ navigation, route }) {
         >
           <View style={[styles.modalContainer, { paddingTop: height * 0.2 }]}>
             <View style={[styles.modal, { width: width - 40 }]}>
-              <TouchableOpacity
-                style={{ paddingHorizontal: 15, paddingTop: 8 }}
-                onPress={() => {
-                  setContentEntryVisible(false);
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 15,
+                  paddingTop: 8,
                 }}
               >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginTop: 5,
-                  }}
-                >
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                    source={require("../../../assets/icons/close.png")}
-                  />
-                  <Text style={styles.dateText}>{weekDay + " " + date}</Text>
-                </View>
-              </TouchableOpacity>
+                <CloseButton setModalVisible={setContentEntryVisible} />
+                <Text style={styles.dateText}>{weekDay + " " + date}</Text>
+              </View>
               <ContentEntry prevContent={editContent} />
             </View>
           </View>
@@ -233,10 +221,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   dateText: {
-    marginTop: 2,
     color: "#24408E",
     fontSize: 12,
     fontFamily: "IranYekanRegular",
-    textAlign: "center",
+    textAlign: "right",
   },
 });

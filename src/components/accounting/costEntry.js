@@ -11,9 +11,10 @@ import {
 } from "react-native";
 import ModalPicker from "../modalPicker";
 import CustomDatePicker from "../../util/customDatePicker";
-import costApi from "../../api/cost";
 import { toEnglish } from "persian";
 import { AuthContext } from "../../store/auth-context";
+import costApi from "../../api/cost";
+import accountingApi from "../../api/accounting";
 
 export default function CostEntry({ updateItem, handleUpdateCost, setModalVisible }) {
   const id = updateItem.id;
@@ -22,7 +23,7 @@ export default function CostEntry({ updateItem, handleUpdateCost, setModalVisibl
   const [entryDate, setEntryDate] = useState("تاریخ ثبت");
   const [dateModalVisible, setDateModalVisible] = useState(false); //modal
   const [costType, setCostType] = useState();
-  const [costTypeList, setCostTypeList] = useState(["ثابت", "عملیاتی"]);
+  const [costTypeList, setCostTypeList] = useState([]);
   const [typeModalVisible, setTypeModalVisible] = useState(false); //modal
   const [reminderInterval, setReminderInterval] = useState();
   const [costAmount, setCostAmount] = useState("");
@@ -38,11 +39,13 @@ export default function CostEntry({ updateItem, handleUpdateCost, setModalVisibl
     }
   }, []);
 
-  const handleCostTypeList = async () => {
-    const result = await costApi.getCostCategory(authCtx.accessToken);
+  const handleCostTypeList = async (text) => {
+    if (text.length > 1) {
+    const result = await accountingApi.searchCategory(authCtx.accessToken, "cost", text);
     if (!result.ok) console.log("error in getting Cost Category List!");
-    console.log(result.data.Message);
-    setCostTypeList(result.data.ListItems);
+    else setCostTypeList(result.data.ListItems);
+    console.log(result.data.ListItems);
+    }
   };
 
   const reRender = () => {
@@ -83,7 +86,7 @@ export default function CostEntry({ updateItem, handleUpdateCost, setModalVisibl
         <TouchableOpacity
           onPress={() => {
             changeModalVisibiblity(true, setTypeModalVisible);
-            handleCostTypeList(); //remove after adding search api
+            //handleCostTypeList(); //remove after adding search api
           }}
           style={[styles.input, { flex: 1.4 }]}
         >
@@ -108,7 +111,7 @@ export default function CostEntry({ updateItem, handleUpdateCost, setModalVisibl
                 value={costType}
                 onChangeText={(text) => {
                   setCostType(text);
-                  //handleCostTypeList(text); it is for search api
+                  handleCostTypeList(text); //it is for search api
                 }}
                 autoCapitalize="none"
                 autoFocus={true}

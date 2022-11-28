@@ -1,100 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import { processFontFamily } from "expo-font";
 import arabicPersianReshaper from "arabic-persian-reshaper";
+import accountingApi from "../../api/accounting";
+import { AuthContext } from "../../store/auth-context";
 
 
+export default function AppPieChart({type}) {
 
-export default function AppPieChart() {
-
-  const [types, setTypes] = useState([]);
   const { width } = useWindowDimensions();
-  const fontColor = "#fff";
-  const fontSize=12;
-  const fontFamily = processFontFamily("IranYekanRegular");
-  const typesModel = [
-    { type: "خرده", amount: 21500000, color: "rgba(131, 167, 234, 1)" },
-    { type: "عمده", amount: 2800000, color: "rgba(131, 200, 234, 1)" },
-    { type: "آنلاین", amount: 527612, color: "#fff" },
-    { type: "همکار", amount: 8538000, color: "red" },
-    { type: "بازارچه", amount: 11920000, color: "rgb(0, 0, 255)" },
-  ];
+  const authCtx = useContext(AuthContext);
+  const [reports, setReports] = useState([]);
 
+  const fontColor = "#fff";
+  const fontSize = 12;
+  const fontFamily = processFontFamily("IranYekanRegular");
   const colors = [
     "rgba(131, 167, 234, 1)",
     "rgba(131, 200, 234, 1)",
     "#fff",
-    "red",
+    "blue",
     "rgb(0, 0, 255)"
   ];
-  
-  
-  const datacolor = colors.map((color) => ({
-    color: color,
+
+  useEffect(() => {
+    if(type === "cost") fetchCostsReport();
+    else if(type === "income") fetchIncomesReport();
+  }, []);
+
+  const fetchCostsReport = async () => {
+    const result = await accountingApi.getCostsReport(authCtx.accessToken);
+    if (!result.ok) alert("خطایی در بازیابی گزارش‌ هزینه‌ها پیش آمده!");
+    else setReports(result.data.ListItems);
+    console.log(result.data.Message);
+  };
+
+  const fetchIncomesReport = async () => {
+    const result = await accountingApi.getIncomesReport(authCtx.accessToken);
+    if (!result.ok) alert("خطایی در بازیابی گزارش‌ درامدها پیش آمده!");
+    else setReports(result.data.ListItems);
+    console.log(result.data.Message);
+  };
+
+  const data = reports.map((item, index) => ({
+    name: arabicPersianReshaper.PersianShaper.convertArabic("تومان  : " +item.category_name),
+    population: item.category_amount,
+    color: colors[index],
     legendFontColor: fontColor,
     legendFontSize: fontSize,
     legendFontFamily: fontFamily,
   }));
 
-  const data = typesModel.map((item) => ({
-    name: arabicPersianReshaper.PersianShaper.convertArabic(item.type),
-    population: item.amount,
-    color: item.color,
-    legendFontColor: fontColor,
-    legendFontSize: fontSize,
-    legendFontFamily: fontFamily,
-  }));
-
-
-  const data1 = [
-    {
-      name: arabicPersianReshaper.PersianShaper.convertArabic(" خرده"),
-      population: 21500000,
-      color: "rgba(131, 167, 234, 1)",
-      legendFontColor: fontColor,
-      legendFontSize: fontSize,
-      legendFontFamily: fontFamily,
-    },
-    {
-      name: arabicPersianReshaper.PersianShaper.convertArabic(" عمده"),
-      population: 2800000,
-      color: "#F00",
-      legendFontColor: fontColor,
-      legendFontSize: fontSize,
-      legendFontFamily: fontFamily,
-    },
-    {
-      name: arabicPersianReshaper.PersianShaper.convertArabic(" آنلاین"),
-      population: 527612,
-      color: "red",
-      legendFontColor: fontColor,
-      legendFontSize: fontSize,
-      legendFontFamily: fontFamily,
-    },
-    {
-      name: arabicPersianReshaper.PersianShaper.convertArabic(" همکار"),
-      population: 8538000,
-      color: "#ffffff",
-      legendFontColor: fontColor,
-      legendFontSize: fontSize,
-      legendFontFamily: fontFamily,
-    },
-    {
-      name: arabicPersianReshaper.PersianShaper.convertArabic(" بازارچه"),
-      population: 11920000,
-      color: "rgb(0, 0, 255)",
-      legendFontColor: fontColor,
-      legendFontSize: fontSize,
-      legendFontFamily: fontFamily,
-    },
-  ];  
   return (
     <PieChart
       style={{ marginTop: -20 }}
       data={data}
       width={width - 60}
-      height={220}
+      height={250}
       chartConfig={{
         decimalPlaces: 0, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(99, 217, 138, ${opacity})`,

@@ -16,9 +16,6 @@ import CostEntry from './costEntry';
 import { toEnglish } from 'persian';
 import UpdateModal from "./updateModal";
 
-
-
-
 export default function CostList() {
   const authCtx = useContext(AuthContext);
   const { width } = useWindowDimensions();

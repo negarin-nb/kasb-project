@@ -34,7 +34,9 @@ export default function LogInScreen({ navigation }) {
     //setIsAuthenticating(true);
     const result = await authApi.login(phone, password);
     // const user = fakeLogin(phone, password);
-    if (!result.ok) return setLoginFailed(true);
+    if (!result.ok) {
+      console.log(result.data.message);
+      return setLoginFailed(true);}
     setLoginFailed(false);
     authCtx.authenticate({
       authAccessToken: result.data.access,

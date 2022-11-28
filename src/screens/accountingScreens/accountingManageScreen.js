@@ -12,27 +12,31 @@ import { LinearGradient } from "expo-linear-gradient";
 import TopBar from "../../components/topBar";
 import accountingApi from "../../api/accounting";
 import { AuthContext } from "../../store/auth-context";
-import { set } from "react-native-reanimated";
-
+import { NumericFormat } from 'react-number-format';
+import CurrencyFormat from '../../components/currencyFormat';
 
 export default function AccountingManageScreen({ navigation }) {
-  [income, setIncome] = useState(0);
-  [cost, setCost] = useState(0);
-  [cash, setCash] = useState(0);
-  [netProfit, setNetProfit] = useState(0);
-
+  
   const authCtx = useContext(AuthContext);
-
   const { width } = useWindowDimensions();
+  
+  const [income, setIncome] = useState(0);
+  const [cost, setCost] = useState(0);
+  const [cash, setCash] = useState();
+  const [netProfit, setNetProfit] = useState(0);
 
   useEffect(() => {
-      fetchAccountingData();
-
+      fetchAccountingReport();
+      getCashData();
   }, []);
 
+  const getCashData = async () => {
+    const cashData = await authCtx.getUserCash();
+    setCash(cashData);
+  }
  
-  const fetchAccountingData = async () => {
-    const result = await accountingApi.getReport(authCtx.accessToken);
+  const fetchAccountingReport = async () => {
+    const result = await accountingApi.getTotalReport(authCtx.accessToken);
     if (!result.ok) alert("خطایی در بازیابی گزارش‌ها پیش آمده!");
     else {
       const arr = Object.values(result.data.Item);
@@ -81,7 +85,7 @@ export default function AccountingManageScreen({ navigation }) {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.btnTitle}>درآمدها</Text>
-              <Text style={styles.btnText}>{income.toString()} تومان</Text>
+              <CurrencyFormat amount={income} customeStyle={styles.btnText} />
             </View>
           </TouchableOpacity>
         </LinearGradient>
@@ -113,7 +117,7 @@ export default function AccountingManageScreen({ navigation }) {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.btnTitle}>هزینه‌ها</Text>
-              <Text style={styles.btnText}>{cost.toString()} تومان</Text>
+              <CurrencyFormat amount={cost} customeStyle={styles.btnText} />
             </View>
           </TouchableOpacity>
         </LinearGradient>
@@ -139,7 +143,7 @@ export default function AccountingManageScreen({ navigation }) {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.btnTitle}>صندوق</Text>
-              <Text style={styles.btnText}>{cash.toString()} تومان</Text>
+              <CurrencyFormat amount={cash} customeStyle={styles.btnText} />
             </View>
           </TouchableOpacity>
         </LinearGradient>
@@ -158,7 +162,15 @@ export default function AccountingManageScreen({ navigation }) {
             />
           </View>
           <Text style={styles.profitText}>{" تومان"}</Text>
-          <Text style={styles.profitText}>{netProfit.toString()}</Text>
+          <NumericFormat
+            value={netProfit}
+            displayType="text"
+            thousandSeparator=","
+            decimalSeparator="/"
+            renderText={(value) => (
+              <Text style={styles.profitText}>{value}</Text>
+            )}
+          />
         </TouchableOpacity>
       </View>
     </View>

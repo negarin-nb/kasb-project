@@ -6,6 +6,7 @@ import ContentEntry from "../../components/content/contentEntry";
 import ContentView from "../../components/content/contentView";
 import MonthCalendar from "../../util/monthCalendar";
 import moment from "jalali-moment";
+import CloseButton from "../../components/closeButton";
 
 export default function ContentCalendarScreen({ navigation }) {
 
@@ -159,54 +160,38 @@ export default function ContentCalendarScreen({ navigation }) {
       >
         <View style={[styles.modalContainer, { paddingTop: height * 0.2 }]}>
           <View style={[styles.modal, { width: width - 40 }]}>
-            <TouchableOpacity
-              style={{ paddingHorizontal: 15, paddingTop: 8 }}
-              onPress={() => {
-                setContentEntryVisible(false);
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 15,
+                paddingTop: 8 
               }}
             >
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginTop: 5,
-                }}
-              >
-                <Image
-                  style={{ width: 20, height: 20 }}
-                  source={require("../../../assets/icons/close.png")}
-                />
-                <Text style={styles.dateText}>{weekDay + " " + date}</Text>
-              </View>
-            </TouchableOpacity>
+              <CloseButton setModalVisible={setContentEntryVisible} />
+              <Text style={styles.dateText}>{weekDay + " " + date}</Text>
+            </View>
             <ContentEntry prevContent={editContent} />
           </View>
         </View>
       </Modal>
 
       {/* content view Modal */}
-      <Modal
+      {/*  <Modal
         transparent={true}
         animationType="fade"
         visible={contentViewVisible}
       >
         <View style={[styles.modalContainer, { justifyContent: "center" }]}>
           <View style={[styles.modal, { width: width - 40 }]}>
-            <TouchableOpacity
-              style={{ paddingHorizontal: 15, paddingTop: 8 }}
-              onPress={() => {
-                setContentViewVisible(false);
-              }}
-            >
-              <Image
-                style={{ width: 20, height: 20, marginBottom: -5 }}
-                source={require("../../../assets/icons/close.png")}
-              />
-            </TouchableOpacity>
+            <CloseButton setModalVisible={setContentViewVisible} />
+            <Text style={styles.dateText}>
+              {weekDay + " " + date}
+            </Text>
             <ContentView />
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 }
@@ -267,10 +252,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   dateText: {
-    marginTop: 2,
     color: "#24408E",
     fontSize: 12,
     fontFamily: "IranYekanRegular",
-    textAlign: "center",
+    textAlign: "right",
   },
 });

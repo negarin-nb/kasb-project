@@ -6,9 +6,11 @@ import Card from "../../components/card";
 import CostEntry from "../../components/accounting/costEntry";
 import CostList from "../../components/accounting/costList";
 import AppPieChart from '../../components/accounting/appPieChart';
+import accountingApi from "../../api/accounting";
 
 
 export default function CostScreen({ navigation }) {
+
 
   const emptyData = {
       title: "",
@@ -17,6 +19,8 @@ export default function CostScreen({ navigation }) {
       reminder_interval: "",
       registration_date: "",
     };
+
+
   return (
     <View style={styles.container}>
       <HeaderScreen navigation={navigation} />
@@ -38,7 +42,7 @@ export default function CostScreen({ navigation }) {
         />
         <Card
           title={"گزارش هزینه‌ها"}
-          children={() => <AppPieChart />}
+          children={() => <AppPieChart type = {"cost"} />}
           expanded={false}
         />
       </View>

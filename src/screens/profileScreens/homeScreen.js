@@ -3,15 +3,10 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Button,
-  Image,
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  TextInput,
-  TouchableWithoutFeedback,
   StatusBar,
-  SafeAreaView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "../../store/auth-context";
@@ -20,11 +15,14 @@ import BottomSheetButtons from "../../components/bottomSheetButtons";
 import HomeBtn from "../../components/homeBtn";
 import pickImage from "../../util/myImagePicker";
 import HeaderScreen from "./headerScreen";
-import authApi from "../../api/auth.js";
+import { NumericFormat } from "react-number-format";
+import accountingApi from "../../api/accounting";
+import CurrencyFormat from '../../components/currencyFormat';
+
 
 export default function HomeScreen({ navigation }) {
   const authCtx = React.useContext(AuthContext);
-  const [currentCash, setCurrentCash] = useState(0);
+  const [currentCash, setCurrentCash] = useState(12346);
   const [cashArray, setCashArray] = useState([]);
   const [question, setQuestion] = useState("");
   let [tooltipPos, setTooltipPos] = useState({
@@ -43,6 +41,21 @@ export default function HomeScreen({ navigation }) {
       setImage(resultImage.uri);
     }
   };
+
+  useEffect(() => {
+    fetchCash()
+  }, []);
+
+   async function fetchCash() {
+    const result = await accountingApi.getCash(authCtx.accessToken);
+    if (!result.ok) alert("خطایی در بازیابی صندوق پیش آمده!");
+    else {
+      const arr = Object.values(result.data.Item);
+      setCurrentCash(arr[0]);
+      authCtx.setUserCash(arr[0]);
+    }
+    console.log(result.data.Message);
+  }
   //const authCtv=React.useContext(AuthContext2);
   //setCash(authCtx.user[0].cash);
   //const response = await axios.get(apiEndpoint/cash).then((response) => {setCash(response.data)});
@@ -58,8 +71,6 @@ export default function HomeScreen({ navigation }) {
   // }
   // fetchUser();
   // }, []);
-
-
   return (
     <View style={[styles.container, { height }]}>
       <StatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
@@ -75,7 +86,10 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.cashTitle}>صندوق</Text>
           <TouchableOpacity onPress={() => navigation.navigate("CashScreen")}>
-            <Text style={styles.cashText}>{currentCash.toString()} تومان </Text>
+            <CurrencyFormat
+              amount={currentCash}
+              customeStyle={styles.cashText}
+            />
           </TouchableOpacity>
         </LinearGradient>
 
@@ -151,10 +165,10 @@ const styles = StyleSheet.create({
   cashText: {
     color: "#fff",
     textAlign: "left",
-    fontSize: 30,
+    fontSize: 26,
     fontFamily: "IranYekanBold",
     marginLeft: 20,
-    marginTop: -12,
+    marginTop: -5,
   },
 
   btn: {

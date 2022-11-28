@@ -49,16 +49,16 @@ export default function StorageEntry({prevItem, setModalVisible, handleCancelMod
     if (text.length > 1) {
       const result = await searchApi.searchCategory(authCtx.accessToken, text);
       if (!result.ok) console.log("error in getting Category List!");
-      console.log(result.data.Message);
       setCategoryList(result.data.ListItems);
+      console.log(result.data.Message);
     }
   }
   const handleLabelList = async (text) => {
     if (text.length > 1) {
       const result = await searchApi.searchLabel(authCtx.accessToken, text);
       if (!result.ok) console.log("error in getting Lable List!");
-      console.log(result.data.Message);
       setLableList(result.data.ListItems);
+      console.log(result.data.Message);
     }
   };
 

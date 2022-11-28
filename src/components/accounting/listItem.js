@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import CurrencyFormat from "../currencyFormat";
+
 
 export default function ListItem({
   item,
@@ -25,7 +27,6 @@ export default function ListItem({
             source={require("../../../assets/icons/delete.png")}
           />
         </TouchableOpacity>
-
         {/*Update button*/}
         <TouchableOpacity
           style={[styles.button, { flex: 0.6 }]}
@@ -36,17 +37,18 @@ export default function ListItem({
             source={require("../../../assets/icons/update.png")}
           />
         </TouchableOpacity>
-
         {/*List item*/}
-        <Text style={[styles.item, { flex: 1, textAlign: "left" }]}>
-          {item.amount}
-        </Text>
+        <CurrencyFormat
+          amount={item.amount}
+          customeStyle={[styles.item, { flex: 1, textAlign: "left" }]}
+        />
         <Text style={[styles.item, { flex: 1.5 }]}>{item.category.name}</Text>
-        <Text style={[styles.item, { flex: 1.5 }]}>{item.registration_date}</Text>
+        <Text style={[styles.item, { flex: 1.5}]}>
+          {item.registration_date}
+        </Text>
         <Text style={[styles.item, { flex: 1.5, paddingEnd: 2 }]}>
           {item.title} {/* {item.id} */}
         </Text>
-
         {/*Update Modal */}
       </View>
     </View>

@@ -4,9 +4,11 @@ import { LineChart } from "react-native-chart-kit";
 import { processFontFamily } from "expo-font";
 import ToolTip from "./toolTip";
 import arabicPersianReshaper from "arabic-persian-reshaper";
+
 export default function Chart({ tooltipPos, setTooltipPos }) {
   const [monthlyIncome, setMonthlyIncome] = useState([25000, 30000, 16000, 10000, 32000, 10000])
   const { width } = useWindowDimensions();
+
   const handelOnDataPointClick = (data) => {
     let isSamePoint = tooltipPos.x === data.x && tooltipPos.y === data.y;
     isSamePoint

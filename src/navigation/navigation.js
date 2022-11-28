@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "../store/auth-context";
 import BottomTabNavigator from "./bottomTabNavigator";
 
+
 const linking = {
   /* prefixes: [
     ["https://kasb-co.com"],
@@ -34,10 +35,9 @@ export default function Navigation() {
 
   return (
     <NavigationContainer linking={linking}>
-     
-      {/*!authCtx.isAuthenticated && <AuthStack />}
-      {authCtx.isAuthenticated && <AppDrawer />*/}
-     {authCtx.isAuthenticated ? <BottomTabNavigator /> : <AuthStack />}
+     {/*  <BottomTabNavigator /> */}
+
+      {authCtx.isAuthenticated ? <BottomTabNavigator /> : <AuthStack />}
     </NavigationContainer>
   );
 }
