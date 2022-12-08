@@ -79,7 +79,6 @@ export default function IncomeList() {
     deleteItem,
     modalVisible,
     setModalVisible,
-    
   }) {
     return (
       <Modal transparent={true} animationType="fade" visible={modalVisible}>

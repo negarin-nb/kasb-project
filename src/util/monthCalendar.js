@@ -7,18 +7,18 @@ const weekDays = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چ
     
 
 export default function MonthCalendar({ textColor, onDayPress }) {
-  let date = moment().locale("fa");
-  const [value, setValue] = useState(date);
+  let date = moment().locale("fa"); // current date
+  const [value, setValue] = useState(date); // set value to current date
   let dayCounter = 0;
 
-  const startDate = moment(value).startOf("month");
-  const endDate = moment(value).endOf("month");
-  const numDays = endDate.diff(startDate, "days") + 1;
+  const startDate = moment(value).startOf("month"); //start date of the value`s month
+  const endDate = moment(value).endOf("month"); //end date of the value`s month
+  const numDays = endDate.diff(startDate, "days") + 1; // day number of the value`s month
 
-  const prefixDays = moment(startDate).locale("fa").jDay();
-  const suffixDays = 6 - moment(endDate).locale("fa").jDay();
+  const prefixDays = moment(startDate).locale("fa").jDay(); // number of day from start date to current date
+  const suffixDays = 6 - moment(endDate).locale("fa").jDay(); // number of day from current date to end date
 
-  const prevMonth = () => setValue(moment(value).subtract(1, "months"));
+  const prevMonth = () => setValue(moment(value).subtract(1, "months"));// add one month to value`s month
   const nextMonth = () => setValue(moment(value).add(1, "months"));
   const prevYear = () => setValue(moment(value).subtract(1, "year"));
   const nextYear = () => setValue(moment(value).add(1, "year"));
@@ -26,10 +26,10 @@ export default function MonthCalendar({ textColor, onDayPress }) {
 
   const rowLength = (prefixDays + suffixDays + numDays) / 7 - 2;
 
-  const onDayCalanderPress = (index, value) => { 
+  const onDayCalanderPress = (index, value) => {
     console.log(index);
     console.log(value);
-  }
+  };
 
   //const onDayPress = () => {};
 
@@ -65,6 +65,7 @@ export default function MonthCalendar({ textColor, onDayPress }) {
 
   return (
     <View style={styles.container}>
+      {/* top year and mothe an buttons */}
       <View style={{ flexDirection: "row-reverse" }}>
         <TouchableOpacity style={styles.cell} onPress={prevYear}>
           <Text style={styles.cellText}>{">>"}</Text>
@@ -117,8 +118,8 @@ export default function MonthCalendar({ textColor, onDayPress }) {
               style={isCurrentDate ? styles.currentDay : styles.day}
               key={index}
               onPress={() => {
-                
-                onDayPress(date, value, weekDays[index]);}}
+                onDayPress(date, value, weekDays[index]);
+              }}
             >
               <Text style={styles.dayText}>{date}</Text>
             </TouchableOpacity>
@@ -206,8 +207,8 @@ const styles = StyleSheet.create({
   day: {
     flex: 1,
     alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
     justifyContent: "center",
   },
   currentDay: {
@@ -216,10 +217,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#63D98A51",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 4,
-    marginHorizontal:5,
-    paddingVertical: 7,
-    marginVertical:4,
+    marginHorizontal:8,
+    marginVertical:3,
     borderWidth:1,
     borderColor: "#63D98A",
   },

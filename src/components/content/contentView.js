@@ -7,30 +7,37 @@ import {
   useWindowDimensions,
   Image,
 } from "react-native";
+import moment from "jalali-moment";
+import Download from "../../util/dowload";
 
 
-export default function ContentView({ prevContent, onEditPress }) {
-  const [title, setTitle] = useState("روز مادر");
-  const [category, setCategory] = useState("اینستاگرام");
+
+export default function ContentView({ prevContent, onEditPress, onDeletePress }) {
+  const [title, setTitle] = useState(prevContent.title);
+  const [category, setCategory] = useState(prevContent.social_media);
   const [categoryList, setCategoryList] = useState([
     "اینستاگرام",
     "لینکدین",
     "کانال تلگرام",
     "واتساپ",
   ]);
-  const [date, setDate] = useState("۱۲ تیر");
-  const [content, setContent] = useState("روز مادر رو به همه مادرهای عزیز وطن تبریک می‌گم.به مناسبت این روز بزرگ بسته‌های هدیه مادر با ۲۰ درصد تخفیف به فروش می‌رسد. ");
+  
+  const [date, setDate] = useState(moment(prevContent.upload_time, "YYYY-MM-DD")
+    .locale("fa")
+    .format("YYYY/MM/DD"));
+  const [content, setContent] = useState(prevContent.text);
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState(["روز مادر", "هدیه", "روز زن"]);
-  const [image, setImage] = useState(null);
-  const [links, setLinks] = useState(null);
+  const [image, setImage] = useState(prevContent.media);
+  const [links, setLinks] = useState(prevContent.link);
   const { width } = useWindowDimensions();
 
   const handleEditContent = () => {};
   const handleDeleteContent = () => {};
-  const handleDownloadImage = () => {};
+  const handleDownloadImage = () => {
+    Download(image);
+  };
   const handleCopyTags = () => {};
-
   
   return (
     <View style={[styles.container]}>
@@ -49,7 +56,7 @@ export default function ContentView({ prevContent, onEditPress }) {
           </View>
 
           {/* social media */}
-          <View style={[styles.input, { flex:1 }]}>
+          <View style={[styles.input, { flex: 1 }]}>
             <Text style={[styles.inputText]}>{category}</Text>
           </View>
 
@@ -70,7 +77,10 @@ export default function ContentView({ prevContent, onEditPress }) {
           {/* tags list */}
           <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             {tags.map((tag, index) => (
-              <Text style={[styles.inputText, { paddingHorizontal: 5 }]} key={index}>
+              <Text
+                style={[styles.inputText, { paddingHorizontal: 5 }]}
+                key={index}
+              >
                 #{tag}
               </Text>
             ))}
@@ -92,18 +102,20 @@ export default function ContentView({ prevContent, onEditPress }) {
               marginVertical: 5,
             }}
           >
-            <TouchableOpacity
-              style={[styles.tagButton, { flexDirection: "row" }]}
-              onPress={handleDownloadImage}
-            >
-              <Image
-                style={{ width: 24, height: 24 }}
-                source={require("../../../assets/icons/addimage.png")}
-              />
-              <Text style={[styles.inputText, { paddingHorizontal: 5 }]}>
-                دانلود تصویر
-              </Text>
-            </TouchableOpacity>
+            {image && (
+              <TouchableOpacity
+                style={[styles.tagButton, { flexDirection: "row" }]}
+                onPress={handleDownloadImage}
+              >
+                <Image
+                  style={{ width: 24, height: 24 }}
+                  source={require("../../../assets/icons/addimage.png")}
+                />
+                <Text style={[styles.inputText, { paddingHorizontal: 5 }]}>
+                  دانلود تصویر
+                </Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={[styles.tagButton, { flexDirection: "row" }]}
             >
@@ -125,7 +137,7 @@ export default function ContentView({ prevContent, onEditPress }) {
 
           <TouchableOpacity
             style={[styles.button, { backgroundColor: "#DB4848" }]}
-            onPress={handleDeleteContent}
+            onPress={onDeletePress}
           >
             <Text style={[styles.buttonText, { color: "#fff" }]}>
               حذف محتوا

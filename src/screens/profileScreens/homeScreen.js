@@ -7,6 +7,7 @@ import {
   useWindowDimensions,
   ScrollView,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "../../store/auth-context";
@@ -34,6 +35,7 @@ export default function HomeScreen({ navigation }) {
 
   const { width, height } = useWindowDimensions();
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handlePickImage = async () => {
     const resultImage = await pickImage();
@@ -47,7 +49,9 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
    async function fetchCash() {
+    setLoading(true);
     const result = await accountingApi.getCash(authCtx.accessToken);
+    setLoading(false);
     if (!result.ok) alert("خطایی در بازیابی صندوق پیش آمده!");
     else {
       const arr = Object.values(result.data.Item);
@@ -86,10 +90,13 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.cashTitle}>صندوق</Text>
           <TouchableOpacity onPress={() => navigation.navigate("CashScreen")}>
-            <CurrencyFormat
-              amount={currentCash}
-              customeStyle={styles.cashText}
-            />
+            {!loading && (
+              <CurrencyFormat
+                amount={currentCash}
+                customeStyle={styles.cashText}
+              />
+            )}
+            {loading && <ActivityIndicator animating={loading} size="large" />}
           </TouchableOpacity>
         </LinearGradient>
 

@@ -1,30 +1,42 @@
 import React , {useState} from "react";
-import { View, Text, StyleSheet, useWindowDimensions, Modal, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  useWindowDimensions,
+  Modal,
+  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
+} from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import ContentEntry from "../../components/content/contentEntry";
+import ReminderEntry from "../../components/content/reminderEntry";
 import ContentView from "../../components/content/contentView";
 import MonthCalendar from "../../util/monthCalendar";
 import moment from "jalali-moment";
 import CloseButton from "../../components/closeButton";
 
 export default function ContentCalendarScreen({ navigation }) {
-
   const [dayValue, setDayValue] = useState(); // selected day number of month
-  const [dateValue, setDateValue] = useState("");// selected month and year (here day is incorrect)
- 
+  const [dateValue, setDateValue] = useState(""); // selected month and year (here day is incorrect)
+
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [weekDay, setWeekDay] = useState("");
-  const [date, setDate] = useState("");
-  
+  const [weekDay, setWeekDay] = useState(""); //selected date: 1401/9/9 (for api)
+  const [date, setDate] = useState(""); // selected date: 1041 azar 9 (for ui)
+  const [dateNumFormat, setDateNumFormat] = useState("");
+
   const [moreModalVisible, setMoreModalVisible] = useState(false);
   const [reminderEntryVisible, setReminderEntryVisible] = useState(false);
   const [contentEntryVisible, setContentEntryVisible] = useState(false);
   const [contentViewVisible, setContentViewVisible] = useState(false);
   const { width, height } = useWindowDimensions();
-
 
   const optionList = [
     {
@@ -38,35 +50,35 @@ export default function ContentCalendarScreen({ navigation }) {
     {
       title: "مشاهده",
       setVisible: setContentViewVisible,
-    }
+    },
   ];
+
   const handleOption = (option) => {
     setMoreModalVisible(false);
     console.log(option.title);
     option.title === "مشاهده"
-      ? navigation.navigate("DayContentListScreen", { date , weekDay })
+      ? navigation.navigate("DayContentListScreen", {
+          date,
+          dateNumFormat,
+          weekDay,
+        })
       : option.setVisible(true);
-
   };
+  // extract selected date
   const onDayPress = (dayValue, dateValue, wDay) => {
     setMoreModalVisible(true);
-    setDayValue(dayValue);
-    setDateValue(dateValue);
-    setWeekDay(wDay);
+    setDayValue(dayValue); // to get selected date day
+    setDateValue(dateValue); // to get selected date month and year
+    setWeekDay(wDay); // to get selected date day of week name
 
-    const _month = moment(dateValue).locale("fa").format("MMMM");
-    const _year = moment(dateValue).locale("fa").format("YYYY");
+    const _monthName = moment(dateValue).locale("fa").format("MMMM"); // selected date month name
+    const _monthNum = moment(dateValue).locale("fa").format("M"); // selected date month number
+    const _year = moment(dateValue).locale("fa").format("YYYY"); // selected date year
     setDay(dayValue);
-    setMonth(_month);
+    setMonth(_monthName);
     setYear(_year);
-    setDate(dayValue + " " + _month + " " + _year);
-    console.log(date); 
-    /* const month = moment(dateValue).locale("fa").format(dayValue+ " " + "MMMM YYYY");
-    setDate(month);
-    console.log(dayValue); 
-    console.log(date); 
-    console.log(weekDay); */
-   // makeDate();
+    setDate(dayValue + " " + _monthName + " " + _year); // format 1041 azar 9
+    setDateNumFormat(_year  + "/" + _monthNum + "/" + dayValue); // format 1401/9/9
   };
   /* const makeDate = () =>{
     const _month = moment(dateValue).locale("fa").format("MMMM");
@@ -78,18 +90,22 @@ export default function ContentCalendarScreen({ navigation }) {
     console.log(date); 
     
   }; */
-  const onSelectedChange = (date) => {
-    setContentViewVisible(true);
-    //setMoreModalVisible(true);
-    //navigation.navigate("DayCalendarScreen", { date });
-  };
+ 
 
-  const editContent = {
+  const emptyContent = {
     title: "",
     category: "",
     date: "",
-    content:"",
+    content: "",
     tags: [],
+  };
+
+  const emptyReminder = {
+    title: "",
+    category: "",
+    date: "",
+    content: "",
+    reminder_time: "",
   };
 
   return (
@@ -107,35 +123,17 @@ export default function ContentCalendarScreen({ navigation }) {
           title="تقویم"
         />
 
+        {/*Calendar View*/}
         <View style={styles.calendar}>
           <MonthCalendar textColor={"#63D98A"} onDayPress={onDayPress} />
         </View>
-
-        {/* <DatePicker
-          style={[styles.datePicker, { width: width - 40 }]}
-          isGregorian={false}
-          options={{
-            defaultFont: "IranYekanRegular",
-            headerFont: "YekanBakhBold",
-            textFontSize: 14,
-            backgroundColor: "#24408E",
-            textHeaderColor: "#fff",
-            textDefaultColor: "#fff",
-            selectedTextColor: "#24408E",
-            mainColor: "#fff",
-            textSecondaryColor: "#fff",
-            borderColor: "#63D98A",
-          }}
-          mode="calendar"
-          onSelectedChange={() => onSelectedChange()}
-        />
-   */}
       </View>
 
       {/* More modal */}
       <Modal transparent={true} animationType="fade" visible={moreModalVisible}>
         <View style={[styles.modalContainer, { justifyContent: "center" }]}>
-          <View style={[styles.modal, { padding: 20 }]}>
+          <View style={[styles.modal, { padding: 10, paddingTop: 10 }]}>
+            <CloseButton setModalVisible={setMoreModalVisible} />
             {optionList.map((option, index) => {
               return (
                 <TouchableOpacity
@@ -158,22 +156,56 @@ export default function ContentCalendarScreen({ navigation }) {
         animationType="fade"
         visible={contentEntryVisible}
       >
-        <View style={[styles.modalContainer, { paddingTop: height * 0.2 }]}>
-          <View style={[styles.modal, { width: width - 40 }]}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 15,
-                paddingTop: 8 
-              }}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={[styles.modalContainer]}>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              style={{ flex: 1, justifyContent: "center" }}
             >
-              <CloseButton setModalVisible={setContentEntryVisible} />
-              <Text style={styles.dateText}>{weekDay + " " + date}</Text>
-            </View>
-            <ContentEntry prevContent={editContent} />
+              <View style={[styles.modal, { width: width - 40 }]}>
+                <View style={styles.modalHeader}>
+                  <CloseButton setModalVisible={setContentEntryVisible} />
+                  <Text style={styles.dateText}>{weekDay + " " + date}</Text>
+                </View>
+                <ContentEntry
+                  prevContent={emptyContent}
+                  selectedDate={dateNumFormat}
+                  modalVisible={setContentEntryVisible}
+                />
+              </View>
+            </KeyboardAvoidingView>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+      {/* reminder entry Modal */}
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={reminderEntryVisible}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={[styles.modalContainer]}>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              style={{ flex: 1, justifyContent: "center" }}
+            >
+              <View style={[styles.modal, { width: width - 40 }]}>
+                <View style={styles.modalHeader}>
+                  <CloseButton setModalVisible={setReminderEntryVisible} />
+                  <Text style={styles.dateText}>
+                    {"یادآور -  " + weekDay + " " + date}
+                  </Text>
+                </View>
+                <ReminderEntry
+                  prevReminder={emptyReminder}
+                  selectedDate={dateNumFormat}
+                  modalVisible={setReminderEntryVisible}
+                />
+              </View>
+            </KeyboardAvoidingView>
+          </View>
+        </TouchableWithoutFeedback>
       </Modal>
 
       {/* content view Modal */}
@@ -207,23 +239,18 @@ const styles = StyleSheet.create({
     paddingStart: 20,
   },
   calendar: {
-    padding: 20,
-    marginTop: 20,
+    padding: 10,
+    marginTop: 0,
     borderWidth: 2,
     borderColor: "#24438E40",
     borderRadius: 40,
     backgroundColor: "#24408E",
   },
-  datePicker: {
-    marginTop: 20,
-    borderWidth: 2,
-    borderColor: "#24438E40",
-    borderRadius: 40,
-  },
+
   modalContainer: {
     flex: 1,
     backgroundColor: "#00000087",
-    //justifyContent: "center",
+    justifyContent: "center",
     alignItems: "center",
   },
   modal: {
@@ -234,9 +261,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4F3F6",
     justifyContent: "center",
   },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
+    paddingTop: 8,
+  },
   modalButton: {
     flexDirection: "row",
     justifyContent: "flex-end",
+    paddingHorizontal: 10,
   },
   icon: {
     marginVertical: 8,

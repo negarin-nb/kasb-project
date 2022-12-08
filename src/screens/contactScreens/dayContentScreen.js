@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -7,60 +7,81 @@ import {
   Text,
   TouchableOpacity,
   Modal,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import HeaderScreen from "../profileScreens/headerScreen";
 import TopBar from "../../components/topBar";
 import ContentView from '../../components/content/contentView';
 import ContentEntry from "../../components/content/contentEntry";
 import CloseButton from "../../components/closeButton";
+import { AuthContext } from "../../store/auth-context";
+import contentApi from "../../api/content";
 
 export default function DayContentScreen({ navigation, route }) {
-  const contentListModel = [
-    {
-      title: "روز مادر",
-      text:
-        "روز مادر رو به همه مادرهای عزیز وطن تبریک می‌گم به مناسبت این روز بزرگ بسته‌های هدیه مادر با ۲۰ درصد تخفیف به فروش می‌رسد.",
-      reminder_time: "1401/07/14",
-      category_id: 1, //instagram
-      has_countdown: true,
-     // media:null
-    },
-    {
-      title: "روز مادر",
-      text:
-        "روز مادر رو به همه مادرهای عزیز وطن تبریک می‌گم به مناسبت این روز بزرگ بسته‌های هدیه مادر با ۲۰ درصد تخفیف به فروش می‌رسد.",
-      reminder_time: "1401/07/14",
-      category_id: 2, //linkedin
-      has_countdown: true,
-    },
-    {
-      title: "روز مادر",
-      text:
-        "روز مادر رو به همه مادرهای عزیز وطن تبریک می‌گم به مناسبت این روز بزرگ بسته‌های هدیه مادر با ۲۰ درصد تخفیف به فروش می‌رسد.",
-      reminder_time: "1401/07/14",
-      category_id: 3, //telegram
-      has_countdown: true,
-    },
-  ];
-  const [contents, setContents] = useState(contentListModel);
+  
+  const authCtx = useContext(AuthContext);
+  const [contents, setContents] = useState([]);
+  const [selectedContent, setSelectedContent] = useState();
   const [contentViewVisible, setContentViewVisible] = useState(false);
   const [contentEntryVisible, setContentEntryVisible] = useState(false);
+  const [delConfirmVisible, setDelConfirmVisible] = useState(false);
   const [contentCategory, setContentCategory] = useState(["اینستاگرام", "لینکدین", "کانال تلگرام"]);
-  const { date, weekDay } = route.params;
+  const { date, dateNumFormat, weekDay } = route.params;
   const { width, height } = useWindowDimensions();
+  const [loading, setLoading] = useState();
 
-  const editContent = {
-    title: "روز مادر",
-    category: "اینستاگرام",
-    date: "۱۲ تیر",
-    content:
-      "روز مادر رو به همه مادرهای عزیز وطن تبریک می‌گم.به مناسبت این روز بزرگ بسته‌های هدیه مادر با ۲۰ درصد تخفیف به فروش می‌رسد. ",
-    tags: ["روز مادر", "هدیه", "روز زن"],
-  };
+    
+  useEffect(() => {
+    getContents();
+  }, []);
+
+  const getContents = async () => {
+    setLoading(true);
+    const result = await contentApi.get(authCtx.accessToken, dateNumFormat);
+    setLoading(false);
+    if (!result.ok) alert("بازیابی محتوا با خطا مواجه شده است!");
+    else {
+      setContents(result.data.ListItems);
+      console.log("retrived contents:");
+      console.log(result.data.ListItems);
+    }
+    console.log(result.data.Message); 
+  }
 
   const onEditPress = () => {
     setContentViewVisible(false);
     setContentEntryVisible(true);
+  }
+
+  const onUpdate = async () => {
+    setContentEntryVisible(false);
+    console.log("onUpdate");
+    await getContents();
+  }
+
+  const onDeletePress = async () => { 
+    setDelConfirmVisible(true);
+    setContentViewVisible(false);
+  }
+
+  const onDelete = async () => {
+    const id = contents[selectedContent].id;
+    setContents(
+      contents.filter((content) => content.id !== contents[selectedContent].id)
+    );
+    console.log("contents");
+    console.log(contents);
+    const result = await contentApi.del(authCtx.accessToken, id);
+    if (!result.ok) alert("حذف محتوا با خطا مواجه شده است!");
+    else {
+      alert("محتوا حذف شد!");
+    }
+    console.log(result.data.Message);
+    setDelConfirmVisible(false);
   }
 
   return (
@@ -72,6 +93,7 @@ export default function DayContentScreen({ navigation, route }) {
           iconSourc={require("../../../assets/icons/calendar.png")}
           title={weekDay + " " + date}
         />
+
         <View style={[styles.card, { width: width - 40 }]}>
           <View style={{ flexDirection: "row", paddingBottom: 10 }}>
             <View style={{ paddingTop: 10, flex: 1 }}>
@@ -86,11 +108,13 @@ export default function DayContentScreen({ navigation, route }) {
           </View>
 
           {contents.map((content, index) => (
-            <View style={styles.listItem}>
+            <View key={index} style={styles.listItem}>
               <TouchableOpacity
                 style={{ paddingRight: 10 }}
-                onPress={() => setContentViewVisible(true)}
-                key={index}
+                onPress={() => {
+                  setContentViewVisible(true);
+                  setSelectedContent(index);
+                }}
               >
                 <Image
                   style={{ width: 24, height: 24 }}
@@ -107,11 +131,13 @@ export default function DayContentScreen({ navigation, route }) {
 
               <View style={{ flex: 1 }}>
                 <Text style={styles.listTitle}>
-                  {contentCategory[content.category_id - 1]}
+                  {content.social_media}
+                  {/* contentCategory[content.category_id - 1] */}
                 </Text>
               </View>
             </View>
           ))}
+          {loading && <ActivityIndicator animating={loading} size="large" />}
         </View>
         {/* content view Modal */}
         <Modal
@@ -119,7 +145,7 @@ export default function DayContentScreen({ navigation, route }) {
           animationType="fade"
           visible={contentViewVisible}
         >
-          <View style={[styles.modalContainer, { justifyContent: "center" }]}>
+          <View style={[styles.modalContainer]}>
             <View style={[styles.modal, { width: width - 40 }]}>
               <View
                 style={{
@@ -129,7 +155,45 @@ export default function DayContentScreen({ navigation, route }) {
               >
                 <CloseButton setModalVisible={setContentViewVisible} />
               </View>
-              <ContentView onEditPress={onEditPress} />
+              <ContentView
+                onEditPress={onEditPress}
+                onDeletePress={onDeletePress}
+                prevContent={contents[selectedContent]}
+              />
+            </View>
+          </View>
+        </Modal>
+
+        {/*confirm delete modal */}
+        <Modal
+          transparent={true}
+          animationType="fade"
+          visible={delConfirmVisible}
+        >
+          <View style={[styles.modalContainer]}>
+            <View
+              style={[
+                styles.modal,
+                {
+                  alignItems: "center",
+                  paddingVertical: 20,
+                  width: width - 40,
+                },
+              ]}
+            >
+              <Text style={styles.text}>از حذف این محتوا مطمئن هستید؟</Text>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity onPress={() => setDelConfirmVisible(false)}>
+                  <Text style={styles.text}>خیر</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => onDelete(contents[selectedContent])}
+                >
+                  <Text style={styles.buttonText}>بله</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -140,22 +204,25 @@ export default function DayContentScreen({ navigation, route }) {
           animationType="fade"
           visible={contentEntryVisible}
         >
-          <View style={[styles.modalContainer, { paddingTop: height * 0.2 }]}>
-            <View style={[styles.modal, { width: width - 40 }]}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingHorizontal: 15,
-                  paddingTop: 8,
-                }}
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={[styles.modalContainer]}>
+              <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1, justifyContent: "center" }}
               >
-                <CloseButton setModalVisible={setContentEntryVisible} />
-                <Text style={styles.dateText}>{weekDay + " " + date}</Text>
-              </View>
-              <ContentEntry prevContent={editContent} />
+                <View style={[styles.modal, { width: width - 40 }]}>
+                  <View style={styles.modalHeader}>
+                    <CloseButton setModalVisible={setContentEntryVisible} />
+                    <Text style={styles.dateText}>{weekDay + " " + date}</Text>
+                  </View>
+                  <ContentEntry
+                    onUpdate={onUpdate}
+                    prevContent={contents[selectedContent]}
+                  />
+                </View>
+              </KeyboardAvoidingView>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         </Modal>
       </View>
     </View>
@@ -171,7 +238,6 @@ const styles = StyleSheet.create({
     paddingEnd: 20,
     paddingStart: 20,
   },
-
   card: {
     marginBottom: 10,
     borderRadius: 20,
@@ -205,7 +271,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: "#00000087",
-    //justifyContent: "center",
+    justifyContent: "center",
     alignItems: "center",
   },
   modal: {
@@ -215,6 +281,13 @@ const styles = StyleSheet.create({
     borderColor: "#24438E40",
     backgroundColor: "#F4F3F6",
     justifyContent: "center",
+    //alignItems: "center",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
+    paddingTop: 8,
   },
   modalButton: {
     flexDirection: "row",
@@ -225,5 +298,29 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "IranYekanRegular",
     textAlign: "right",
+  },
+  text: {
+    margin: 8,
+    marginHorizontal: 20,
+    color: "#24408E",
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
+    textAlign: "center",
+  },
+  button: {
+    marginTop: 5,
+    marginHorizontal: 2,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    backgroundColor: "#63D98A",
+    borderRadius: 20,
+    color: "#fff",
+    width: 70,
+  },
+  buttonText: {
+    fontSize: 12,
+    fontFamily: "IranYekanLight",
+    color: "#fff",
+    textAlign: "center",
   },
 });

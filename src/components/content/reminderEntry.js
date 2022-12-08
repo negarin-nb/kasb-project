@@ -8,58 +8,58 @@ import {
   TextInput,
   Image,
   ScrollView,
-  
 } from "react-native";
-import CustomDatePicker from '../../util/customDatePicker';
-import ModalPicker from '../modalPicker';
-import contentApi from '../../api/content';
+import CustomDatePicker from "../../util/customDatePicker";
+import ModalPicker from "../modalPicker";
+import reminderApi from "../../api/reminder";
 import { AuthContext } from "../../store/auth-context";
 import moment from "jalali-moment";
 import pickImage from "../../util/myImagePicker";
-import UploadScreen from "../../screens/uploadScreen";
-import * as Progress from "react-native-progress";
 
-
-export default function ContentEntry({ prevContent, selectedDate, onUpdate, modalVisible }) {
+export default function ReminderEntry({
+  prevReminder,
+  selectedDate,
+  onUpdate,
+  modalVisible,
+}) {
   const authCtx = useContext(AuthContext);
 
-  const [id, setId] = useState(prevContent.id);
-  const [title, setTitle] = useState(prevContent.title || ""); //
-  const [category, setCategory] = useState(prevContent.social_media || "شبکه"); //
+  const [id, setId] = useState(prevReminder.id);
+  const [title, setTitle] = useState(prevReminder.title || ""); //
+  const [category, setCategory] = useState(prevReminder.category || "دسته‌بندی"); //
   const [categoryList, setCategoryList] = useState([
-    "اینستاگرام",
-    "لینکدین",
-    "کانال تلگرام",
-    "واتساپ",
+    "دسته اول",
+    "دسته دوم",
+    "دسته سوم",
   ]);
   const [categoryVisible, setCategoryVisible] = useState(false); // modal
   const [date, setDate] = useState("تاریخ ثبت"); //
   const [dateVisible, setDateVisible] = useState(false); // modal
-  const [content, setContent] = useState(prevContent.text || "");
+  const [content, setContent] = useState(prevReminder.text || "");
+  
+  
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState(prevContent.tags || []);
+  const [tags, setTags] = useState(prevReminder.tags || []);
   const [image, setImage] = useState();
-  const [uploadVisible, setUploadVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
 
-  const handlePickImage = async () => {
+  /* const handlePickImage = async () => {
     const resultImage = await pickImage();
     if (!resultImage.cancelled) {
       setImage(resultImage.uri);
     }
-  };
+  }; */
   const changeModalVisibiblity = (bool, setModalVisible) => {
     setModalVisible(bool);
   };
 
   useEffect(() => {
-    if (prevContent.upload_time) {
+    /* if (prevReminder.upload_time) {
       setDate(
-        moment(prevContent.upload_time, "YYYY-MM-DD")
+        moment(prevReminder.upload_time, "YYYY-MM-DD")
           .locale("fa")
           .format("YYYY/MM/DD")
       );
-    }
+    } */
   }, []);
 
   const reRender = () => {
@@ -70,34 +70,34 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
     //setLink("");
   };
 
-  const handleEditContent = async () => {
-    const data = {
+  const handleEditReminder = async () => {
+    /* const data = {
       content_id: id,
       title: title,
-      reminder_time: prevContent.reminder_time,
+      reminder_time: prevReminder.reminder_time,
       upload_time: moment.from(date, "fa", "YYYY/MM/DD").format("YYYY-MM-DD"),
       text: content,
       link: "link",
       social_media: category,
       media: "image-url",
     };
-    // is edit portable
-    const result = await contentApi.edit(authCtx.accessToken, data);
+
+    const result = await reminderApi.edit(authCtx.accessToken, data);
     if (!result.ok) alert("ویرایش محتوا با خطا مواجه شده است!");
     else {
       alert("محتوای مورد نظر ویرایش شد");
       onUpdate();
     }
     console.log(result.data.Message);
-    console.log(result.data.Item);
+    console.log(result.data.Item); */
   };
 
-  const handleCreateContent = async () => {
-    const formData = new FormData();
+  const handleCreateReminder = async () => {
+    /* const formData = new FormData();
     formData.append("title", title);
     formData.append(
       "reminder_time",
-      moment.from(selectedDate, "YYYY/MM/DD").format("YYYY-MM-DD")
+      moment.from(selectedDate, "fa", "YYYY/MM/DD").format("YYYY-MM-DD")
     );
     formData.append(
       "upload_time",
@@ -106,52 +106,43 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
     formData.append("text", content);
     formData.append("link", "example.com");
     formData.append("social_media", category);
-    formData.append("media", image && {
+    formData.append("media", {
       uri: image,
       type: "image/png",
       name: "omgitsme.png",
     });
+    console.log(formData); */
 
-    setUploadVisible(true);
-    const result = await contentApi.enter(
-      authCtx.accessToken,
-      formData,
-      (progress) => setProgress(progress)
-    );
-    
-    if (!result.ok) alert("ثبت محتوا با خطا مواجه شده است!");
+    const data = {
+      title: title,
+      reminder_time: moment
+        .from(selectedDate, "fa", "YYYY/MM/DD")
+        .format("YYYY-MM-DD"),
+      content: content,
+      category: category,
+      has_countdown: false,
+    };
+
+    const result = await reminderApi.enter(authCtx.accessToken, data);
+    if (!result.ok) alert("ثبت یادآور با خطا مواجه شده است!");
     else {
-      alert("محتوای مورد نظر ثبت شد");
+      alert("یادآور مورد نظر ثبت شد");
     }
     console.log(result.data.Message);
     console.log(result.data.Item);
     //reRender();
-    setUploadVisible(false);
     modalVisible(false);
   };
 
   const handleAddTag = (tag) => {
-    if(tag !== ""){
-      const _tags = [...tags];
-      _tags.push(tag);
-      setTags(_tags);
-    }   
-  }
+    const _tags = [...tags];
+    _tags.push(tag);
+    setTags(_tags);
+  };
 
   return (
     <View style={styles.container}>
       <View>
-        <Modal visible={uploadVisible} transparent={true}>
-          <View style={styles.modalContainer}>
-            <Progress.Circle
-              progress={progress}
-              color="#24408E"
-              borderColor={"#24408E"}
-            />
-            <Text style={styles.inputText}>{parseInt(progress * 100)}%</Text>
-          </View>
-        </Modal>
-
         <View style={{ flexDirection: "row" }}>
           {/* date */}
           <TouchableOpacity
@@ -204,7 +195,7 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
 
           {/* title */}
           <TextInput
-            placeholder="عنوان محتوا"
+            placeholder="عنوان یادآور"
             placeholderTextColor="#24408E"
             value={title}
             onChangeText={(text) => {
@@ -230,7 +221,7 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
           />
 
           {/* bottom buttons */}
-          <View
+          {/*           <View
             style={{
               flexDirection: "row",
               alignSelf: "flex-start",
@@ -241,26 +232,13 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
               style={{ flexDirection: "row", marginEnd: 5 }}
               onPress={handlePickImage}
             >
-              {image ? (
-                <Image
-                  style={{ width: 24, borderRadius: 2 }}
-                  source={{ uri: image }}
-                />
-              ) : (
-                <Image
-                  style={{ width: 24, height: 24 }}
-                  source={require("../../../assets/icons/addimage.png")}
-                />
-              )}
-              {image ? (
-                <Text style={[styles.inputText, { paddingHorizontal: 5 }]}>
-                  جایگزینی تصویر
-                </Text>
-              ) : (
-                <Text style={[styles.inputText, { paddingHorizontal: 5 }]}>
-                  بارگذاری تصویر
-                </Text>
-              )}
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require("../../../assets/icons/addimage.png")}
+              />
+              <Text style={[styles.inputText, { paddingHorizontal: 5 }]}>
+                بارگذاری تصویر
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity style={{ flexDirection: "row" }}>
               <Image
@@ -271,11 +249,11 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
                 افزودن لینک
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
 
         {/* add tag */}
-        <View style={{ flexDirection: "row" }}>
+       {/*  <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={styles.tagButton}
             onPress={() => handleAddTag(tag)}
@@ -295,28 +273,31 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
               { flex: 1, textAlign: "right", paddingHorizontal: 10 },
             ]}
           />
-        </View>
+        </View> */}
 
         {/* save buttons */}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          {prevContent.title ? (
-            <TouchableOpacity style={styles.button} onPress={handleEditContent}>
+          {prevReminder.title ? (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleEditReminder}
+            >
               <Text style={styles.buttonText}>ذخیره تغییرات</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               style={styles.button}
-              onPress={handleCreateContent}
+              onPress={handleCreateReminder}
             >
               <Text style={styles.buttonText}>ذخیره</Text>
             </TouchableOpacity>
           )}
           {/* tags list */}
-          <ScrollView horizontal={true}>
+          {/* <ScrollView horizontal={true}>
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              {tags.map((tag, index) => (
+              {tags.map((tag) => (
                 <TouchableOpacity
-                  key={index}
+                  key={tag}
                   style={[styles.tagButton, { flexDirection: "row" }]}
                 >
                   <Image
@@ -329,7 +310,7 @@ export default function ContentEntry({ prevContent, selectedDate, onUpdate, moda
                 </TouchableOpacity>
               ))}
             </View>
-          </ScrollView>
+          </ScrollView> */}
         </View>
       </View>
     </View>
@@ -341,12 +322,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 10,
     marginTop: 4,
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "#00000087",
-    justifyContent: "center",
-    alignItems: "center",
   },
   input: {
     marginTop: 8,
